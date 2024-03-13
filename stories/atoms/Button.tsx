@@ -18,15 +18,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'small' | 'medium' | 'large'
 }
 
-// probar style y classname
-
 export const Button: FC<ButtonProps> = ({
   size,
   label,
-  style,
   color,
   block,
-  onClick,
   leadIcon,
   className,
   trailIcon,
@@ -39,6 +35,7 @@ export const Button: FC<ButtonProps> = ({
         `msv-button__${color}`,
         `msv-button--${size}`,
         block && 'msv-button--block',
+        className,
       ].join(' ')}
       {...props}
     >

@@ -10,16 +10,17 @@
             background-color: $primary-dark;
             border: 1px solid $primary-dark;
         }
-
         &:focus {
             border: 1px solid $primary-dark;
             background-color: $primary-light;
             outline: 4px solid $border-orange-light;
         }
-
         &:hover {
             border: 1px solid $primary-dark;
             background-color: $primary-light;
+        }
+        &:disabled {
+            @include disabledBtn;
         }
     }
 
@@ -32,28 +33,27 @@
             background-color: $secondary-dark;
             border: 1px solid $secondary-dark;
         }
-
         &:focus {
             color: $text-orange;
             background-color: $secondary;
             outline: 4px solid $border-orange-light;
         }
-
         &:hover {
             color: $text-orange;
             background-color: $secondary-light;
             border: 1px solid $border-orange-light;
+        }
+        &:disabled {
+            @include disabledBtn;
         }
     }
 
     &--small {
         padding: $btn-sm-p;
     }
-
     &--medium {
         padding: $btn-md-p;
     }
-
     &--large {
         padding: $btn-lg-p;
     }

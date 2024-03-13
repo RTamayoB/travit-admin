@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
 import { Button } from './Button'
-
+import testImg from '../assets/accessibility.svg'
+import Image from 'next/image'
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Example/Button',
@@ -23,7 +24,6 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary: Story = {
   args: {
     label: 'Primary',
@@ -34,5 +34,35 @@ export const Secondary: Story = {
   args: {
     label: 'Secondary',
     color: 'secondary',
+  },
+}
+
+export const Disabled: Story = {
+  args: {
+    label: 'Disabled',
+    disabled: true,
+  },
+}
+
+export const LeadIcon: Story = {
+  args: {
+    label: 'Lead Icon',
+    leadIcon: <Image alt="Test Image" src={testImg} width={20} height={20} />,
+  },
+}
+
+export const TrailIcon: Story = {
+  args: {
+    label: 'Trail Icon',
+    trailIcon: <Image alt="Test Image" src={testImg} width={20} height={20} />,
+  },
+}
+
+export const CustomStyle: Story = {
+  args: {
+    label: 'Custom Style',
+    style: {
+      border: '3px solid pink',
+    },
   },
 }
