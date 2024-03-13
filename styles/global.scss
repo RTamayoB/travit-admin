@@ -1,4 +1,14 @@
-h1 {
-    font-size: 50px;
-    color: red;
+button {
+    gap: 4px;
+    border: none;
+    display: flex;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 6px;
+    line-height: 16.6px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 1px 2px 0px #1018280d;
 }

@@ -1,38 +1,60 @@
-import React from 'react'
+import React, {
+  ButtonHTMLAttributes,
+  CSSProperties,
+  FC,
+  ReactNode,
+} from 'react'
 import './button.scss'
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string
-  primary?: boolean
+  block?: boolean
+  className?: string
+  leadIcon?: ReactNode
   onClick?: () => void
-  backgroundColor?: string
+  style?: CSSProperties
+  trailIcon?: ReactNode
+  color?: 'primary' | 'secondary'
   size?: 'small' | 'medium' | 'large'
 }
 
-export const Button = ({
-  primary = false,
-  size = 'medium',
-  backgroundColor,
+// probar style y classname
+
+export const Button: FC<ButtonProps> = ({
+  size,
   label,
+  style,
+  color,
+  block,
+  onClick,
+  leadIcon,
+  className,
+  trailIcon,
   ...props
-}: ButtonProps) => {
-  const mode = primary
-    ? 'storybook-button--primary'
-    : 'storybook-button--secondary'
+}) => {
   return (
     <button
       type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(
-        ' ',
-      )}
+      className={[
+        `msv-button__${color}`,
+        `msv-button--${size}`,
+        block && 'msv-button--block',
+      ].join(' ')}
       {...props}
     >
+      {leadIcon}
       {label}
-      <style jsx>{`
-        button {
-          background-color: ${backgroundColor};
-        }
-      `}</style>
+      {trailIcon}
     </button>
   )
+}
+
+Button.defaultProps = {
+  label: '',
+  block: false,
+  size: 'medium',
+  color: 'primary',
+  onClick: undefined,
+  leadIcon: undefined,
+  trailIcon: undefined,
 }

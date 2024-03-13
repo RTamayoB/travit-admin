@@ -1,30 +1,64 @@
-.storybook-button {
-    font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-weight: 700;
-    border: 0;
-    border-radius: 3em;
-    cursor: pointer;
-    display: inline-block;
-    line-height: 1;
-}
-.storybook-button--primary {
-    color: white;
-    background-color: #1ea7fd;
-}
-.storybook-button--secondary {
-    color: #333;
-    background-color: transparent;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
-}
-.storybook-button--small {
-    font-size: 12px;
-    padding: 10px 16px;
-}
-.storybook-button--medium {
-    font-size: 14px;
-    padding: 11px 20px;
-}
-.storybook-button--large {
-    font-size: 16px;
-    padding: 12px 24px;
+@import "../../styles/index.scss";
+
+.msv-button {
+    &__primary {
+        color: $white;
+        background-color: $primary;
+        border: 1px solid $primary-dark;
+
+        &:active {
+            background-color: $primary-dark;
+            border: 1px solid $primary-dark;
+        }
+
+        &:focus {
+            border: 1px solid $primary-dark;
+            background-color: $primary-light;
+            outline: 4px solid $border-orange-light;
+        }
+
+        &:hover {
+            border: 1px solid $primary-dark;
+            background-color: $primary-light;
+        }
+    }
+
+    &__secondary {
+        color: $grey-dark;
+        background-color: $secondary;
+        border: 1px solid $grey-light;
+
+        &:active {
+            background-color: $secondary-dark;
+            border: 1px solid $secondary-dark;
+        }
+
+        &:focus {
+            color: $text-orange;
+            background-color: $secondary;
+            outline: 4px solid $border-orange-light;
+        }
+
+        &:hover {
+            color: $text-orange;
+            background-color: $secondary-light;
+            border: 1px solid $border-orange-light;
+        }
+    }
+
+    &--small {
+        padding: $btn-sm-p;
+    }
+
+    &--medium {
+        padding: $btn-md-p;
+    }
+
+    &--large {
+        padding: $btn-lg-p;
+    }
+
+    &--block {
+        width: 100%;
+    }
 }
