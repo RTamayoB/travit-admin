@@ -1,5 +1,4 @@
 import type { StorybookConfig } from '@storybook/nextjs'
-
 const config: StorybookConfig = {
   stories: [
     '../stories/**/*.mdx',
@@ -11,6 +10,7 @@ const config: StorybookConfig = {
     '@storybook/addon-essentials',
     '@chromatic-com/storybook',
     '@storybook/addon-interactions',
+    '@storybook/addon-designs',
     '@storybook/addon-styling-webpack',
   ],
   framework: {
@@ -20,6 +20,6 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
-  staticDirs: ['..\\public'],
+  staticDirs: ['../fonts'],
 }
 export default config

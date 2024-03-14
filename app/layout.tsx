@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import localFont from 'next/font/local'
 
-const Ananta = localFont({ src: '../public/fonts/satoshi/Satoshi-Medium.otf' })
+const Satoshi = localFont({ src: '../fonts/satoshi/Satoshi-Medium.otf' })
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={Ananta.className}>{children}</body>
+      <body className={Satoshi.className}>{children}</body>
     </html>
   )
 }
