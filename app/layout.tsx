@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
-import './globals.css'
 import localFont from 'next/font/local'
 
-const Satoshi = localFont({ src: '../fonts/satoshi/Satoshi-Medium.otf' })
+import '../shared/styles/global.scss'
+
+const Satoshi = localFont({ src: '../shared/fonts/satoshi/Satoshi-Medium.otf' })
 
 export const metadata: Metadata = {
   title: 'Create Next App',
