@@ -5,14 +5,13 @@
         color: $white;
         background-color: $primary;
         border: 1px solid $primary-dark;
+        transition: background-color 0.4s;
 
-        &:active {
+        &--active {
             background-color: $primary-dark;
             border: 1px solid $primary-dark;
         }
-        &:focus {
-            border: 1px solid $primary-dark;
-            background-color: $primary-light;
+        &--focus {
             outline: 4px solid $border-orange-light;
         }
         &:hover {
@@ -29,13 +28,12 @@
         background-color: $secondary;
         border: 1px solid $grey-light;
 
-        &:active {
+        &--active {
+            color: $white;
             background-color: $secondary-dark;
             border: 1px solid $secondary-dark;
         }
-        &:focus {
-            color: $text-orange;
-            background-color: $secondary;
+        &--focus {
             outline: 4px solid $border-orange-light;
         }
         &:hover {

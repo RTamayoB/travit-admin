@@ -1,8 +1,9 @@
 import React, {
-  ButtonHTMLAttributes,
-  CSSProperties,
   FC,
+  useState,
   ReactNode,
+  CSSProperties,
+  ButtonHTMLAttributes,
 } from 'react'
 import './button.scss'
 
@@ -28,12 +29,18 @@ export const Button: FC<ButtonProps> = ({
   trailIcon,
   ...props
 }) => {
+  const [buttonState, setButtonState] = useState('default')
+
   return (
     <button
+      onMouseDown={() => setButtonState('focus')}
+      onMouseUp={() => setButtonState('active')}
+      onBlur={() => setButtonState('default')}
       type="button"
       className={[
         `msv-button__${color}`,
         `msv-button--${size}`,
+        `msv-button__${color}--${buttonState}`,
         block && 'msv-button--block',
         className,
       ].join(' ')}
