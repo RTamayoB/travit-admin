@@ -1,0 +1,7 @@
+@import "./variants";
+
+@mixin disabledBtn {
+    color: $grey;
+    background-color: $secondary;
+    border: 1px solid $grey-dark;
+}

@@ -1,0 +1,62 @@
+@import "../../styles/index.scss";
+
+.msv-button {
+    &__primary {
+        color: $white;
+        background-color: $primary;
+        border: 1px solid $primary-dark;
+        transition: background-color 0.4s;
+
+        &--active {
+            background-color: $primary-dark;
+            border: 1px solid $primary-dark;
+        }
+        &--focus {
+            outline: 4px solid $border-orange-light;
+        }
+        &:hover {
+            border: 1px solid $primary-dark;
+            background-color: $primary-light;
+        }
+        &:disabled {
+            @include disabledBtn;
+        }
+    }
+
+    &__secondary {
+        color: $grey-dark;
+        background-color: $secondary;
+        border: 1px solid $grey-light;
+
+        &--active {
+            color: $white;
+            background-color: $secondary-dark;
+            border: 1px solid $secondary-dark;
+        }
+        &--focus {
+            outline: 4px solid $border-orange-light;
+        }
+        &:hover {
+            color: $text-orange;
+            background-color: $secondary-light;
+            border: 1px solid $border-orange-light;
+        }
+        &:disabled {
+            @include disabledBtn;
+        }
+    }
+
+    &--small {
+        padding: $btn-sm-p;
+    }
+    &--medium {
+        padding: $btn-md-p;
+    }
+    &--large {
+        padding: $btn-lg-p;
+    }
+
+    &--block {
+        width: 100%;
+    }
+}
