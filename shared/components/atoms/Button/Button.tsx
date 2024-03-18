@@ -6,24 +6,26 @@ import React, {
   ButtonHTMLAttributes,
 } from 'react'
 import './button.scss'
+import { ButtonColors, ButtonSizes } from '../../../contants'
+import { Typography } from '..'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string
+  children?: ReactNode
   block?: boolean
   className?: string
+  size?: ButtonSizes
   leadIcon?: ReactNode
   onClick?: () => void
+  color?: ButtonColors
   style?: CSSProperties
   trailIcon?: ReactNode
-  color?: 'primary' | 'secondary'
-  size?: 'small' | 'medium' | 'large'
 }
 
 export const Button: FC<ButtonProps> = ({
   size,
-  label,
   color,
   block,
+  children,
   leadIcon,
   className,
   trailIcon,
@@ -47,14 +49,16 @@ export const Button: FC<ButtonProps> = ({
       {...props}
     >
       {leadIcon}
-      {label}
+      <Typography variant="button" bold>
+        {children}
+      </Typography>
       {trailIcon}
     </button>
   )
 }
 
 Button.defaultProps = {
-  label: '',
+  children: '',
   block: false,
   size: 'medium',
   color: 'primary',
