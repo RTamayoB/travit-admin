@@ -49,9 +49,7 @@ export const Button: FC<ButtonProps> = ({
       {...props}
     >
       {leadIcon}
-      <Typography variant="button" bold>
-        {children}
-      </Typography>
+      {children}
       {trailIcon}
     </button>
   )
