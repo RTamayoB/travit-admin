@@ -1,0 +1,89 @@
+@import "../../../styles/index.scss";
+
+/* The msv-checkbox */
+.msv-checkbox {
+    display: block;
+    cursor: pointer;
+    font-size: 22px;
+    user-select: none;
+    position: relative;
+    padding: 5px 30px;
+    margin-bottom: 12px;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    transition: background-color 0.4s;
+
+    &:hover[data-disabled="false"] {
+        background-color: $secondary;
+    }
+    /* Hide the browser's default checkbox */
+    input {
+        width: 0;
+        height: 0;
+        opacity: 0;
+        cursor: pointer;
+        position: absolute;
+        transition:
+            background-color 0.4s,
+            opacity 0.4s;
+    }
+
+    &[data-disabled="true"] {
+        cursor: not-allowed;
+    }
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    top: 5px;
+    left: 5px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    border-radius: 3px;
+    background-color: #eee;
+    border: 1px solid #d1d3d8;
+    transition:
+        background-color 0.4s,
+        opacity 0.4s;
+}
+
+/* When the checkbox is checked, add a blue background */
+.msv-checkbox[data-disabled="false"] input:checked ~ .checkmark {
+    background-color: $primary;
+    border: 1px solid $primary;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+    content: "";
+    opacity: 0;
+    position: absolute;
+}
+
+/* Show the checkmark when checked */
+.msv-checkbox:hover input:checked ~ .checkmark:after,
+.msv-checkbox:hover[data-disabled="false"] input ~ .checkmark:after,
+.msv-checkbox input:checked ~ .checkmark:after {
+    opacity: 1;
+}
+
+/* Style the checkmark/indicator */
+//, .msv-checkbox:hover ~ .checkmark:after
+.msv-checkbox:hover[data-disabled="false"] input:checked ~ .checkmark:after,
+.msv-checkbox[data-disabled="false"] input:checked ~ .checkmark:after {
+    @include defaultCheckboxMark;
+    background-image: url("../../../assets/svg/checkmarkWhite.svg");
+}
+
+/* Style the checkmark/indicator */
+.msv-checkbox:hover .checkmark:after,
+.msv-checkbox .checkmark:after {
+    @include defaultCheckboxMark;
+    background-image: url("../../../assets/svg/checkmark.svg");
+}
+
+.msv-checkbox[data-focused="true"][data-checked="false"][data-disabled="false"] input ~ .checkmark {
+    border: 3px solid $border-orange-light;
+}

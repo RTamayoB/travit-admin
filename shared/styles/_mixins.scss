@@ -5,3 +5,13 @@
     background-color: $secondary;
     border: 1px solid $grey-dark;
 }
+
+@mixin defaultCheckboxMark {
+    top: 5px;
+    left: 4px;
+    width: 7.5px;
+    height: 5.5px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: all 0.4s;
+}
