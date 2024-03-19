@@ -1,8 +1,9 @@
+import { fn } from '@storybook/test'
 import { RadioButton } from '../../shared'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
-  title: 'Molecules/RadioButton',
+  title: 'Selectors/RadioButton',
   component: RadioButton,
   parameters: {
     design: {
@@ -11,7 +12,7 @@ const meta = {
     },
   },
   tags: ['autodocs'],
-  args: {},
+  args: { onChange: fn() },
 } satisfies Meta<typeof RadioButton>
 
 export default meta
@@ -19,5 +20,8 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  args: {},
+  args: {
+    data: ['Uno', 'Dos', 'Tres'],
+    disabled: false,
+  },
 }

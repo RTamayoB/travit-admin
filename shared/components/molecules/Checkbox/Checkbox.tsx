@@ -1,8 +1,9 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
 import { Typography } from '../..'
+import { Base } from '../../../../shared/interfaces'
 import './checkbox.scss'
 
-export interface CheckboxProps {
+export interface CheckboxProps extends Base {
   label?: ReactNode
   checked?: boolean
   disabled?: boolean
@@ -12,9 +13,11 @@ export interface CheckboxProps {
 
 export const Checkbox: FC<CheckboxProps> = ({
   label,
+  style,
   checked,
   disabled,
   onChecked,
+  className,
   defaultChecked,
 }) => {
   const [focused, setFocused] = useState(false)
@@ -26,12 +29,13 @@ export const Checkbox: FC<CheckboxProps> = ({
 
   return (
     <label
+      style={style}
       data-checked={checked}
       data-focused={focused}
       data-disabled={disabled}
-      className="msv-checkbox"
       onMouseUp={() => setFocused(false)}
       onMouseDown={() => setFocused(true)}
+      className={['msv-checkbox', className].join(' ')}
     >
       <Typography variant="bodySmall" color="#505660">
         {label}

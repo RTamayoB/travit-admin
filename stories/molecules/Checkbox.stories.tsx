@@ -1,8 +1,9 @@
+import { fn } from '@storybook/test'
 import { Checkbox } from '../../shared'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
-  title: 'Molecules/Checkbox',
+  title: 'Selectors/Checkbox',
   component: Checkbox,
   parameters: {
     design: {
@@ -19,6 +20,7 @@ const meta = {
       control: 'disabled',
     },
   },
+  args: { onChecked: fn() },
 } satisfies Meta<typeof Checkbox>
 
 export default meta
@@ -29,7 +31,6 @@ export const Basic: Story = {
   args: {
     disabled: false,
     label: 'Test Label',
-    onChecked: (value) => console.log(value),
   },
 }
 
@@ -38,6 +39,5 @@ export const DefaultChecked: Story = {
     disabled: false,
     label: 'Test Label',
     defaultChecked: true,
-    onChecked: (value) => console.log(value),
   },
 }
