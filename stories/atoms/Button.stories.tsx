@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { Button } from '../../shared/components'
 
 const meta = {
-  title: 'Example/Button',
+  title: 'Atoms/Button',
   component: Button,
   parameters: {
     // Optional parameter to center the component in the Canvas.https://storybook.js.org/docs/configure/story-layout
@@ -25,41 +25,41 @@ type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
   args: {
-    label: 'Primary',
+    children: 'Primary',
   },
 }
 
 export const Secondary: Story = {
   args: {
-    label: 'Secondary',
+    children: 'Secondary',
     color: 'secondary',
   },
 }
 
 export const Disabled: Story = {
   args: {
-    label: 'Disabled',
+    children: 'Disabled',
     disabled: true,
   },
 }
 
 export const LeadIcon: Story = {
   args: {
-    label: 'Lead Icon',
+    children: 'Lead Icon',
     leadIcon: <Image alt="Test Image" src={testImg} width={20} height={20} />,
   },
 }
 
 export const TrailIcon: Story = {
   args: {
-    label: 'Trail Icon',
+    children: 'Trail Icon',
     trailIcon: <Image alt="Test Image" src={testImg} width={20} height={20} />,
   },
 }
 
 export const CustomStyle: Story = {
   args: {
-    label: 'Custom Style',
+    children: 'Custom Style',
     style: {
       border: '3px solid pink',
     },
