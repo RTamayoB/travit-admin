@@ -1,0 +1,42 @@
+@import "../../../styles/index.scss";
+
+/* The container */
+.msv-radio {
+    font-size: 13px;
+    color: #505660;
+    @include commonSelector;
+}
+
+/* Create a custom radio button */
+.msv-radio__button {
+    @include defaultSelector;
+    border-radius: 50%;
+    transition: all 0.4s;
+}
+/* On mouse-over, add a grey background color */
+.msv-radio:hover[data-disabled="false"] input ~ .msv-radio__button {
+    background-color: #cccccc;
+}
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.msv-radio__button:after {
+    content: "";
+    opacity: 0;
+    position: absolute;
+    transition: all 0.4s;
+}
+/* Show the indicator (dot/circle) when checked or on hover */
+.msv-radio input:checked ~ .msv-radio__button:after,
+.msv-radio:hover[data-disabled="false"] input ~ .msv-radio__button:after {
+    opacity: 1;
+}
+/* Style the hover indicator (dot/circle) */
+.msv-radio:hover .msv-radio__button:after,
+.msv-radio[data-disabled="true"] .msv-radio__button:after {
+    @include defaultRadioIndicator;
+    background: #505660;
+}
+/* Style the active indicator (dot/circle) */
+.msv-radio[data-disabled="false"] input:checked ~ .msv-radio__button:after {
+    @include defaultRadioIndicator;
+    background: #cc5f52;
+}

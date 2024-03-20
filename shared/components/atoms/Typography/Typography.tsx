@@ -4,6 +4,7 @@ import { getVariantTag } from '../../../utils'
 import './typography.scss'
 export interface TypographyProps {
   bold?: boolean
+  color?: string
   className?: string
   children?: ReactNode
   style?: CSSProperties
@@ -12,6 +13,7 @@ export interface TypographyProps {
 
 export const Typography: FC<TypographyProps> = ({
   bold,
+  color,
   style,
   variant,
   children,
@@ -23,7 +25,7 @@ export const Typography: FC<TypographyProps> = ({
 
   return (
     <CustomTag
-      style={style}
+      style={{ color, ...style }}
       className={[
         'msv-font',
         `msv-font__${variant}`,
@@ -38,6 +40,7 @@ export const Typography: FC<TypographyProps> = ({
 
 Typography.defaultProps = {
   bold: false,
+  color: 'black',
   style: undefined,
   className: undefined,
   variant: 'bodyMedium',

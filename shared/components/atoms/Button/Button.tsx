@@ -5,19 +5,17 @@ import React, {
   CSSProperties,
   ButtonHTMLAttributes,
 } from 'react'
-import './button.scss'
 import { ButtonColors, ButtonSizes } from '../../../contants'
-import { Typography } from '..'
+import { Base } from '../../../../shared/interfaces'
+import './button.scss'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, Base {
   children?: ReactNode
   block?: boolean
-  className?: string
   size?: ButtonSizes
   leadIcon?: ReactNode
   onClick?: () => void
   color?: ButtonColors
-  style?: CSSProperties
   trailIcon?: ReactNode
 }
 
@@ -49,9 +47,7 @@ export const Button: FC<ButtonProps> = ({
       {...props}
     >
       {leadIcon}
-      <Typography variant="button" bold>
-        {children}
-      </Typography>
+      {children}
       {trailIcon}
     </button>
   )
