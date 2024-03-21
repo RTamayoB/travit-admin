@@ -1,9 +1,29 @@
-import { Button } from '../shared/components'
+'use client';
+import { createClient } from "@/utils/supabase/client";
+import React, { useEffect } from 'react';
+import { useRouter } from "next/navigation";
 
-export default function Home() {
+const Home = () => {
+  const router = useRouter();
+   const supabase = createClient();
+
+  useEffect(() => {
+    const retrieveUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        router.push('/dashboard')
+      } else {
+        router.push('/login')
+      }
+    }
+    retrieveUser();
+
+  });
+
   return (
-    <main>
-      <Button>Test Button</Button>
-    </main>
-  )
-}
+    <div>
+    </div>
+    );
+};
+
+export default Home;

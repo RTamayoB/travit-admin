@@ -1,0 +1,21 @@
+.form {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Additional styles for form elements */
+.label {
+    display: block; /* Display labels as block elements */
+    margin-bottom: 5px; /* Add some space between labels and inputs */
+}
+
+.input { /* Display inputs as block elements */
+    margin-bottom: 10px; /* Add some space between inputs */
+}
+
+.buttons {
+    display: block;
+    align-items: center;
+}

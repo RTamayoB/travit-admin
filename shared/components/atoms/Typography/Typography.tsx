@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
-import { TextVariants } from '../../../contants'
+import { TextVariants } from '../../../constants'
 import { getVariantTag } from '../../../utils'
 import './typography.scss'
 export interface TypographyProps {

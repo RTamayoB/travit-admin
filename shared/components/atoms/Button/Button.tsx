@@ -6,7 +6,7 @@ import React, {
   ButtonHTMLAttributes,
 } from 'react'
 import './button.scss'
-import { ButtonColors, ButtonSizes } from '../../../contants'
+import { ButtonColors, ButtonSizes } from '../../../constants'
 import { Typography } from '..'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -16,6 +16,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSizes
   leadIcon?: ReactNode
   onClick?: () => void
+  formAction?: (formData: FormData) => void
   color?: ButtonColors
   style?: CSSProperties
   trailIcon?: ReactNode
@@ -29,16 +30,18 @@ export const Button: FC<ButtonProps> = ({
   leadIcon,
   className,
   trailIcon,
+  formAction,
   ...props
 }) => {
   const [buttonState, setButtonState] = useState('default')
 
   return (
     <button
+      formAction={formAction}
       onMouseDown={() => setButtonState('focus')}
       onMouseUp={() => setButtonState('active')}
       onBlur={() => setButtonState('default')}
-      type="button"
+      type={formAction ? 'submit' : 'button'}
       className={[
         `msv-button__${color}`,
         `msv-button--${size}`,
@@ -65,4 +68,5 @@ Button.defaultProps = {
   onClick: undefined,
   leadIcon: undefined,
   trailIcon: undefined,
+  formAction: undefined,
 }
