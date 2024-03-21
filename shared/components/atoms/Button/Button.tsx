@@ -5,7 +5,7 @@ import React, {
   CSSProperties,
   ButtonHTMLAttributes,
 } from 'react'
-import { ButtonColors, ButtonSizes } from '../../../contants'
+import { ButtonColors, ButtonSizes } from '../../../constants'
 import { Base } from '../../../../shared/interfaces'
 import './button.scss'
 
