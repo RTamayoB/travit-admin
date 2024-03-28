@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
 import { Typography } from '../..'
-import { Base } from '../../../../shared/interfaces'
+import { Base } from '@/shared/interfaces'
 import './checkbox.scss'
 
 export interface CheckboxProps extends Base {

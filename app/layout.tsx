@@ -3,7 +3,7 @@ import localFont from 'next/font/local'
 
 import '../shared/styles/global.scss'
 
-const Satoshi = localFont({ src: '../shared/fonts/satoshi/Satoshi-Medium.otf' })
+const Satoshi = localFont({ src: '/fonts/satoshi/Satoshi-Medium.otf' })
 
 export const metadata: Metadata = {
   title: 'Create Next App',

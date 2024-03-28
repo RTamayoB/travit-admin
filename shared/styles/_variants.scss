@@ -22,19 +22,19 @@ $btn-sm-p: 4px;
 
 @font-face {
     font-family: "SatoshiB";
-    src: url("../fonts/satoshi/Satoshi-Bold.otf") format("opentype");
+    src: url("/public/fonts/satoshi/Satoshi-Bold.otf") format("opentype");
 }
 @font-face {
     font-family: "SatoshiL";
-    src: url("../fonts/satoshi/Satoshi-Light.otf") format("opentype");
+    src: url("/public/fonts/satoshi/Satoshi-Light.otf") format("opentype");
 }
 @font-face {
     font-family: "SatoshiM";
-    src: url("../fonts/satoshi/Satoshi-Medium.otf") format("opentype");
+    src: url("/public/fonts/satoshi/Satoshi-Medium.otf") format("opentype");
 }
 @font-face {
     font-family: "SatoshiR";
-    src: url("../fonts/satoshi/Satoshi-Regular.otf") format("opentype");
+    src: url("/public/fonts/satoshi/Satoshi-Regular.otf") format("opentype");
 }
 
 $satoshi-bold: "SatoshiB", sans-serif;

@@ -11,7 +11,7 @@ const config: StorybookConfig = {
     '@chromatic-com/storybook',
     '@storybook/addon-interactions',
     '@storybook/addon-designs',
-    '@storybook/addon-styling-webpack',
+    '@storybook/addon-mdx-gfm'
   ],
   framework: {
     name: '@storybook/nextjs',
@@ -20,6 +20,6 @@ const config: StorybookConfig = {
   docs: {
     autodocs: 'tag',
   },
-  staticDirs: ['../shared/fonts'],
+  staticDirs: ['../public'],
 }
 export default config

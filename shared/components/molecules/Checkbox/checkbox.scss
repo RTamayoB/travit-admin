@@ -35,13 +35,13 @@
 .msv-checkbox:hover[data-disabled="false"] input:checked ~ .checkmark:after,
 .msv-checkbox[data-disabled="false"] input:checked ~ .checkmark:after {
     @include defaultCheckboxMark;
-    background-image: url("../../../assets/svg/checkmarkWhite.svg");
+    background-image: url("../../../components/molecules/Checkbox/images/checkmarkWhite.svg");
 }
 /* Style the checkmark/indicator */
 .msv-checkbox:hover .checkmark:after,
 .msv-checkbox .checkmark:after {
     @include defaultCheckboxMark;
-    background-image: url("../../../assets/svg/checkmark.svg");
+    background-image: url("../../../components/molecules/Checkbox/images/checkmark.svg");
 }
 .msv-checkbox[data-focused="true"][data-checked="false"][data-disabled="false"] input ~ .checkmark {
     border: 3px solid $border-orange-light;
