@@ -1,4 +1,4 @@
-import React, { FC, KeyboardEvent, use, useEffect, useState } from 'react'
+import React, { FC, KeyboardEvent, useEffect, useState } from 'react'
 import { Base } from '../../../../shared/interfaces'
 import './dropdown.scss'
 
@@ -8,22 +8,27 @@ export interface Option {
 }
 export interface DropdownProps extends Base {
   data: Option[]
+  placeholder?: string
+  defaultSelected?: Option
   onSelected: (selected: Option | undefined) => void
 }
 
 export const Dropdown: FC<DropdownProps> = ({
   data,
-  onSelected,
-  className,
   style,
+  className,
+  onSelected,
+  placeholder,
+  defaultSelected,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [search, setSearch] = useState<string>('')
   const [filteredOps, setFilteredOps] = useState(data)
-  const [selected, setSelected] = useState<Option | undefined>(undefined)
+  const [search, setSearch] = useState<string>(defaultSelected?.label ?? '')
+  const [selected, setSelected] = useState<Option | undefined>(defaultSelected)
 
   const handleOptionClick = (i: Option) => {
     setSelected(i)
+    onSelected(i)
     setSearch(i.label)
   }
   // Allow user to use Enter key to blur input focus
@@ -43,9 +48,11 @@ export const Dropdown: FC<DropdownProps> = ({
     if (!searchExists) {
       setSelected(undefined)
       setSearch('')
+      onSelected(undefined)
     } else {
       setSelected(searchExists)
       setSearch(searchExists.label)
+      onSelected(searchExists)
     }
     setIsOpen(false)
   }
@@ -65,8 +72,9 @@ export const Dropdown: FC<DropdownProps> = ({
 
   // Return selected value to the user every time it changes
   useEffect(() => {
-    onSelected(selected)
-  }, [selected, onSelected])
+    setSearch(defaultSelected?.label ?? '')
+    setSelected(defaultSelected)
+  }, [defaultSelected])
 
   return (
     <div className={['msv-dropdown', className].join(' ')} style={style}>
@@ -75,7 +83,7 @@ export const Dropdown: FC<DropdownProps> = ({
           onFocus={() => setIsOpen(true)}
           value={search}
           onBlur={handleBlur}
-          placeholder="Select..."
+          placeholder={placeholder ?? 'Select...'}
           onKeyUp={(e) => handleOnKeyUp(e)}
           onChange={(e) => handleInputChange(e.target.value)}
         />
@@ -102,4 +110,7 @@ export const Dropdown: FC<DropdownProps> = ({
   )
 }
 
-Dropdown.defaultProps = {}
+Dropdown.defaultProps = {
+  defaultSelected: undefined,
+  placeholder: undefined,
+}
