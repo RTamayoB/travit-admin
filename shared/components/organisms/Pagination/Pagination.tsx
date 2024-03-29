@@ -1,75 +1,42 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC } from 'react'
 import { Dropdown, Typography } from '../..'
 import { NumberItem } from './NumberItem'
+import { Base } from '../../../interfaces'
 import './pagination.scss'
+import { usePagination } from './usePagination'
 
-export interface PaginationProps {
+export interface PaginationProps extends Base {
   totalPages: number
   rounded?: boolean
+  align?: 'left' | 'center' | 'right'
 }
 
-export const Pagination: FC<PaginationProps> = ({ totalPages, rounded }) => {
-  const [activePage, setActivePage] = useState(0)
-  const [activeChunk, setActiveChunk] = useState([0, 0])
-  const [pageChunks, setPageChunks] = useState<number[][]>([])
-  // number of pages per division
-  const chunkSize = 3
-  // convert total pages into an array for splitting
-  const pages = Array.from(Array(totalPages).keys())
-  // convertion of pages array for dropdown use
-  const pagesDropdown = pages.map((i) => ({
-    label: (i + 1).toString(),
-    value: i.toString(),
-  }))
-  // divide pages array into equal part chunks
-  const getPageDivisions = () => {
-    let chunks: number[][] = []
-    for (let i = 0; i < pages.length; i += chunkSize) {
-      const chunk = pages.slice(i, i + chunkSize)
-      chunks.push(chunk)
-    }
-    setPageChunks(chunks)
-  }
-  // Arrow button actions
-  const handlePrevArrow = () => {
-    if (activePage > 0) {
-      setActivePage((oldActive) => oldActive - 1)
-    }
-  }
-  const handleNextArrow = () => {
-    if (activePage < pages.length - 1) {
-      setActivePage((oldActive) => oldActive + 1)
-    }
-  }
-  // get the location of the activePage every time it changes
-  useEffect(() => {
-    let rowIndex = -1
-    let columnIndex = -1
-    // Iterate over the outer array
-    for (let i = 0; i < pageChunks.length; i++) {
-      // Iterate over the inner array at index i
-      for (let j = 0; j < pageChunks[i].length; j++) {
-        // Check if the current element matches the number we're looking for
-        if (pageChunks[i][j] === activePage) {
-          rowIndex = i
-          columnIndex = j
-          break
-        }
-      }
-      // Break the outer loop if the number is found
-      if (rowIndex !== -1) {
-        break
-      }
-    }
-    setActiveChunk([rowIndex, columnIndex])
-  }, [activePage, pageChunks])
-  // get pages division before all
-  useEffect(() => {
-    getPageDivisions()
-  }, [])
+export const Pagination: FC<PaginationProps> = ({
+  totalPages,
+  rounded,
+  align,
+  className,
+  style,
+}) => {
+  // get values from usePaginationHook
+  const {
+    pages,
+    activePage,
+    pageChunks,
+    activeChunk,
+    setActivePage,
+    pagesDropdown,
+    handleNextArrow,
+    handlePrevArrow,
+  } = usePagination(totalPages)
 
   return (
-    <div className="msv-pagination">
+    <div
+      className={['msv-pagination', `msv-pagination--${align}`, className].join(
+        ' ',
+      )}
+      style={style}
+    >
       <div className="msv-pagination__pageSelector">
         <Typography variant="bodySmall">Page</Typography>
         <Dropdown
@@ -93,7 +60,10 @@ export const Pagination: FC<PaginationProps> = ({ totalPages, rounded }) => {
           className="button button__singleArrow"
           onClick={handlePrevArrow}
         />
-        {pageChunks[activeChunk[0]]?.map(
+        {(pageChunks[activeChunk[0]]?.length > 1
+          ? pageChunks[activeChunk[0]]
+          : pageChunks[activeChunk[0] - 1]
+        )?.map(
           (i) =>
             i !== pages.length - 1 && (
               <NumberItem
@@ -135,4 +105,5 @@ export const Pagination: FC<PaginationProps> = ({ totalPages, rounded }) => {
 
 Pagination.defaultProps = {
   rounded: false,
+  align: 'left',
 }

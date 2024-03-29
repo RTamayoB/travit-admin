@@ -1,7 +1,29 @@
 @import "../../../../shared/styles";
 
 .msv-pagination {
-    @include flex($gap: 20px);
+    &--left {
+        @include flex($gap: 20px, $justify: left);
+
+        @media (max-width: 576px) {
+            @include flex($gap: 20px, $align: flex-start, $dir: column);
+        }
+    }
+    &--center {
+        @include flex($gap: 20px);
+
+        @media (max-width: 576px) {
+            @include flex($gap: 20px, $dir: column);
+        }
+    }
+    &--right {
+        @include flex($gap: 20px, $justify: right);
+
+        @media (max-width: 576px) {
+            @include flex($gap: 20px, $align: end, $dir: column);
+            align-items: flex-end;
+        }
+    }
+
     &__pageSelector {
         @include flex;
     }

@@ -54,7 +54,6 @@ export const Dropdown: FC<DropdownProps> = ({
       setSearch(searchExists.label)
       onSelected(searchExists)
     }
-    setIsOpen(false)
   }
   // Input change action
   const handleInputChange = (value: string) => {
@@ -75,6 +74,10 @@ export const Dropdown: FC<DropdownProps> = ({
     setSearch(defaultSelected?.label ?? '')
     setSelected(defaultSelected)
   }, [defaultSelected])
+
+  useEffect(() => {
+    setIsOpen(false)
+  }, [selected])
 
   return (
     <div className={['msv-dropdown', className].join(' ')} style={style}>

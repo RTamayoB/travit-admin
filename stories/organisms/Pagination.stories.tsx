@@ -21,5 +21,7 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     totalPages: 9,
+    rounded: false,
+    align: 'center',
   },
 }
