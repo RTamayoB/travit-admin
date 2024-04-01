@@ -1,0 +1,40 @@
+@import "../../../styles/index.scss";
+
+.msv-alert {
+    padding: 12px;
+    border: 1px solid;
+    position: relative;
+    border-radius: 500px;
+    @include flex($justify: flex-start);
+    &--success {
+        color: #044433;
+        border-color: #044433;
+        background-color: #b2d6cd;
+    }
+    &--warning {
+        color: #66570b;
+        border-color: #66570b;
+        background-color: #f9e896;
+    }
+    &--info {
+        border-color: #6384e0;
+        background-color: #e8edfa;
+    }
+    &--danger {
+        color: #72240c;
+        border-color: #7b0000;
+        background-color: #f5b0b0;
+    }
+    &--basic {
+        color: #292929;
+        border-color: #434343;
+        background-color: #ededed;
+    }
+
+    &__close {
+        cursor: pointer;
+        background: none;
+        border: none;
+        outline: none;
+    }
+}
