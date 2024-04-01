@@ -1,43 +1,59 @@
 import React, { FC, ReactNode } from 'react'
-import './alert.scss'
+import Image from 'next/image'
 import { Typography } from '../..'
 import * as Icons from '../../../assets/svg/alerts'
-import CloseIcon from '../../../assets/svg/close.svg'
-import Image from 'next/image'
-export interface AlertProps {
-  variant?: 'success' | 'warning' | 'info' | 'danger' | 'basic'
-  icon?: boolean | ReactNode
+import { Base } from '../../../../shared/interfaces'
+import { AlertVariants } from '../../../../shared/constants'
+import './alert.scss'
+
+export interface AlertProps extends Base {
   closable?: boolean
+  children: ReactNode
+  onClose?: () => void
+  variant?: AlertVariants
+  icon?: boolean | ReactNode
 }
 
-export const Alert: FC<AlertProps> = ({ variant, icon, closable }) => {
-  const sourceIcon = Icons[variant ?? 'success']
+export const Alert: FC<AlertProps> = ({
+  icon,
+  style,
+  variant,
+  onClose,
+  closable,
+  children,
+  className,
+}) => {
+  const SourceIcon = Icons[variant ?? 'success']
 
   return (
-    <div className={`msv-alert msv-alert--${variant}`}>
-      {icon &&
-        (typeof icon === 'boolean' ? (
-          <Image src={sourceIcon} alt={`${variant} icon.`} />
-        ) : (
-          icon
-        ))}
-      <Typography variant="bodySmall" bold>
-        Alert
-      </Typography>
+    <div
+      className={[`msv-alert msv-alert--${variant}`, className].join(' ')}
+      style={style}
+    >
+      <div className="msv-alert__content">
+        {icon &&
+          (typeof icon === 'boolean' ? (
+            <Image src={SourceIcon} alt={`${variant} icon.`} />
+          ) : (
+            icon
+          ))}
+        <Typography variant="bodySmall" bold>
+          {children}
+        </Typography>
+      </div>
       {closable && (
         <button
           type="button"
+          onClick={onClose}
           className={`msv-alert__close msv-alert__close--${variant}`}
-        >
-          <CloseIcon />
-        </button>
+        />
       )}
     </div>
   )
 }
 
 Alert.defaultProps = {
-  variant: 'success',
   icon: true,
-  closable: true,
+  closable: false,
+  variant: 'success',
 }
