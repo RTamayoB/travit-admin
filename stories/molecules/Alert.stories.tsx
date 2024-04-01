@@ -35,6 +35,15 @@ export const AllVariants: Story = {
   },
 }
 
+export const NoIcon: Story = {
+  args: {
+    variant: 'success',
+    children: 'All variants',
+    closable: false,
+    icon: false,
+  },
+}
+
 export const Closable: Story = {
   args: {
     variant: 'success',
