@@ -3,7 +3,7 @@ import { Dropdown } from '../../shared'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
-  title: 'Selectors/Dropdown',
+  title: 'Form Elements/Dropdown',
   component: Dropdown,
   parameters: {
     design: {

@@ -3,7 +3,7 @@ import { RadioButton } from '../../shared'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta = {
-  title: 'Selectors/RadioButton',
+  title: 'Form Elements/RadioButton',
   component: RadioButton,
   parameters: {
     design: {
