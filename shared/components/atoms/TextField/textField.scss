@@ -1,0 +1,50 @@
+@import "../../../styles/";
+
+.msv-textField {
+    @include flex($dir: column, $gap: 5.5px, $align: unset);
+
+    &__topView {
+        background-color: $white;
+        border: 1px solid #c7c7c7;
+        @include flex($justify: flex-start);
+        padding: 4px var(--Spacing-space-xs, 8px);
+        border-radius: var(--Radius-radius-xs, 4px);
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.051);
+        box-shadow: -1px 1px 2px 0px rgba(0, 0, 0, 0.18) inset;
+        input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+        }
+
+        &:hover,
+        &:focus-within {
+            box-shadow:
+                -1px 1px 2px 0px rgba(0, 0, 0, 0.18) inset,
+                0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+        }
+        &:hover {
+            border: 1px solid var(--Color-Border-Input-Hover, #434343);
+            background: var(--Color-Background-Input-Hover, #ededed);
+        }
+        &:focus-within {
+            border: 1px solid var(--Color-Border-Input-Active, #1442bd);
+            background: var(--Color-Background-Input-Default, #fff);
+        }
+    }
+
+    &__helperView {
+        @include flex($justify: flex-start);
+        span {
+            width: 20px;
+            height: 20px;
+            mask-size: cover;
+            display: inline-block;
+            background-color: #d04116;
+            -webkit-mask-size: cover;
+            mask: url("../../../assets/svg/close.svg") no-repeat 50% 50%;
+            -webkit-mask: url("../../../assets/svg/close.svg") no-repeat 50% 50%;
+        }
+    }
+}
