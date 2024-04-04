@@ -1,0 +1,115 @@
+@import "../../../styles/";
+
+.msv-textField {
+    @include flex($dir: column, $gap: 5.5px, $align: unset);
+    &__topView {
+        position: relative;
+        background-color: $white;
+        border: 1px solid #c7c7c7;
+        transition: all 0.4s;
+        @include flex($justify: flex-start);
+        border-radius: var(--Radius-radius-xs, 4px);
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.051);
+        // sizes
+        &--small {
+            padding: var(--Spacing-1, 4px) var(--Spacing-space-xs, 8px);
+        }
+        &--medium {
+            padding: var(--Spacing-2, 8px) var(--Spacing-space-xs, 8px);
+        }
+        &--large {
+            padding: 16px var(--Spacing-space-xs, 8px);
+        }
+        // main label (unfocused)
+        label {
+            top: 6px;
+            left: 8px;
+            opacity: 0;
+            z-index: -1;
+            bottom: 0px;
+            margin: auto;
+            @include flex;
+            color: #5e6368;
+            padding: 0px 4px;
+            line-height: 11px;
+            position: absolute;
+            transition:
+                opacity 0.4s,
+                transform 0.6s,
+                z-index 0.1s ease-in 0.2s;
+            background-color: $white;
+        }
+        input {
+            width: 100%;
+            border: none;
+            outline: none;
+            color: #434343;
+            background: transparent;
+        }
+        // label (focused or filled input)
+        &[data-filled="true"] label,
+        &:focus-within label,
+        &--default:focus-within label {
+            top: 0px;
+            opacity: 1;
+            z-index: 0;
+            bottom: unset;
+            background-color: none;
+            transform: translateY(-100%);
+        }
+        // if not disabled apply default action colors
+        &--default[data-disabled="false"],
+        &--success[data-disabled="false"] {
+            &:hover {
+                label {
+                    color: #434343;
+                }
+                border: 1px solid var(--Color-Border-Input-Hover, #434343);
+                background: var(--Color-Background-Input-Hover, #ededed);
+            }
+            &:focus-within {
+                label {
+                    color: #006efb;
+                }
+                border: 1px solid var(--Color-Border-Input-Active, #1442bd);
+                background: var(--Color-Background-Input-Default, #fff);
+            }
+        }
+        // if not disabled apply default error colors
+        &--error[data-disabled="false"] {
+            label {
+                color: var(--Color-Border-Input-Error, #d2460e);
+            }
+            border: 1px solid var(--Color-Border-Input-Error, #d2460e);
+        }
+        // diabled colors
+        &[data-disabled="true"] {
+            border: 1px solid var(--Color-Border-Input-Default, #c7c7c7);
+            background: var(--Color-Background-Input-Disabled, #acacac);
+            input {
+                color: #5e6368;
+            }
+        }
+    }
+    // view for helper text (error and success)
+    &__helperView {
+        @include flex($justify: flex-start);
+        .span {
+            width: 20px;
+            height: 20px;
+            &--error {
+                display: inline-block;
+                mask-size: cover;
+                -webkit-mask-size: cover;
+                background-color: #d04116;
+                mask: url("../../../assets/svg/alerts/danger.svg") no-repeat 50% 50%;
+                -webkit-mask: url("../../../assets/svg/alerts/danger.svg") no-repeat 50% 50%;
+            }
+            &--success {
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-image: url("../../../assets/svg/inputSuccess.svg");
+            }
+        }
+    }
+}

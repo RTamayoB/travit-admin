@@ -40,7 +40,7 @@ export const Typography: FC<TypographyProps> = ({
 
 Typography.defaultProps = {
   bold: false,
-  color: 'black',
+  color: undefined,
   style: undefined,
   className: undefined,
   variant: 'bodyMedium',
