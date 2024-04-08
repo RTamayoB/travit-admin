@@ -49,9 +49,6 @@ export const TableView: FC<TableViewProps> = ({
     setTotalPages(
       filteredData ? Math.ceil(filteredData?.length / (itemsPerPage ?? 10)) : 0,
     )
-    console.log(
-      filteredData ? Math.ceil(filteredData?.length / (itemsPerPage ?? 10)) : 0,
-    )
   }, [filteredData])
 
   return (
