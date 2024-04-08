@@ -2,27 +2,27 @@ import { Button, TableView } from '../../../shared'
 import type { Meta, StoryObj } from '@storybook/react'
 import MOCK_DATA from './MOCK_DATA.json'
 import { transformData } from './dataTransformExample'
-const meta = {
+import CustomDocs from './Docs.mdx'
+const meta: Meta<typeof TableView> = {
   title: 'Example/TableView',
   component: TableView,
   parameters: {
-    design: {
-      type: 'figma',
-      url: "https://www.figma.com/file/jT69LhIFVmKzyWtOVBrLf7/Travit's-components?type=design&node-id=301-111431&mode=design&t=1toTGSnHcpAyI3Om-0",
+    docs: {
+      page: CustomDocs,
     },
   },
-  tags: ['autodocs'],
   args: {},
-} satisfies Meta<typeof TableView>
+}
 
 export default meta
 
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof TableView>
 
 export const Default: Story = {
   args: {
     tableData: transformData(MOCK_DATA),
     tableTitle: 'Table',
+    itemsPerPage: 5,
     actionButtons: [
       <Button key="button1" color="secondary">
         Button

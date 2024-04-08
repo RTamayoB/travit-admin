@@ -6,24 +6,20 @@ export interface TableData {
   [key: string]: ReactNode
 }
 export interface TableProps {
-  columnKeys?: string[]
   tableData?: TransformDataTable[]
 }
 
-export const Table: FC<TableProps> = ({ columnKeys, tableData }) => {
+export const Table: FC<TableProps> = ({ tableData }) => {
   const getColumnKeys = () => {
-    if (columnKeys) {
-      return columnKeys
-    }
     if (tableData) {
-      return Object.keys(tableData[0])
+      return Object.keys(tableData[0] ?? [])
     }
     return []
   }
 
   return (
     <div className="msv-table">
-      {getColumnKeys().map((col) => (
+      {getColumnKeys()?.map((col) => (
         <div key={col} className="msv-table__content">
           <div className="msv-table__content__header">
             <div key={col} className="columnKey">
@@ -44,5 +40,5 @@ export const Table: FC<TableProps> = ({ columnKeys, tableData }) => {
 }
 
 Table.defaultProps = {
-  columnKeys: undefined,
+  tableData: [],
 }

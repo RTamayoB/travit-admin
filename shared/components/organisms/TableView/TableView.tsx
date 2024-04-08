@@ -5,7 +5,6 @@ import './tableview.scss'
 
 export interface TableViewProps {
   tableTitle?: string
-  columnKeys?: string[]
   itemsPerPage?: number
   actionButtons?: ReactNode[]
   tableData?: TransformDataTable[]
@@ -21,7 +20,6 @@ export interface TransformDataTable {
 export const TableView: FC<TableViewProps> = ({
   tableData,
   tableTitle,
-  columnKeys,
   itemsPerPage,
   actionButtons,
 }) => {
@@ -73,7 +71,7 @@ export const TableView: FC<TableViewProps> = ({
           }
         />
       </div>
-      <Table columnKeys={columnKeys} tableData={pageChunks[activePage]} />
+      <Table tableData={pageChunks[activePage]} />
       <Pagination
         totalPages={totalPages}
         onIndexChange={setActivePage}
@@ -87,6 +85,5 @@ TableView.defaultProps = {
   itemsPerPage: 10,
   tableData: undefined,
   tableTitle: undefined,
-  columnKeys: undefined,
   actionButtons: undefined,
 }
