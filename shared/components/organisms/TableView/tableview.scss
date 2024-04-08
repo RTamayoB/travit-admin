@@ -1,33 +1,18 @@
 @import "../../../styles/";
 
-.msv-table {
-    @include flex($gap: 0, $align: stretch);
-    border-radius: var(--Radius-radius-sm, 8px);
-    border: 1px solid var(--Color-border-primary, #d1d3d8);
-    background: var(--Color-Background-Cell-Table-Grey, #ededed);
+.msv-tableView {
+    @include flex($dir: column, $gap: 20px, $align: unset);
 
     &__header {
-        flex: 1;
-        padding: 8px;
-        @include flex($justify: flex-start);
-        p {
-            text-transform: capitalize;
-        }
-    }
-    &__content {
-        flex: 1;
-        height: 100%;
-        border: 2px solid pink;
-        @include flex($dir: column, $align: stretch, $justify: stretch);
-        &__row {
-            flex: 1;
-            padding: 8px;
-            @include flex($align: flex-start, $dir: column);
-            background-color: $white;
-            border: 1px solid blue;
-            &:nth-child(odd) {
-                background: var(--Color-Background-Cell-Table-Grey, #ededed);
+        @include flex($dir: column, $gap: 20px, $align: unset);
+        .top {
+            @include flex($justify: space-between, $gap: 20px);
+            &__buttons {
+                @include flex($gap: 16px);
             }
         }
+    }
+    &__pagination {
+        justify-content: space-between;
     }
 }

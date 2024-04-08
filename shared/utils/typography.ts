@@ -1,4 +1,4 @@
-import { TextVariants } from '../constants'
+import { TextVariants } from '..'
 
 export const getVariantTag = (variant: TextVariants) => {
   switch (variant) {

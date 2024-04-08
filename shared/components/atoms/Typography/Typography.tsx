@@ -1,7 +1,8 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
-import { TextVariants } from '../../../constants'
-import { getVariantTag } from '../../../utils'
+import { TextVariants, getVariantTag } from '../../../'
+
 import './typography.scss'
+
 export interface TypographyProps {
   bold?: boolean
   color?: string

@@ -1,0 +1,31 @@
+@import "../../../../styles/";
+
+.msv-table {
+    @include flex($gap: 0, $align: stretch);
+    border-radius: var(--Radius-radius-sm, 8px);
+    border: 1px solid var(--Color-border-primary, #d1d3d8);
+    background: var(--Color-Background-Cell-Table-Grey, #ededed);
+    &__content {
+        flex: 1;
+        @include flex($dir: column, $gap: 0, $align: stretch);
+        &__header {
+            @include flex($justify: flex-start, $gap: 0);
+            p {
+                text-transform: capitalize;
+            }
+            .columnKey {
+                flex: 1;
+                padding: 8px;
+            }
+        }
+    }
+    .cellContent {
+        flex: 1;
+        padding: 8px;
+        @include flex($align: flex-start, $dir: column);
+        background-color: $white;
+        &:nth-child(odd) {
+            background: var(--Color-Background-Cell-Table-Grey, #ededed);
+        }
+    }
+}

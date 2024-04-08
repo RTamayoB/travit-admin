@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 
-export const usePagination = (totalPages: number) => {
+export const usePagination = (
+  totalPages: number,
+  onIndexChange: (index: number) => void,
+) => {
   const [activePage, setActivePage] = useState(0)
   const [activeChunk, setActiveChunk] = useState([0, 0])
   const [pageChunks, setPageChunks] = useState<number[][]>([])
@@ -55,10 +58,15 @@ export const usePagination = (totalPages: number) => {
     }
     setActiveChunk([rowIndex, columnIndex])
   }, [activePage, pageChunks])
-  // get pages division before all
+
   useEffect(() => {
     getPageDivisions()
-  }, [])
+  }, [totalPages])
+
+  useEffect(() => {
+    onIndexChange(activePage)
+  }, [activePage])
+  // get pages division before all
 
   return {
     pages,

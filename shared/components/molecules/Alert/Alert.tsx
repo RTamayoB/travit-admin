@@ -1,9 +1,7 @@
 import React, { FC, ReactNode } from 'react'
 import Image from 'next/image'
-import { Typography } from '../..'
 import * as Icons from '../../../assets/svg/alerts'
-import { Base } from '../../../../shared/interfaces'
-import { AlertVariants } from '../../../../shared/constants'
+import { AlertVariants, Base, Typography } from '../../../'
 import './alert.scss'
 
 export interface AlertProps extends Base {

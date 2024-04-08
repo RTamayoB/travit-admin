@@ -23,5 +23,6 @@ export const Default: Story = {
     totalPages: 9,
     rounded: false,
     align: 'center',
+    onIndexChange: (index) => console.log(index),
   },
 }

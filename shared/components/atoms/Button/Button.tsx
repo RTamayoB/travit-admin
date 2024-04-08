@@ -1,23 +1,16 @@
-import React, {
-  FC,
-  useState,
-  ReactNode,
-  CSSProperties,
-  ButtonHTMLAttributes,
-} from 'react'
-import { ButtonColors, ButtonSizes } from '../../../constants'
-import { Base } from '../../../../shared/interfaces'
+import React, { FC, useState, ReactNode, ButtonHTMLAttributes } from 'react'
+import { ButtonColors, ButtonSizes, Base } from '../../../'
 import './button.scss'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, Base {
-  children?: ReactNode
   block?: boolean
   size?: ButtonSizes
+  children?: ReactNode
   leadIcon?: ReactNode
   onClick?: () => void
-  formAction?: (formData: FormData) => void
   color?: ButtonColors
   trailIcon?: ReactNode
+  formAction?: (formData: FormData) => void
 }
 
 export const Button: FC<ButtonProps> = ({

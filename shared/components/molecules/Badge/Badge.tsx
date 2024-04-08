@@ -1,7 +1,5 @@
 import React, { FC, JSXElementConstructor, SVGProps } from 'react'
-import { BadgeColors, ButtonSizes } from '../../../../shared/constants'
-import { Base } from '../../../../shared/interfaces'
-import { Typography } from '../..'
+import { Typography, Base, ButtonSizes, BadgeColors } from '../../../'
 import './badge.scss'
 
 export interface BadgeProps extends Base {

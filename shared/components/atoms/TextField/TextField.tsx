@@ -1,13 +1,12 @@
 import React, {
-  ChangeEvent,
   FC,
-  InputHTMLAttributes,
-  ReactNode,
   useState,
+  ReactNode,
+  ChangeEvent,
+  InputHTMLAttributes,
 } from 'react'
+import { ButtonSizes, Typography } from '../../../'
 import './textField.scss'
-import { Typography } from '..'
-import { ButtonSizes } from '../../../../shared/constants'
 
 export interface TextFieldProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -25,11 +24,13 @@ export const TextField: FC<TextFieldProps> = ({
   id,
   label,
   size,
+  style,
   leadIcon,
   disabled,
   required,
   onChange,
   trailIcon,
+  className,
   inputState,
   helperText,
   ...props
@@ -42,7 +43,7 @@ export const TextField: FC<TextFieldProps> = ({
     }
   }
   return (
-    <div className="msv-textField">
+    <div className={`msv-textField ${className}`} style={style}>
       <div
         data-disabled={disabled}
         data-filled={isFilled}

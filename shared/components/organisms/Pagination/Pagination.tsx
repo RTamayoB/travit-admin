@@ -2,21 +2,23 @@ import React, { FC } from 'react'
 import { Dropdown, Typography } from '../..'
 import { NumberItem } from './NumberItem'
 import { Base } from '../../../interfaces'
-import './pagination.scss'
 import { usePagination } from './usePagination'
+import './pagination.scss'
 
 export interface PaginationProps extends Base {
-  totalPages: number
   rounded?: boolean
+  totalPages: number
   align?: 'left' | 'center' | 'right'
+  onIndexChange: (index: number) => void
 }
 
 export const Pagination: FC<PaginationProps> = ({
-  totalPages,
-  rounded,
-  align,
-  className,
   style,
+  align,
+  rounded,
+  className,
+  totalPages,
+  onIndexChange,
 }) => {
   // get values from usePaginationHook
   const {
@@ -28,7 +30,8 @@ export const Pagination: FC<PaginationProps> = ({
     pagesDropdown,
     handleNextArrow,
     handlePrevArrow,
-  } = usePagination(totalPages)
+  } = usePagination(totalPages, onIndexChange)
+  console.log(pageChunks)
 
   return (
     <div
@@ -60,30 +63,41 @@ export const Pagination: FC<PaginationProps> = ({
           className="button button__singleArrow"
           onClick={handlePrevArrow}
         />
-        {(pageChunks[activeChunk[0]]?.length > 1
-          ? pageChunks[activeChunk[0]]
-          : pageChunks[activeChunk[0] - 1]
-        )?.map(
-          (i) =>
-            i !== pages.length - 1 && (
+        {totalPages <= 3
+          ? pageChunks[0]?.map((i) => (
               <NumberItem
                 key={i}
                 label={i + 1}
                 active={activePage === i}
                 onClick={() => setActivePage(i)}
               />
-            ),
-        )}
+            ))
+          : (pageChunks[activeChunk[0]]?.length > 1
+              ? pageChunks[activeChunk[0]]
+              : pageChunks[activeChunk[0] - 1]
+            )?.map(
+              (i) =>
+                i !== pages.length - 1 && (
+                  <NumberItem
+                    key={i}
+                    label={i + 1}
+                    active={activePage === i}
+                    onClick={() => setActivePage(i)}
+                  />
+                ),
+            )}
         {totalPages > 3 && (
           <button className={['button button__number'].join(' ')}>
             <Typography variant="bodySmall">...</Typography>
           </button>
         )}
-        <NumberItem
-          active={activePage === pages.length - 1}
-          onClick={() => setActivePage(pages.length - 1)}
-          label={pages.length}
-        />
+        {totalPages > 3 && (
+          <NumberItem
+            active={activePage === pages.length - 1}
+            onClick={() => setActivePage(pages.length - 1)}
+            label={pages.length}
+          />
+        )}
         <button
           onClick={handleNextArrow}
           className={[
