@@ -4,7 +4,7 @@ import MOCK_DATA from './MOCK_DATA.json'
 import { transformData } from './dataTransformExample'
 import CustomDocs from './Docs.mdx'
 const meta: Meta<typeof TableView> = {
-  title: 'Example/TableView',
+  title: 'Data Display/TableView',
   component: TableView,
   parameters: {
     docs: {

@@ -7,7 +7,9 @@ export interface TableViewProps {
   tableTitle?: string
   itemsPerPage?: number
   actionButtons?: ReactNode[]
+  roundedPagination?: boolean
   tableData?: TransformDataTable[]
+  paginationAlign?: 'left' | 'center' | 'right'
 }
 
 export interface TransformDataTable {
@@ -22,6 +24,8 @@ export const TableView: FC<TableViewProps> = ({
   tableTitle,
   itemsPerPage,
   actionButtons,
+  paginationAlign,
+  roundedPagination,
 }) => {
   const [activePage, setActivePage] = useState(0)
   const [pageChunks, setPageChunks] = useState<TransformDataTable[][]>([])
@@ -73,7 +77,9 @@ export const TableView: FC<TableViewProps> = ({
       </div>
       <Table tableData={pageChunks[activePage]} />
       <Pagination
+        align={paginationAlign}
         totalPages={totalPages}
+        rounded={roundedPagination}
         onIndexChange={setActivePage}
         className="msv-tableView__pagination"
       />
@@ -85,5 +91,7 @@ TableView.defaultProps = {
   itemsPerPage: 10,
   tableData: undefined,
   tableTitle: undefined,
+  paginationAlign: 'left',
+  roundedPagination: false,
   actionButtons: undefined,
 }

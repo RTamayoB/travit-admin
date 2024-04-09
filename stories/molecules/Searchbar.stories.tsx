@@ -3,7 +3,7 @@ import { fn } from '@storybook/test'
 import { Searchbar } from '../../shared/components'
 
 const meta = {
-  title: 'Filters/Searchbar',
+  title: 'Data Display/Searchbar',
   component: Searchbar,
   parameters: {
     design: {
