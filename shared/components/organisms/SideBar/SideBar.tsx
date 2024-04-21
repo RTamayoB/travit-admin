@@ -5,8 +5,8 @@ import { logos, sideBarVariants } from '../../../../shared/constants'
 import './sideBar.scss'
 
 export interface SideBarProps {
-  contentItems: SideBarItemProps[]
   footerItems: SideBarItemProps[]
+  contentItems: SideBarItemProps[]
 }
 
 export const SideBar: FC<SideBarProps> = ({ contentItems, footerItems }) => {
@@ -14,15 +14,15 @@ export const SideBar: FC<SideBarProps> = ({ contentItems, footerItems }) => {
 
   return (
     <div
-      className={`msv-sidebar msv-sidebar--${sideBarState}`}
       onMouseEnter={() => setSideBarState('open')}
       onMouseLeave={() => setSideBarState('close')}
+      className={`msv-sidebar msv-sidebar--${sideBarState}`}
     >
       <span className="msv-sidebar__sideIcon" />
       <div className="msv-sidebar__section msv-sidebar__section--header">
         <Logo
-          variant={logos[sideBarState].type}
           width={logos[sideBarState].size}
+          variant={logos[sideBarState].type}
         />
       </div>
       <div className="msv-sidebar__section msv-sidebar__section--content">
