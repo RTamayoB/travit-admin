@@ -79,3 +79,22 @@ export const transformData = (data: TestData[]): TransformDataTable[] => {
   }))
 }
 ```
+
+### Example of usage
+
+Here's an example using the data above:
+
+```
+<TableView
+ tableData={transformData(MOCK_DATA)}
+    tableTitle='Table'
+    itemsPerPage= {5}
+    actionButtons= {[
+      <Button key="button1" color="secondary">
+        Button
+      </Button>,
+      <Button key="button1">Button</Button>,
+    ]}
+/>
+
+```

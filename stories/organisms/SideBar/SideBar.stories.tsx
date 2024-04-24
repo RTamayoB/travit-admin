@@ -1,24 +1,27 @@
 import { SideBar } from '../../../shared'
 import type { Meta, StoryObj } from '@storybook/react'
-import { SIDEBAR_MOCK } from './MOCK_DATA'
+import { USER_SIDEBAR_MOCK, NON_USER_SIDEBAR_MOCK } from './MOCK_DATA'
+import CustomDocs from './Docs.mdx'
 
-const meta = {
+const meta: Meta<typeof SideBar> = {
   title: 'Navigation/SideBar',
   component: SideBar,
   parameters: {
-    design: {
-      type: 'figma',
-      url: '',
+    docs: {
+      page: CustomDocs,
     },
   },
-  tags: ['autodocs'],
   args: {},
-} satisfies Meta<typeof SideBar>
+}
 
 export default meta
 
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
-  args: SIDEBAR_MOCK,
+export const NoUserSession: Story = {
+  args: NON_USER_SIDEBAR_MOCK,
+}
+
+export const UserSession: Story = {
+  args: USER_SIDEBAR_MOCK,
 }

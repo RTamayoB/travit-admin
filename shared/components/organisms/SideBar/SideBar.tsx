@@ -1,15 +1,20 @@
 import React, { FC, useState } from 'react'
 import { Logo } from '../../atoms'
-import { SideBarItem, SideBarItemProps } from './SiteBarItem'
-import { logos, sideBarVariants } from '../../../../shared/constants'
+import { SideBarItem, SideBarItemProps } from './SideBarItem'
+import { logos, sideBarVariants } from '../../../constants'
 import './sideBar.scss'
 
 export interface SideBarProps {
+  user?: SideBarItemProps
   footerItems: SideBarItemProps[]
   contentItems: SideBarItemProps[]
 }
 
-export const SideBar: FC<SideBarProps> = ({ contentItems, footerItems }) => {
+export const SideBar: FC<SideBarProps> = ({
+  user,
+  footerItems,
+  contentItems,
+}) => {
   const [sideBarState, setSideBarState] = useState<sideBarVariants>('close')
 
   return (
@@ -31,6 +36,7 @@ export const SideBar: FC<SideBarProps> = ({ contentItems, footerItems }) => {
         ))}
       </div>
       <div className="msv-sidebar__section msv-sidebar__section--footer">
+        {user && <SideBarItem {...user} variant={sideBarState} />}
         {footerItems.map((item) => (
           <SideBarItem key={item.label} {...item} variant={sideBarState} />
         ))}
@@ -39,4 +45,6 @@ export const SideBar: FC<SideBarProps> = ({ contentItems, footerItems }) => {
   )
 }
 
-SideBar.defaultProps = {}
+SideBar.defaultProps = {
+  user: undefined,
+}

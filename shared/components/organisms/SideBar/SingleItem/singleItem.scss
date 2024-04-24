@@ -1,13 +1,13 @@
 @import "../../../../styles/";
 
-.msv-sideBarItem {
+.msv-singleSideBarItem {
     width: 100%;
     padding: 12px;
     background: none;
     box-shadow: none;
     transition: all 0.4s ease;
     @include flex($justify: flex-start);
-
+    text-align: left;
     &:hover {
         background: var(--Color-Background-Surface-Neutral-Light, #ededed);
     }
@@ -29,15 +29,5 @@
         p {
             display: none;
         }
-    }
-}
-
-.msv-singleSideBarItem {
-    &__subItems {
-        padding: 10px;
-        display: none;
-    }
-    &:hover &__subItems {
-        @include flex($dir: column);
     }
 }
