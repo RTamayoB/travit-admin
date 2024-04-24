@@ -1,0 +1,11 @@
+@import "../../../../styles/";
+
+.msv-sideBarItem {
+    &__subItems {
+        padding: 10px;
+        display: none;
+    }
+    &:hover &__subItems {
+        @include flex($dir: column);
+    }
+}
