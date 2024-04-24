@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 
 export const usePagination = (
-  totalPages: number,
-  onIndexChange: (index: number) => void,
+  totalPages: number
 ) => {
   const [activePage, setActivePage] = useState(0)
   const [activeChunk, setActiveChunk] = useState([0, 0])
@@ -64,7 +63,7 @@ export const usePagination = (
   }, [totalPages])
 
   useEffect(() => {
-    onIndexChange(activePage)
+
   }, [activePage])
   // get pages division before all
 

@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import NavLinks from '@/app/ui/nav-links';
 //import AcmeLogo from '@/app/ui/acme-logo';
 //import { PowerIcon } from '@heroicons/react/24/outline';
 //import { signOut } from '@/auth';
-import styles from "@/app/ui/sidenav.module.scss"
+import styles from "./sidenav.module.scss"
 import { Button } from '@/shared/components';
+import NavLinks from './nav-links';
 
 export default function SideNav() {
   return (

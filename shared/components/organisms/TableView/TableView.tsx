@@ -1,6 +1,5 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
-import { Table } from './Table/Table'
-import { Searchbar, Typography, Pagination } from '../../'
+
 import './tableview.scss'
 
 export interface TableViewProps {

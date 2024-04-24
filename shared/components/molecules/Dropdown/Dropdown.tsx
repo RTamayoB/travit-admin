@@ -90,6 +90,7 @@ export const Dropdown: FC<DropdownProps> = ({
           onKeyUp={(e) => handleOnKeyUp(e)}
           onChange={(e) => handleInputChange(e.target.value)}
         />
+        <input type="hidden" name="dropdown-value" value={selected?.value || '0'} />
       </div>
       <div
         className={[

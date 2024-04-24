@@ -1,25 +1,26 @@
 import React, { FC } from 'react'
 import { Typography } from '../..'
+import Link from "next/link";
 
 export interface NumberItemProps {
   active?: boolean
-  onClick: () => void
+  href: string
   label: string | number
 }
 
-export const NumberItem: FC<NumberItemProps> = ({ label, active, onClick }) => {
+export const NumberItem: FC<NumberItemProps> = ({ label, active, href }) => {
   return (
-    <button
+    <Link
       className={[
         'button button__number',
         active ? 'button button__number--active' : '',
       ].join(' ')}
-      onClick={onClick}
+      href={href}
     >
       <Typography variant="bodySmall" color={active ? 'white' : 'black'}>
         {label}
       </Typography>
-    </button>
+    </Link>
   )
 }
 
