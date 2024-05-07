@@ -25,25 +25,30 @@ export default function CreateLineForm({ agencies }: { agencies: Agencies[] }) {
     ]
     
     return (
-        <form className="form-container" action={dispatch}>
+        <form className="form-container" action={createLine}>
             <div className="form-row">
+                <input
+                    name="Lol"
+                    placeholder="Damm"
+                />
                 <div className="MuiFormControl-root">
-                    <TextField id={"line_number"} label={'Nombre de Linea'}/>
+                    <TextField id="line_number" label='Nombre de Linea'/>
                 </div>
                 <div className="MuiFormControl-root">
                     <TextField id={"legacy_line_number"} label={'Nombre anterior de Linea'}/>
                 </div>
                 <div className="MuiFormControl-root">
-                    <Dropdown data={line_options} onSelected={selected => 1}/>
+                    <Dropdown data={line_options} onSelected={selected => 1} name='line_type' placeholder="Tipo de Linea"/>
                 </div>
             </div>
             <div className="form-row">
                 <div className="MuiFormControl-root">
-                    <Dropdown data={agencyOptions} onSelected={selected => 1} placeholder={"Concesionaria"}/>
+                    <Dropdown data={agencyOptions} onSelected={selected => 1} placeholder="Concesionaria" name="agency_id"/>
                 </div>
                 <div className="MuiFormControl-root">
                     <TextField id={"units"} label={'N. unidades'}/>
                 </div>
+                <input type="hidden" name="transport_type" value="bus"/>
             </div>
             <div>
                 <Map position={[20.6597, 256.6500]} zoom={12}/>
@@ -52,7 +57,7 @@ export default function CreateLineForm({ agencies }: { agencies: Agencies[] }) {
                 <Link href={"/dashboard/lines"}>
                     Cancel
                 </Link>
-                <Button>
+                <Button type="submit">
                     Create Line
                 </Button>
             </div>

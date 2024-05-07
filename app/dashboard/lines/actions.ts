@@ -1,11 +1,12 @@
 'use server';
 
 import {revalidatePath, unstable_noStore as noStore} from "next/cache";
-import {redirect} from "next/navigation";
+import { redirect } from "next/navigation";
 import {z} from 'zod';
 import {createClient} from '@/utils/supabase/server';
 import {ITEMS_PER_PAGE} from "@/app/lib/utils";
 import {Agencies} from "@/app/lib/definitions";
+import FormData from "react";
 
 const supabase = createClient();
 
@@ -69,12 +70,13 @@ const FormSchema = z.object({
 const CreateLine = FormSchema.omit({ id: true, created_at: true, updated_at: true });
 
 export async function createLine(formData: FormData) {
+    console.log('FormData', formData)
     const { line_number, legacy_line_number, units, agency_id, transport_type, line_type } = CreateLine.parse({
         line_number: formData.get('line_number'),
         legacy_line_number: formData.get('legacy_line_number'),
         units: formData.get('units'),
         agency_id: formData.get('agency_id'),
-        transport_type: formData.get('line_color'),
+        transport_type: formData.get('transport_type'),
         line_type: formData.get('line_type')
     });
     const date = new Date().toISOString().split('T')[0]
@@ -84,6 +86,8 @@ export async function createLine(formData: FormData) {
         .from('lines')
         .insert([
             {
+                created_at: date,
+                updated_at: date,
                 line_number: line_number,
                 legacy_line_number: legacy_line_number,
                 units: units,
@@ -93,8 +97,11 @@ export async function createLine(formData: FormData) {
             }
         ])
         const result = await queryBuilder
-        revalidatePath('/dashboard/lines')
-        redirect('/dashboard/lines')
+        console.log('Result', result)
+        if(result.error == null) {
+            revalidatePath('/dashboard/lines')
+            redirect('/dashboard/lines/')
+        }
     } catch (error) {
         console.error('Database Error:', error)
         throw new Error('Failed to insert line')
