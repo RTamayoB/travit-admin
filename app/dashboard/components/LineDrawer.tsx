@@ -8,15 +8,29 @@ export default function LineDrawer() {
     const lineOptions = { color: 'orange' }
     
     const [polyline, setPolyline] = useState<LatLng[]>([])
+    const [startPoint, setStartPoint] = useState<LatLng | null>(null);
+    const [endPoint, setEndPoint] = useState<LatLng | null>(null);
+    const [currentMarker, setCurrentMarker] = useState<LatLng>(new LatLng(0,0))
     const map = useMapEvents({
         contextmenu(e) {
             console.log("CALLED CREATE LINE")
             const newPoint = e.latlng;
             const updatePolyline = [...polyline, newPoint];
             setPolyline(updatePolyline);
+            console.log("LINE: " +  polyline)
         },
     })
     
+    const startDragging = (index: number, position: LatLng) => {
+        console.log("POINT: " + position)
+        console.log("INDEX: " + index)
+        const prevPoint = polyline[index - 1];
+        const nextPoint = polyline[index + 1];
+        setCurrentMarker(position)
+        setStartPoint(prevPoint);
+        setEndPoint(nextPoint);
+    }
+
     const updateLinePosition = (index: number, newPosition: LatLng) => {
         console.log("CALLED UPDATE LINE")
         setPolyline( prevState => {
@@ -24,6 +38,8 @@ export default function LineDrawer() {
             updatedPolyline[index] = newPosition
             return updatedPolyline
         });
+        setStartPoint(null);
+        setEndPoint(null);
     }
     
     return (
@@ -33,11 +49,14 @@ export default function LineDrawer() {
                 key={index}
                 index={index}
                 initialPosition={point}
-                updateLinePosition={updateLinePosition}
+                onMarkerDrag={updateLinePosition}
             />
             ))
         };
-        <Polyline pathOptions={lineOptions} positions={polyline} />
+        <Polyline pathOptions={lineOptions} positions={polyline}  />
+        {/*Dotted Lines*/}
+        {startPoint && <Polyline pathOptions={{ dashArray: '4, 4' }} positions={[startPoint, currentMarker]} />}
+        {endPoint && <Polyline pathOptions={{ dashArray: '4, 4' }} positions={[endPoint, currentMarker]} />}
         </>
         )
     }

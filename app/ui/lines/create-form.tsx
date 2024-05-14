@@ -7,6 +7,7 @@ import './create-form.scss'
 import Map from "../../dashboard/components/Map"
 import Link from "next/link";
 import {Button, Dropdown, Option, TextField} from "@/shared/components";
+import LineDrawer from "@/app/dashboard/components/LineDrawer";
 
 export default function CreateLineForm({ agencies }: { agencies: Agencies[] }) {
     const initialState = { message: null, errors: {} };
@@ -27,10 +28,6 @@ export default function CreateLineForm({ agencies }: { agencies: Agencies[] }) {
     return (
         <form className="form-container" action={createLine}>
             <div className="form-row">
-                <input
-                    name="Lol"
-                    placeholder="Damm"
-                />
                 <div className="MuiFormControl-root">
                     <TextField id="line_number" label='Nombre de Linea'/>
                 </div>
@@ -51,7 +48,9 @@ export default function CreateLineForm({ agencies }: { agencies: Agencies[] }) {
                 <input type="hidden" name="transport_type" value="bus"/>
             </div>
             <div>
-                <Map position={[20.6597, 256.6500]} zoom={12}/>
+                <Map position={[20.6597, 256.6500]} zoom={12}>
+                    <LineDrawer/>
+                </Map>
             </div>
             <div className="actions-container">
                 <Link href={"/dashboard/lines"}>

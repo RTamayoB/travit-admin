@@ -13,7 +13,7 @@ export default async function Page() {
                     <li key={line.id}>
                         ID: {line.id}, Name: {line.display_name}
                     </li>
-                    ))}
+                    ))}	
             </ul>
             <pre>{JSON.stringify(lines, null, 2)}</pre>
         </div>
