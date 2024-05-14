@@ -7,7 +7,8 @@ export interface Option {
   value: string
 }
 export interface DropdownProps extends Base {
-  data: Option[]
+  data: Option[],
+  name: string,
   placeholder?: string
   defaultSelected?: Option
   onSelected: (selected: Option | undefined) => void
@@ -15,6 +16,7 @@ export interface DropdownProps extends Base {
 
 export const Dropdown: FC<DropdownProps> = ({
   data,
+  name,
   style,
   className,
   onSelected,
@@ -90,6 +92,7 @@ export const Dropdown: FC<DropdownProps> = ({
           onKeyUp={(e) => handleOnKeyUp(e)}
           onChange={(e) => handleInputChange(e.target.value)}
         />
+        <input type="hidden" name={name} value={selected?.value || ''} />
       </div>
       <div
         className={[

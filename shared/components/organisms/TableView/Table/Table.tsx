@@ -1,44 +1,56 @@
-import React, { FC, ReactNode } from 'react'
-import { TransformDataTable, Typography } from '../../..'
+'use client';
+import {Typography } from '@/shared/components/atoms';
 import './table.scss'
+import {formatDateToLocal} from "@/app/lib/utils";
+import Link from 'next/link';
 
-export interface TableData {
-  [key: string]: ReactNode
-}
-export interface TableProps {
-  tableData?: TransformDataTable[]
-}
+export default function Table ({
+  lines
+}: {
+  lines: any[]
+}) {
 
-export const Table: FC<TableProps> = ({ tableData }) => {
-  const getColumnKeys = () => {
-    if (tableData) {
-      return Object.keys(tableData[0] ?? [])
-    }
-    return []
+
+  let keys: string[] = [];
+
+  if (lines && lines.length > 0) {
+    keys = Object.keys(lines[0]);
   }
 
-  return (
-    <div className="msv-table">
-      {getColumnKeys()?.map((col) => (
-        <div key={col} className="msv-table__content">
-          <div className="msv-table__content__header">
-            <div key={col} className="columnKey">
-              <Typography variant="bodySmall" bold>
-                {col}
-              </Typography>
-            </div>
-          </div>
-          {tableData?.map((item, index) => (
-            <div key={`data-col-${col}-row-${index}`} className="cellContent">
-              {item[col].component}
-            </div>
-          ))}
-        </div>
-      ))}
-    </div>
-  )
-}
 
-Table.defaultProps = {
-  tableData: [],
+  return (
+    <table className="table">
+      <thead>
+        <tr>
+          {keys.map(value => (
+            <th key={value}>
+              <Typography variant="bodySmall" bold>
+                {value}
+              </Typography>
+            </th>
+            ))}
+          <th>
+
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+          {lines?.map((line) => (
+            <tr key={line.id}>
+              {keys.map((key) => (
+                <td key={`${line.id}-${key}`}>
+                  {key === "created_at" || key === "updated_at"
+                  ? formatDateToLocal(line[key])
+                  : line[key]}
+                </td>
+                ))}
+              <td>
+                <Link href={"/dashboard/lines/edit"}>Edit</Link>
+                <Link href={''}>Delete</Link>
+              </td>
+            </tr>
+          ))}
+      </tbody>
+    </table>
+  );
 }

@@ -1,6 +1,6 @@
 import { signup } from './actions'
 import { Button, Typography } from "@/shared/components";
-import styles from '../user-form.module.scss'
+import styles from '../user-form.module.scss';
 import Image from "next/image";
 import Link from "next/link";
 

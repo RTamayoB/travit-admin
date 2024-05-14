@@ -30,11 +30,14 @@
     &__pageButtons {
         @include flex;
 
-        .button {
+        .link {
+            display: flex;
             width: 32px;
             height: 32px;
             position: relative;
             background-color: $white;
+            justify-content: center;
+            align-items: center;
             border: 1px solid #d1d3d8;
 
             &:hover {
