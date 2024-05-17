@@ -27,3 +27,10 @@ export interface Location {
 type AgencyToOptionMap = {
     [K in keyof Agencies]: K extends 'id' ? 'value' : K extends 'name' ? 'label' : never;
 };
+
+export interface UserInfo {
+    id: number,
+    full_name: string,
+    username: string,
+    role: string
+}

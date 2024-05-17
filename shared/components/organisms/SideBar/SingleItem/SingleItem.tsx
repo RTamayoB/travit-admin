@@ -5,6 +5,7 @@ import UserLogo from '../../../../assets/svg/user.svg'
 import DefaultCircle from '../../../../assets/svg/circle.svg'
 import { sideBarVariants } from '../../../../../shared/constants'
 import './singleItem.scss'
+import Link from "next/link";
 
 export interface SingleSideBarItemProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'label' | 'onClick'> {
@@ -40,10 +41,9 @@ export const SingleItem: FC<SingleSideBarItemProps> = ({
   }
 
   return (
-    <button
-      onClick={handleClick}
+    <Link
+      href={route}
       className={`msv-singleSideBarItem msv-singleSideBarItem--${variant} msv-singleSideBarItem__icon--${iconAlign}`}
-      {...props}
     >
       <Image src={getIcon()} alt={label ?? 'SideBar Option'} />
       <div>
@@ -58,6 +58,6 @@ export const SingleItem: FC<SingleSideBarItemProps> = ({
           </Typography>
         )}
       </div>
-    </button>
+    </Link>
   )
 }

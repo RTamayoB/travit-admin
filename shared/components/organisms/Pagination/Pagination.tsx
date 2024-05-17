@@ -1,10 +1,11 @@
 'use client';
 
 import { FC } from 'react'
-import { Base, Typography } from '@/shared'
+import { Typography } from '../../../../shared/components/atoms/Typography'
+import { Base } from '@/shared/interfaces'
 import './pagination.scss'
 import {usePathname, useSearchParams} from "next/navigation";
-import { generatePagination } from '@/app/lib/utils'
+import { generatePagination } from '../../../../app/lib/utils'
 import Link from "next/link";
 import clsx from 'clsx';
 
