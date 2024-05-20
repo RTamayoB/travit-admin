@@ -1,7 +1,5 @@
-'use client';
-
 import {unstable_noStore as noStore} from "next/cache";
-import {createClient} from '@/utils/supabase/client';
+import {createClient} from '@/utils/supabase/server';
 import { UserInfo } from "@/app/lib/definitions";
 
 const supabase = createClient();

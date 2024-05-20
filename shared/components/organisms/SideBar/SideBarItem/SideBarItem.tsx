@@ -1,40 +1,58 @@
-import React, { FC, useState } from 'react'
-import ArrowIcon from '../../../../assets/svg/downArrow.svg'
-import { SingleItem, SingleSideBarItemProps } from '../SingleItem'
-import './sideBarItem.scss'
+import React, { FC } from 'react'
+import Image from 'next/image'
+import { Typography } from '../../../'
+import { sideBarVariants } from '../../../../../shared/constants'
+import './sidebarItem.scss'
+import Link from "next/link";
+import {usePathname} from "next/navigation";
 
-export interface SideBarItemProps extends SingleSideBarItemProps {
-  subItems?: SingleSideBarItemProps[]
+export interface Destination {
+  icon: string,
+  label: string,
+  route: string,
+  subtitle?: string,
+  variant?: sideBarVariants
 }
 
-export const SideBarItem: FC<SideBarItemProps> = ({
+export const SingleItem: FC<Destination> = ({
   icon,
-  subItems,
-  ...props
+  label,
+  route,
+  subtitle,
+  variant
 }) => {
-  const [isHovered, setIsHovered] = useState(false)
+  const currentPath = usePathname()
+
+  const isActive = currentPath === route
 
   return (
-    <div
-      className="msv-sideBarItem"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <Link
+      href={route}
+      style={{ textDecoration: 'none' }}
     >
-      <SingleItem icon={isHovered && subItems ? ArrowIcon : icon} {...props} />
-      {subItems && (
-        <div className="msv-sideBarItem__subItems">
-          {subItems?.map((sitem) => (
-            <SingleItem key={sitem.label} {...sitem} />
-          ))}
+      <button
+        className={`msv-singleSideBarItem msv-singleSideBarItem--${variant} msv-singleSideBarItem--${isActive ? 'focus' : ''}`}
+      >
+        <Image
+          src={icon}
+          width={16}
+          height={16}
+          blurDataURL={icon}
+          alt={label ?? 'SideBar Option'}
+        />
+        <div>
+          {label && (
+            <Typography variant="bodySmall" bold color="#434343">
+              {label}
+            </Typography>
+          )}
+          {subtitle && (
+            <Typography variant="note" bold color="#999999">
+              {subtitle}
+            </Typography>
+          )}
         </div>
-      )}
-    </div>
+      </button>
+    </Link>
   )
-}
-
-SideBarItem.defaultProps = {
-  label: undefined,
-  variant: 'close',
-  iconAlign: 'right',
-  subItems: undefined,
 }
