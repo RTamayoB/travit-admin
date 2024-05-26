@@ -1,3 +1,5 @@
+'use client';
+
 import React, { FC, useState, ReactNode, ButtonHTMLAttributes } from 'react'
 import { ButtonColors, ButtonSizes, Base } from '../../../'
 import './button.scss'

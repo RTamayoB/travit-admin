@@ -1,7 +1,7 @@
 'use client';
-import {Typography } from '@/shared/components/atoms';
+import {Typography } from '../../../../../shared/components/atoms/Typography';
 import './table.scss'
-import {formatDateToLocal} from "@/app/lib/utils";
+import {formatDateToLocal} from '../../../../../app/lib/utils'
 import Link from 'next/link';
 
 export default function Table ({
