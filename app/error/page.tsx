@@ -1,3 +1,14 @@
-export default function ErrorPage() {
-    return <p>Sorry, something went wrong</p>
+export default function ErrorPage({
+        searchParams,
+}: {
+        searchParams?: {
+            message?: string
+        };
+}) {
+    return (
+        <>
+            <p>Sorry, something went wrong</p>
+            <p>{searchParams?.message}</p>
+        </>
+    )
 }

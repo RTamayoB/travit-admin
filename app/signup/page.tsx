@@ -4,7 +4,11 @@ import styles from '../user-form.module.scss';
 import Image from "next/image";
 import Link from "next/link";
 
-export default function SignUpPage() {
+export default function SignUpPage({
+        searchParams
+    }: {
+        searchParams: { message: string }
+    }) {
     return (
         <div className={styles.container}>
             <Image
@@ -25,6 +29,11 @@ export default function SignUpPage() {
                     <Typography variant="bodySmall">Already have an account? <Link href={"/login"} className={styles.link}>Login</Link></Typography>
                 </div>
             </form>
+            {searchParams?.message && (
+                <p className="mt-4 p-4 bg-foreground/10 text-foreground text-center">
+                    {searchParams.message}
+                </p>
+            )}
         </div>
         )
 }

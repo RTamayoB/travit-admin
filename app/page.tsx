@@ -18,7 +18,7 @@ const Home = () => {
     }
     retrieveUser();
 
-  });
+  }, [router,supabase]);
 
   return (
     <div>
