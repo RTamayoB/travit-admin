@@ -1,0 +1,10 @@
+.searchbar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .searchbar, .link-button {
+        flex: 1;
+        margin: 0 5px; /* Adjust spacing between buttons */
+    }
+}

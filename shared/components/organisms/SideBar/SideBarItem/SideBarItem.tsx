@@ -35,8 +35,8 @@ export const SingleItem: FC<Destination> = ({
       >
         <Image
           src={icon}
-          width={16}
-          height={16}
+          width={24}
+          height={24}
           blurDataURL={icon}
           alt={label ?? 'SideBar Option'}
         />
