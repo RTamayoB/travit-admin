@@ -13,10 +13,10 @@ export interface TypographyProps {
 }
 
 export const Typography: FC<TypographyProps> = ({
-  bold,
+  bold = false,
   color,
   style,
-  variant,
+  variant = 'bodyMedium',
   children,
   className,
 }) => {
@@ -37,12 +37,4 @@ export const Typography: FC<TypographyProps> = ({
       {children}
     </CustomTag>
   )
-}
-
-Typography.defaultProps = {
-  bold: false,
-  color: undefined,
-  style: undefined,
-  className: undefined,
-  variant: 'bodyMedium',
 }

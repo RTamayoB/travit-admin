@@ -11,34 +11,31 @@ export async function fetchUserInfo(): Promise<UserInfo> {
 
         const { data: { user }, } = await supabase.auth.getUser()
         
-        const { data: profileData, error: profileError } = await supabase
-            .from('profiles')
-            .select('id, full_name, username')
-            .eq('id', user?.id)
+        const { data, error } = await supabase
+            .from("profiles")
+            .select(`
+                id,
+                full_name,
+                username,
+                admins (
+                    role
+                )
+            `)
+            .eq("id", user?.id)
             .single();
         
-        const { data: adminData, error: adminError } = await supabase
-            .from('admins')
-            .select('role')
-            .eq('id', user?.id)
-            .single();
-        
-        console.log('Profile', profileData)
-        
-        if (profileError != null) {
-            console.error('Error fetching profile:', profileError);
-        }
+        if (error) throw error
         
         const userInfo: UserInfo = {
-            id: profileData?.id,
-            full_name: profileData?.full_name,
-            username: profileData?.username,
-            role: adminData?.role
+            id: data?.id,
+            full_name: data?.full_name,
+            username: data?.username,
+            role: data?.admins?.role
         }
         
         return userInfo
     } catch (error) {
         console.error('Database Error:', error)
-        throw new Error('Failed to fetch agencies')
+        throw new Error('Failed to fetch userInfo')
     }
 }

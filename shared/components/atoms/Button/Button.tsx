@@ -16,10 +16,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, Base {
 }
 
 export const Button: FC<ButtonProps> = ({
-  size,
-  color,
-  block,
-  children,
+  size = 'medium',
+  color = 'primary',
+  block = false,
+  children = '',
   leadIcon,
   className,
   trailIcon,
@@ -49,15 +49,4 @@ export const Button: FC<ButtonProps> = ({
       {trailIcon}
     </button>
   )
-}
-
-Button.defaultProps = {
-  children: '',
-  block: false,
-  size: 'medium',
-  color: 'primary',
-  onClick: undefined,
-  leadIcon: undefined,
-  trailIcon: undefined,
-  formAction: undefined,
 }

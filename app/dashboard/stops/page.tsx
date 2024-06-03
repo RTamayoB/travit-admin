@@ -1,26 +1,31 @@
-import Map from "../components/Map"
-import StopsController from "@/app/dashboard/components/StopsController";
-import {fetchStops} from "@/app/dashboard/stops/actions";
 
-export default async function Page() {
+import {fetchStopPages, fetchStops} from "@/app/dashboard/stops/actions";
+import {Typography} from "@/shared/components";
+import StopView from "@/app/dashboard/stops/StopView";
 
-    const stops = await fetchStops()
+export default async function Page({
+        searchParams,
+}: {
+    searchParams?: {
+        query?: string;
+        page?: string;
+    };
+}) {
+
+    const query = searchParams?.query || '';
+    const currentPage = Number(searchParams?.page) || 1;
+
+    const totalPages = await fetchStopPages(query)
+    const stops = await fetchStops(query, currentPage)
 
     return (
         <>
-            <ul>
-                {stops.map((stop) => (
-                    <li key={stop.id}>
-                        {stop.location.coordinates[0]}
-                         - 
-                        {stop.location.coordinates[1]}
-                    </li>
-                ))}
-            </ul>
-            <Map position={[20.6597, 256.6500]} zoom={12}>
-                <StopsController/>
-            </Map>
-
+            <div>
+                <Typography variant="h5" bold>
+                    Lineas
+                </Typography>
+                <StopView stops={stops} totalPages={totalPages} />
+            </div>
         </>
     )
 }
