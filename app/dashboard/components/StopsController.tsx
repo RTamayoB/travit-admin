@@ -1,56 +1,40 @@
 'use client';
 
-import {useState} from "react"
 import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
 import {useMapEvents} from "react-leaflet";
+import {Stop} from "@/app/lib/definitions";
+import {useEffect} from "react";
 
-interface Stop {
-    id: number;
-    name: string;
-    description: string;
-    position: number[]
-}
+export default function StopsController({
+        initialStops,
+        selectedStop,
+}: {
+        initialStops: Stop[],
+        selectedStop: Stop | null,
+}) {
 
-export default function StopsController() {
-
-    const initialStop: Stop = {
-        id: 0,
-        name: "Stop",
-        description: "Example Stop",
-        position: [20.725612, 256.569693]
-    }
-
-    const [stops, setStops] = useState<Stop[]>([initialStop])
+    const map = useMapEvents({})
     
-    const map = useMapEvents({
-            contextmenu(e) {
-                const newPoint = e.latlng;
-                const newStop: Stop = {
-                    id: 0,
-                    name: "Stop",
-                    description: "Example Stop",
-                    position: [e.latlng.lat, e.latlng.lng]
-                }
-                const updatedStops = [...stops, newStop];
-                setStops(updatedStops);
-            },
-        })
-    
-    const placeholder = (id: number) => {
-        
-    }
-    
+    useEffect(() => {
+        if (selectedStop) {
+            const { coordinates } = selectedStop.location;
+            map.setView([coordinates[0], coordinates[1]], 15, {
+                animate: true,
+                duration: 0.5
+            });
+        }
+    }, [selectedStop, map]);
+
     return (
         <>
-        {stops.map((stop) => (
-            <DraggableMarker
-                key={stop.id}
-                index={stop.id}
-                initialPosition={stop.position}
-                onMarkerDrag={placeholder}
-            />
-        ))
-        };
+            {initialStops.map((stop) => (
+                    <DraggableMarker
+                        key={stop.id}
+                        index={stop.id}
+                        initialPosition={stop.location.coordinates}
+                    />
+                ))
+            };
         </>
         )
     }
