@@ -22,7 +22,7 @@ export default async function Page({
         <>
             <div>
                 <Typography variant="h5" bold>
-                    Lineas
+                    Paradas
                 </Typography>
                 <StopView stops={stops} totalPages={totalPages} />
             </div>

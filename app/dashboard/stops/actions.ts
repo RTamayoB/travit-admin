@@ -1,8 +1,11 @@
 'use server';
 
-import {unstable_noStore as noStore} from "next/cache";
+import {unstable_noStore as noStore, revalidatePath} from "next/cache";
 import {createClient} from '@/utils/supabase/server';
 import { Stop } from "@/app/lib/definitions";
+import {z} from "zod";
+import FormData from "react";
+import {redirect} from "next/navigation";
 
 const supabase = createClient();
 const ITEMS_PER_PAGE = 6;
@@ -27,7 +30,6 @@ export async function fetchStops(
         }
 
         const { data } = await queryBuilder
-        console.log('Stops', data)
         return data as Stop[]
     } catch (error) {
         console.error('Database Error:', error)
@@ -48,10 +50,48 @@ export async function fetchStopPages(query: string) {
             .or(`name.ilike.%${query}%, name.ilike.%${query}%`)
         }
         const { count } = await queryBuilder
-        console.log('Pure count', count)
         return Math.ceil(Number(count || 1) / ITEMS_PER_PAGE)
     } catch (error) {
         console.error('Database Error:', error)
         throw new Error('Failed to fetch total number of stops.')
     }
+}
+
+const CreateStopFormSchema = z.object({
+    id: z.number(),
+    created_at: z.string(),
+    name: z.string(),
+    description: z.string(),
+    lat: z.string(),
+    lng: z.string()
+});
+
+const CreateLine = CreateStopFormSchema.omit({ id: true, created_at: true });
+
+export async function createStop(formData: FormData) {
+    console.log("FormData", formData)
+    const { name, description, lat, lng } = CreateLine.parse({
+        name: formData.get('name'),
+        description: formData.get('description'),
+        lat: formData.get('lat'),
+        lng: formData.get('lng'),
+    });
+
+    try {
+        let queryBuilder = await supabase
+        .from('stops')
+        .insert([
+            {
+                name: name,
+                description: description,
+                location: `POINT(${lat} ${lng})`,
+            }
+        ])
+    } catch (error) {
+        console.error('Database Error:', error)
+        throw new Error('Failed to insert line')
+    }
+
+    revalidatePath('/dashboard/lines')
+    redirect('/dashboard/stops/')
 }
