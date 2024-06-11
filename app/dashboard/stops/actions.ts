@@ -78,7 +78,7 @@ export async function createStop(formData: FormData) {
     });
 
     try {
-        let queryBuilder = await supabase
+        await supabase
         .from('stops')
         .insert([
             {

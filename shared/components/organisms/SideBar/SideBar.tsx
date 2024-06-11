@@ -5,8 +5,8 @@ import { Logo } from '../../atoms'
 import { logos, sideBarVariants } from '../../../constants'
 import './sideBar.scss'
 import { UserInfo } from '@/app/lib/definitions';
-import {Destination, SingleItem} from "@/shared";
-import {LogoutButton} from "@/shared/components/organisms/SideBar/LogoutButton/LogoutButton";
+import {Destination, SingleItem} from "../../organisms/SideBar/SideBarItem";
+import {LogoutButton} from "../../../../shared/components/organisms/SideBar/LogoutButton/LogoutButton";
 
 export interface SideBarProps {
   userInfo: UserInfo,

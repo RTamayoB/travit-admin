@@ -2,8 +2,9 @@
 import {Typography } from '../../../../../shared/components/atoms/Typography';
 import './table.scss'
 import {formatDateToLocal} from '../../../../../app/lib/utils'
-import Link from 'next/link';
-import { Button } from '@/shared/components/atoms/Button';
+import { Button } from '../../../../../shared/components/atoms/Button';
+import {LinkButton} from "@/shared";
+import {UpdateStop} from "@/shared/components/organisms/TableView/Table/UpdateStop";
 
 export default function StopsTable ({
         stops,
@@ -68,8 +69,8 @@ export default function StopsTable ({
                                     </Button>
                                 </td>    
                             <td>
-                                <Link href={"/dashboard/lines/edit"}>Edit</Link>
-                                <Link href={''}>Delete</Link>
+                                <UpdateStop id={stop.id}/>
+                                <LinkButton label='Eliminar' href="/dashboard/stops/delete"/>
                             </td>
                         </tr>
                     ))}
