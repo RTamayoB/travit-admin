@@ -97,6 +97,23 @@ export async function createStop(formData: FormData) {
         throw new Error('Failed to insert line')
     }
 
-    revalidatePath('/dashboard/lines')
+    revalidatePath('/dashboard/stops')
+    redirect('/dashboard/stops/')
+}
+
+export async function deleteStop(id: String) {
+    const supabase = createClient();
+
+    try {
+        await supabase
+        .from('stops')
+        .delete()
+        .eq('id', id)
+    } catch (error) {
+        console.error('Database Error:', error)
+        throw new Error('Failed to insert line')
+    }
+
+    revalidatePath('/dashboard/stops')
     redirect('/dashboard/stops/')
 }

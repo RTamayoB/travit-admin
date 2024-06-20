@@ -5,13 +5,16 @@ import {formatDateToLocal} from '../../../../../app/lib/utils'
 import { Button } from '../../../../../shared/components/atoms/Button';
 import {LinkButton} from "@/shared";
 import {UpdateStop} from "@/shared/components/organisms/TableView/Table/UpdateStop";
+import {deleteStop} from "@/app/dashboard/stops/actions";
 
 export default function StopsTable ({
         stops,
         onLocateStop,
+        onDeleteStop,
     }: {
         stops: any[],
         onLocateStop: (stop: any) => void,
+            onDeleteStop: (stop: any) => void
 }) {
 
 
@@ -70,7 +73,11 @@ export default function StopsTable ({
                                 </td>    
                             <td>
                                 <UpdateStop id={stop.id}/>
-                                <LinkButton label='Eliminar' href="/dashboard/stops/delete"/>
+                                <Button
+                                    onClick={() => deleteStop(stop.id)}
+                                >
+                                    Eliminar
+                                </Button>
                             </td>
                         </tr>
                     ))}

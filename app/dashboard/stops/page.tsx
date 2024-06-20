@@ -1,7 +1,8 @@
 
-import {fetchStopPages, fetchStops} from "@/app/dashboard/stops/actions";
+import {fetchStopPages, fetchStops, deleteStop } from "@/app/dashboard/stops/actions";
 import {Typography} from "@/shared/components";
 import StopView from "@/app/dashboard/stops/StopView";
+import { Stop } from "@/app/lib/definitions";
 
 export default async function Page({
         searchParams,
@@ -24,7 +25,10 @@ export default async function Page({
                 <Typography variant="h5" bold>
                     Paradas
                 </Typography>
-                <StopView stops={stops} totalPages={totalPages} />
+                <StopView
+                    stops={stops}
+                    totalPages={totalPages}
+                />
             </div>
         </>
     )
