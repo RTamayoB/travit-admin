@@ -1,16 +1,19 @@
 'use server';
 
-import {unstable_noStore as noStore} from "next/cache";
+import {unstable_noStore as noStore, revalidatePath} from "next/cache";
 import {createClient} from '@/utils/supabase/server';
 import { Stop } from "@/app/lib/definitions";
+import {z} from "zod";
+import {redirect} from "next/navigation";
 
-const supabase = createClient();
+
 const ITEMS_PER_PAGE = 6;
 
 export async function fetchStops(
     query: string,
     currentPage: number,
 ) {
+    const supabase = createClient();
     const from = (currentPage - 1) * ITEMS_PER_PAGE
     const to = from + ITEMS_PER_PAGE
     try {
@@ -27,7 +30,6 @@ export async function fetchStops(
         }
 
         const { data } = await queryBuilder
-        console.log('Stops', data)
         return data as Stop[]
     } catch (error) {
         console.error('Database Error:', error)
@@ -37,6 +39,8 @@ export async function fetchStops(
 
 export async function fetchStopPages(query: string) {
     noStore();
+
+    const supabase = createClient();
 
     try {
         let queryBuilder = supabase
@@ -48,10 +52,68 @@ export async function fetchStopPages(query: string) {
             .or(`name.ilike.%${query}%, name.ilike.%${query}%`)
         }
         const { count } = await queryBuilder
-        console.log('Pure count', count)
         return Math.ceil(Number(count || 1) / ITEMS_PER_PAGE)
     } catch (error) {
         console.error('Database Error:', error)
         throw new Error('Failed to fetch total number of stops.')
     }
+}
+
+const CreateStopFormSchema = z.object({
+    id: z.number(),
+    created_at: z.string(),
+    name: z.string(),
+    description: z.string(),
+    lat: z.string(),
+    lng: z.string()
+});
+
+const CreateLine = CreateStopFormSchema.omit({ id: true, created_at: true });
+
+export async function createStop(formData: FormData) {
+
+    const supabase = createClient();
+    
+    console.log("FormData", formData)
+    const { name, description, lat, lng } = CreateLine.parse({
+        name: formData.get('name'),
+        description: formData.get('description'),
+        lat: formData.get('lat'),
+        lng: formData.get('lng'),
+    });
+
+    try {
+        await supabase
+        .from('stops')
+        .insert([
+            {
+                name: name,
+                description: description,
+                location: `POINT(${lat} ${lng})`,
+            }
+        ])
+    } catch (error) {
+        console.error('Database Error:', error)
+        throw new Error('Failed to insert line')
+    }
+
+    revalidatePath('/dashboard/stops')
+    redirect('/dashboard/stops/')
+}
+
+export async function deleteStop(id: String) {
+    const supabase = createClient();
+
+    try {
+        await supabase
+        .from('stops')
+        .delete()
+        .eq('id', id)
+    } catch (error) {
+        console.error('Database Error:', error)
+        throw new Error('Failed to insert line')
+    }
+
+    revalidatePath('/dashboard/stops')
+    redirect('/dashboard/stops/')
 }

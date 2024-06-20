@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import Image from 'next/image'
 import { Typography } from '../../../'
 import { sideBarVariants } from '../../../../../shared/constants'
-import '../SideBarItem/sidebarItem.scss'
+import '../SideBarItem/sideBarItem.scss'
 
 interface LogoutButtonProps {
     variant?: sideBarVariants

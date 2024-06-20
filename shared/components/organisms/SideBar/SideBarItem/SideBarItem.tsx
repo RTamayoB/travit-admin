@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import Image from 'next/image'
 import { Typography } from '../../../'
 import { sideBarVariants } from '../../../../../shared/constants'
-import './sidebarItem.scss'
+import './sideBarItem.scss'
 import Link from "next/link";
 import {usePathname} from "next/navigation";
 

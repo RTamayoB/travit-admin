@@ -31,12 +31,12 @@ export default function StopView ({
                 <Searchbar
                     id="table_search"
                     style={{ maxWidth: 300 }}
-                    placeholder="Busca lineas..."
+                    placeholder="Busca paradas..."
                     className={styles.searchbar}
                 />
-                <Link href={'/dashboard/lines/create'} style={{textDecoration: "none"}} className={styles.linkButton}>
+                <Link href={'/dashboard/stops/create'} style={{textDecoration: "none"}} className={styles.linkButton}>
                     <Button>
-                        Crear Linea +
+                        Crear Parada +
                     </Button>
                 </Link>
             </div>

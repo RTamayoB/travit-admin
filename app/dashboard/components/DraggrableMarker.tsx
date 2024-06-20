@@ -1,5 +1,5 @@
 import { Icon } from "leaflet";
-import { useMemo, useRef, useState } from "react";
+import {useEffect, useMemo, useRef, useState } from "react";
 import { Marker } from "react-leaflet";
 
 export default function DraggableMarker(props: any) {
@@ -29,6 +29,10 @@ export default function DraggableMarker(props: any) {
         }),
         [index, onMarkerDrag]
     );
+
+    useEffect(() => {
+        setPosition(initialPosition);
+    }, [initialPosition]);
 
     return (
         <>
