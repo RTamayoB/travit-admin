@@ -1,14 +1,14 @@
 'use client';
 
 import {Button, TextField, Typography} from "@/shared/components/atoms";
-import Map from "../../../../dashboard/components/Map"
+import Map from "../../../../../dashboard/components/Map"
 import { useState } from "react";
-import  '../../create/create-stop-form.module.scss'
-import StopMapSelector from "../../../components/StopMapSelector";
+import  '@/app/dashboard/stops/ui/stop-form.module.scss'
+import StopMapSelector from "../../../../components/StopMapSelector";
 import {LatLng} from "leaflet";
 import Link from "next/link";
 import {Stop} from "@/app/lib/definitions";
-import {editStopById} from "@/app/dashboard/stops/[id]/edit/actions";
+import {editStopById} from "@/app/dashboard/stops/[id]/edit/lib/edit-stop-action";
 
 export default function EditStopForm({
         stop

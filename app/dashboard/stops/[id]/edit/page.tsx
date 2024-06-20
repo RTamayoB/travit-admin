@@ -1,7 +1,7 @@
 'use server';
 
-import EditStopForm from "@/app/dashboard/stops/[id]/edit/edit-stop-form";
-import {fetchStopById} from "@/app/dashboard/stops/[id]/edit/actions";
+import { fetchStopById } from "./lib/get-stop-action";
+import EditStopForm from "./ui/edit-stop-form";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id

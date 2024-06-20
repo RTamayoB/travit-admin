@@ -3,18 +3,15 @@ import {Typography } from '../../../../../shared/components/atoms/Typography';
 import './table.scss'
 import {formatDateToLocal} from '../../../../../app/lib/utils'
 import { Button } from '../../../../../shared/components/atoms/Button';
-import {LinkButton} from "@/shared";
 import {UpdateStop} from "@/shared/components/organisms/TableView/Table/UpdateStop";
-import {deleteStop} from "@/app/dashboard/stops/actions";
+import { deleteStop } from '@/app/dashboard/stops/lib/delete-stop-action';
 
 export default function StopsTable ({
         stops,
         onLocateStop,
-        onDeleteStop,
     }: {
         stops: any[],
         onLocateStop: (stop: any) => void,
-            onDeleteStop: (stop: any) => void
 }) {
 
 
