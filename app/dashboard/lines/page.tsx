@@ -1,10 +1,10 @@
 import {Button, Pagination, Searchbar, Typography} from "@/shared/components";
-import styles from './page.module.scss'
+import styles from "@/app/dashboard/lines/ui/page.module.scss";
 import Table from "@/shared/components/organisms/TableView/Table/Table";
-import { fetchLinePages } from "./actions";
-import Map from "../components/Map"
-import { fetchFilteredLines } from "@/shared/components/organisms/TableView/Table/actions";
+import Map from "../components/Map";
 import Link from "next/link";
+import { fetchFilteredLines } from "./lib/get-lines-action";
+import { fetchLinePages } from "./lib/get-lines-page-count-action";
 
 export default async function Page({
   searchParams,

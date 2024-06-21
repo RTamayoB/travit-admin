@@ -1,6 +1,6 @@
-import {fetchAgencies} from "@/app/dashboard/lines/actions";
-import Breadcrumbs from "@/app/ui/lines/breadcrumbs";
-import CreateLineForm from "@/app/ui/lines/create-form";
+import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
+import CreateLineForm from "./ui/create-line-form";
+import { fetchAgencies } from "./lib/get-agencies-action";
 
 export default async function Page() {
     const agencies = await fetchAgencies();

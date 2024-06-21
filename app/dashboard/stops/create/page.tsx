@@ -1,4 +1,4 @@
-import Breadcrumbs from "@/app/ui/lines/breadcrumbs";
+import Breadcrumbs from "../../.ui/breadcrumbs";
 import CreateStopForm from "./ui/create-stop-form";
 
 export default async function Page() {
