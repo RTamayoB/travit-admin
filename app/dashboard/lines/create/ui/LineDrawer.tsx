@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Polyline, useMapEvents } from "react-leaflet";
-import DraggableMarker from "./DraggrableMarker";
 import {LatLng} from "leaflet";
+import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
 
 export default function LineDrawer() {
     

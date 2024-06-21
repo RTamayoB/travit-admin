@@ -5,8 +5,8 @@ import "@/app/dashboard/lines/create/ui/create-line-form.scss"
 import Map from "../../../../dashboard/components/Map"
 import Link from "next/link";
 import {Button, Dropdown, Option, TextField} from "@/shared/components";
-import LineDrawer from "@/app/dashboard/components/LineDrawer";
 import { createLine } from "../lib/create-line-action";
+import LineDrawer from "./LineDrawer";
 
 export default function CreateLineForm({ agencies }: { agencies: Agencies[] }) {
     const initialState = { message: null, errors: {} };

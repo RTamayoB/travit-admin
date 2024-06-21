@@ -4,7 +4,7 @@ import {createClient} from '@/utils/supabase/server';
 import { Stop } from "@/app/lib/definitions";
 import { ITEMS_PER_PAGE } from '@/app/lib/utils';
 
-export async function fetchStops(
+export async function fetchFilteredStops(
     query: string,
     currentPage: number,
 ) {

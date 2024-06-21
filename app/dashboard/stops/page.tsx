@@ -1,7 +1,7 @@
 import {Typography} from "@/shared/components";
-import StopView from "@/app/dashboard/stops/StopView";
+import StopView from "@/app/dashboard/stops/ui/StopView";
 import {fetchStopPages} from "./lib/get-stops-page-count";
-import {fetchStops} from "./lib/get-stops-action";
+import {fetchFilteredStops} from "@/app/dashboard/stops/lib/get-filtered-stops-action";
 
 export default async function Page({
         searchParams,
@@ -16,7 +16,7 @@ export default async function Page({
     const currentPage = Number(searchParams?.page) || 1;
 
     const totalPages = await fetchStopPages(query)
-    const stops = await fetchStops(query, currentPage)
+    const stops = await fetchFilteredStops(query, currentPage)
 
     return (
         <>
