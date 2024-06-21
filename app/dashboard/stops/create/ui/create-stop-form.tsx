@@ -1,19 +1,17 @@
 'use client';
 
 import {Button, TextField, Typography} from "@/shared/components/atoms";
-import { useFormState } from "react-dom";
-import Map from "../../../dashboard/components/Map"
-import { createStop } from "../actions";
 import { useState } from "react";
-import  './create-stop-form.module.scss'
-import StopMapSelector from "../../components/StopMapSelector";
+import Map from "../../../../dashboard/components/Map"
+import  '@/app/dashboard/stops/ui/stop-form.module.scss'
 import {LatLng} from "leaflet";
 import Link from "next/link";
+import { createStop } from "../lib/create-stop-action";
+import StopMapSelector from "@/app/dashboard/components/StopMapSelector";
 
 export default function CreateStopForm() {
     const initialState = { message: null, errors: {} };
     const [marker, setMarker] = useState<LatLng | null>(null);
-    const [state, dispatch] = useFormState(createStop, initialState)
     
     const handleSetMarker = (marker: LatLng) => {
         setMarker(marker);
@@ -48,7 +46,7 @@ export default function CreateStopForm() {
                     Cancel
                 </Link>
                 <Button type="submit">
-                    Create Line
+                    Crear Parada
                 </Button>
             </div>
         </form>

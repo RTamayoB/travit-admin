@@ -1,12 +1,15 @@
-import { createClient } from '@/utils/supabase/server';
+'use server';
 
-const supabase = createClient();
-const ITEMS_PER_PAGE = 6;
+import { ITEMS_PER_PAGE } from '@/app/lib/utils';
+import { createClient } from '@/utils/supabase/server';
 
 export async function fetchFilteredLines(
     query: string,
     currentPage: number,
-    ) {
+) {
+    
+    const supabase = createClient();
+    
     const from = (currentPage - 1) * ITEMS_PER_PAGE
     const to = from + ITEMS_PER_PAGE
     try {

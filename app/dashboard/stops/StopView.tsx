@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './page.module.scss'
+import styles from '@/app/dashboard/stops/ui/page.module.scss';
 import { Pagination } from "@/shared/components/organisms/Pagination";
 import StopsTable from "@/shared/components/organisms/TableView/Table/StopsTable";
 import Map from "../components/Map"

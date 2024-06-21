@@ -1,8 +1,7 @@
-
-import {fetchStopPages, fetchStops, deleteStop } from "@/app/dashboard/stops/actions";
 import {Typography} from "@/shared/components";
 import StopView from "@/app/dashboard/stops/StopView";
-import { Stop } from "@/app/lib/definitions";
+import {fetchStopPages} from "./lib/get-stops-page-count";
+import {fetchStops} from "./lib/get-stops-action";
 
 export default async function Page({
         searchParams,

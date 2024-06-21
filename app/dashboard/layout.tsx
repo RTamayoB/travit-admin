@@ -1,7 +1,7 @@
-import styles from "../dashboard/layout.module.scss"
+import styles from "@/app/dashboard/.ui/layout.module.scss";
 import React from "react";
-import {fetchUserInfo} from "@/app/dashboard/actions";
 import { SideBar } from "@/shared/components/organisms/SideBar";
+import {fetchUserInfo} from "@/app/dashboard/.lib/get-user-action";
 
 export default async function Layout({ children }: { children: React.ReactNode}) {
 

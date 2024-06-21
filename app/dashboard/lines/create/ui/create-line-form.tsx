@@ -1,17 +1,15 @@
 'use client';
 
 import {Agencies} from "@/app/lib/definitions";
-import { useFormState } from "react-dom";
-import { createLine } from "@/app/dashboard/lines/actions";
-import './create-form.scss'
-import Map from "../../dashboard/components/Map"
+import "@/app/dashboard/lines/create/ui/create-line-form.scss"
+import Map from "../../../../dashboard/components/Map"
 import Link from "next/link";
 import {Button, Dropdown, Option, TextField} from "@/shared/components";
 import LineDrawer from "@/app/dashboard/components/LineDrawer";
+import { createLine } from "../lib/create-line-action";
 
 export default function CreateLineForm({ agencies }: { agencies: Agencies[] }) {
     const initialState = { message: null, errors: {} };
-    const [state, dispatch] = useFormState(createLine, initialState)
     
     const agencyOptions: Option[] = agencies.map((agency) => ({
         label: agency.name,
