@@ -1,11 +1,12 @@
 import { Icon } from "leaflet";
 import {useEffect, useState } from "react";
-import { Marker } from "react-leaflet";
+import { Marker, Popup } from "react-leaflet";
 
 export default function StopMarker(props: any) {
     const {
         index,
         initialPosition,
+        name
     } = props;
 
     const dotIcon = new Icon({
@@ -26,7 +27,11 @@ export default function StopMarker(props: any) {
                 key={index}
                 icon={dotIcon}
                 position={position}
-            />
+            >
+                <Popup>
+                    {name}
+                </Popup>
+            </Marker>
         </>
     );
 }
