@@ -18,7 +18,7 @@ const routeIcon = new Icon({
 
 
 const stopIcon = new Icon({
-  iconUrl: '/images/circle-dot.svg',
+  iconUrl: '/images/stop-circle-dot.svg',
   iconSize: [24, 24],
   iconAnchor: [12, 12]
 });
