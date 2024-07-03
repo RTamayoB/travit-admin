@@ -3,11 +3,12 @@
 import StopMarker from "@/app/dashboard/lines/ui/StopMarker";
 import MapEvents from "@/app/dashboard/lines/test-page/MapEvents";
 import {useState } from "react";
-import { Polyline } from "react-leaflet";
+import {Marker, Polyline } from "react-leaflet";
 import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
 import {Icon, LatLng} from "leaflet";
 import React from "react";
 import { BusStop, Position, RoutePoint } from "./lib/new-definitions";
+import MarkerClusterGroup from "react-leaflet-cluster";
 
 const routeIcon = new Icon({
   iconUrl: '/images/circle-dot.svg',
@@ -98,9 +99,13 @@ export default function MapComponent({
 
   return (
     <>
-      {stops.map((stop) => (
+      <MarkerClusterGroup
+        chunkedLoading
+      >
+        {stops.map((stop) => (
           <StopMarker key={stop.id} index={stop.id} initialPosition={stop.position} name={stop.name}/>
-      ))}
+        ))}
+      </MarkerClusterGroup>
       {routePoints.map((point, index) => (
         <React.Fragment key={point.id}>
           <DraggableMarker

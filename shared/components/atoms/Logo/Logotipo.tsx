@@ -8,7 +8,7 @@ export const Logotipo: FC<SVGProps<SVGSVGElement>> = (props) => {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <g clip-path="url(#clip0_251_299)">
+      <g clipPath="url(#clip0_251_299)">
         <path
           d="M33.3382 13.9278V27.7151C18.0245 27.7198 5.59178 15.3598 5.59821 0.139038H19.4682C19.4618 7.74781 25.6886 13.9326 33.3382 13.9262V13.9278Z"
           fill="url(#paint0_linear_251_299)"
@@ -51,10 +51,10 @@ export const Logotipo: FC<SVGProps<SVGSVGElement>> = (props) => {
           y2="1.20654"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#E75528" />
-          <stop offset="0.15" stop-color="#E95D28" />
-          <stop offset="0.38" stop-color="#EE732A" />
-          <stop offset="0.64" stop-color="#F7942D" />
+          <stop stopColor="#E75528" />
+          <stop offset="0.15" stopColor="#E95D28" />
+          <stop offset="0.38" stopColor="#EE732A" />
+          <stop offset="0.64" stopColor="#F7942D" />
         </linearGradient>
         <linearGradient
           id="paint1_linear_251_299"
@@ -64,10 +64,10 @@ export const Logotipo: FC<SVGProps<SVGSVGElement>> = (props) => {
           y2="-24.313"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#E75528" />
-          <stop offset="0.1" stop-color="#D43D2A" />
-          <stop offset="0.21" stop-color="#BE202E" />
-          <stop offset="0.43" stop-color="#96202E" />
+          <stop stopColor="#E75528" />
+          <stop offset="0.1" stopColor="#D43D2A" />
+          <stop offset="0.21" stopColor="#BE202E" />
+          <stop offset="0.43" stopColor="#96202E" />
         </linearGradient>
         <linearGradient
           id="paint2_linear_251_299"
@@ -77,10 +77,10 @@ export const Logotipo: FC<SVGProps<SVGSVGElement>> = (props) => {
           y2="67.3794"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#414042" />
-          <stop offset="0.24" stop-color="#4D4D4F" />
-          <stop offset="0.53" stop-color="#555658" />
-          <stop offset="1" stop-color="#58595B" />
+          <stop stopColor="#414042" />
+          <stop offset="0.24" stopColor="#4D4D4F" />
+          <stop offset="0.53" stopColor="#555658" />
+          <stop offset="1" stopColor="#58595B" />
         </linearGradient>
         <linearGradient
           id="paint3_linear_251_299"
@@ -90,10 +90,10 @@ export const Logotipo: FC<SVGProps<SVGSVGElement>> = (props) => {
           y2="71.9917"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#414042" />
-          <stop offset="0.24" stop-color="#4D4D4F" />
-          <stop offset="0.53" stop-color="#555658" />
-          <stop offset="1" stop-color="#58595B" />
+          <stop stopColor="#414042" />
+          <stop offset="0.24" stopColor="#4D4D4F" />
+          <stop offset="0.53" stopColor="#555658" />
+          <stop offset="1" stopColor="#58595B" />
         </linearGradient>
         <linearGradient
           id="paint4_linear_251_299"
@@ -103,10 +103,10 @@ export const Logotipo: FC<SVGProps<SVGSVGElement>> = (props) => {
           y2="60.6145"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#414042" />
-          <stop offset="0.24" stop-color="#4D4D4F" />
-          <stop offset="0.53" stop-color="#555658" />
-          <stop offset="1" stop-color="#58595B" />
+          <stop stopColor="#414042" />
+          <stop offset="0.24" stopColor="#4D4D4F" />
+          <stop offset="0.53" stopColor="#555658" />
+          <stop offset="1" stopColor="#58595B" />
         </linearGradient>
         <linearGradient
           id="paint5_linear_251_299"
@@ -116,10 +116,10 @@ export const Logotipo: FC<SVGProps<SVGSVGElement>> = (props) => {
           y2="61.6165"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#414042" />
-          <stop offset="0.24" stop-color="#4D4D4F" />
-          <stop offset="0.53" stop-color="#555658" />
-          <stop offset="1" stop-color="#58595B" />
+          <stop stopColor="#414042" />
+          <stop offset="0.24" stopColor="#4D4D4F" />
+          <stop offset="0.53" stopColor="#555658" />
+          <stop offset="1" stopColor="#58595B" />
         </linearGradient>
         <linearGradient
           id="paint6_linear_251_299"
@@ -129,10 +129,10 @@ export const Logotipo: FC<SVGProps<SVGSVGElement>> = (props) => {
           y2="67.7214"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#414042" />
-          <stop offset="0.24" stop-color="#4D4D4F" />
-          <stop offset="0.53" stop-color="#555658" />
-          <stop offset="1" stop-color="#58595B" />
+          <stop stopColor="#414042" />
+          <stop offset="0.24" stopColor="#4D4D4F" />
+          <stop offset="0.53" stopColor="#555658" />
+          <stop offset="1" stopColor="#58595B" />
         </linearGradient>
         <linearGradient
           id="paint7_linear_251_299"
@@ -142,10 +142,10 @@ export const Logotipo: FC<SVGProps<SVGSVGElement>> = (props) => {
           y2="56.3698"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#414042" />
-          <stop offset="0.24" stop-color="#4D4D4F" />
-          <stop offset="0.53" stop-color="#555658" />
-          <stop offset="1" stop-color="#58595B" />
+          <stop stopColor="#414042" />
+          <stop offset="0.24" stopColor="#4D4D4F" />
+          <stop offset="0.53" stopColor="#555658" />
+          <stop offset="1" stopColor="#58595B" />
         </linearGradient>
         <clipPath id="clip0_251_299">
           <rect width="66.6667" height="80" fill="white" />

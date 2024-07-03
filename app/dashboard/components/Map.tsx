@@ -10,7 +10,8 @@ export default function Map(props: any) {
         <MapContainer
             center={position}
             zoom={zoom}
-            scrollWheelZoom={false}
+            maxZoom={20}
+            scrollWheelZoom={true}
             className={styles.map}
             >
             {children}
