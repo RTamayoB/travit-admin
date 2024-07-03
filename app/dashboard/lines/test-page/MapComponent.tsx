@@ -3,7 +3,7 @@
 import StopMarker from "@/app/dashboard/lines/ui/StopMarker";
 import MapEvents from "@/app/dashboard/lines/test-page/MapEvents";
 import {useState } from "react";
-import {Marker, Polyline } from "react-leaflet";
+import { Polyline } from "react-leaflet";
 import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
 import {Icon, LatLng} from "leaflet";
 import React from "react";
