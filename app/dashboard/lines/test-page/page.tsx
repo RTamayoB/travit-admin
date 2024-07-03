@@ -50,7 +50,7 @@ export default async function Page() {
     <>
       <div>
         <ShowInfoButton />
-        <Map position={[20.6597, 256.6500]} zoom={12}>
+        <Map position={[20.6597, 256.6500]} zoom={17}>
           <MapComponent stops={stops} initialRoutePoints={routePoints}/>
         </Map>
       </div>

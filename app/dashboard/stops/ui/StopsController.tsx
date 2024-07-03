@@ -1,9 +1,9 @@
 'use client';
 
-import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
 import {useMapEvents} from "react-leaflet";
 import {Stop} from "@/app/lib/definitions";
 import {useEffect} from "react";
+import StopMarker from "@/app/dashboard/lines/ui/StopMarker";
 
 export default function StopsController({
         initialStops,
@@ -28,10 +28,11 @@ export default function StopsController({
     return (
         <>
             {initialStops.map((stop) => (
-                    <DraggableMarker
+                    <StopMarker
                         key={stop.id}
                         index={stop.id}
                         initialPosition={stop.location.coordinates}
+                        name={stop.name}
                     />
                 ))
             };

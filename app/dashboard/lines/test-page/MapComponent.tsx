@@ -1,14 +1,26 @@
 'use client';
 
-import Map from "@/app/dashboard/components/Map";
 import StopMarker from "@/app/dashboard/lines/ui/StopMarker";
 import MapEvents from "@/app/dashboard/lines/test-page/MapEvents";
 import {useState } from "react";
 import { Polyline } from "react-leaflet";
 import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
-import {LatLng} from "leaflet";
+import {Icon, LatLng} from "leaflet";
 import React from "react";
 import { BusStop, Position, RoutePoint } from "./lib/new-definitions";
+
+const routeIcon = new Icon({
+  iconUrl: '/images/circle-dot.svg',
+  iconSize: [24, 24],
+  iconAnchor: [12, 12]
+});
+
+
+const stopIcon = new Icon({
+  iconUrl: '/images/circle-dot.svg',
+  iconSize: [24, 24],
+  iconAnchor: [12, 12]
+});
 
 export default function MapComponent({
         stops,
@@ -86,32 +98,33 @@ export default function MapComponent({
 
   return (
     <>
-      <Map position={[20.6597, 256.6460]} zoom={17}>
-        {stops.map((stop) => (
+      {stops.map((stop) => (
           <StopMarker key={stop.id} index={stop.id} initialPosition={stop.position} name={stop.name}/>
-        ))}
-        {routePoints.map((point, index) => (
-          <React.Fragment key={point.id}>
+      ))}
+      {routePoints.map((point, index) => (
+        <React.Fragment key={point.id}>
+          <DraggableMarker
+            key={point.id}
+            initialPosition={point.position as LatLng}
+            onDragEnd={(latlng) => handleDragEnd(index, latlng)}
+            icon={point.isStop ? stopIcon : routeIcon}
+          />
+          {index < routePoints.length - 1 && (
             <DraggableMarker
-              key={point.id}
-              initialPosition={point.position as LatLng}
-              onDragEnd={(latlng) => handleDragEnd(index, latlng)}
+              initialPosition={getMidpoint(point.position, routePoints[index + 1].position)}
+              onDragEnd={(latlng) => handleAddIntermediatePoint(index, latlng)}
+              icon={routeIcon}
+              opacity={0.5}
             />
-            {index < routePoints.length - 1 && (
-              <DraggableMarker
-                initialPosition={getMidpoint(point.position, routePoints[index + 1].position)}
-                onDragEnd={(latlng) => handleAddIntermediatePoint(index, latlng)}
-                opacity={0.5}
-              />
-            )}
-          </React.Fragment>
-        ))}
-        <Polyline positions={routePoints.map((point) => point.position)} />
-        <MapEvents
-          onRightClick={handleRightClick}
-          onDeleteLastPoint={handleDeleteLastPoint}
-        />
-      </Map>
+          )}
+        </React.Fragment>
+      ))}
+      <Polyline positions={routePoints.map((point) => point.position)} />
+      <MapEvents
+        onRightClick={handleRightClick}
+        onDeleteLastPoint={handleDeleteLastPoint}
+      />
+      <p>LMAO</p>
     </>
   )
 }

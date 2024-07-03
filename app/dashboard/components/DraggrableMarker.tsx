@@ -2,20 +2,16 @@ import {Icon, LatLng} from "leaflet";
 import {useEffect, useMemo, useRef, useState } from "react";
 import {Marker} from "react-leaflet";
 
-const dotIcon = new Icon({
-    iconUrl: '/images/circle-dot.svg',
-    iconSize: [24, 24],
-    iconAnchor: [12, 12]
-});
-
 export default function DraggableMarker(
     {
         initialPosition,
         onDragEnd,
+        icon,
         opacity
     }: {
         initialPosition: LatLng,
         onDragEnd: (latlng: LatLng) => void,
+        icon: Icon,
         opacity?: number | 1
 }
 ) {
@@ -44,7 +40,7 @@ export default function DraggableMarker(
             <Marker
                 draggable={true}
                 eventHandlers={eventHandlers}
-                icon={dotIcon}
+                icon={icon}
                 opacity={opacity}
                 position={position}
                 ref={markerRef}
