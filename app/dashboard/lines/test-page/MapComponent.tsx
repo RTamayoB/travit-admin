@@ -7,8 +7,9 @@ import { Polyline } from "react-leaflet";
 import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
 import {Icon, LatLng} from "leaflet";
 import React from "react";
-import { BusStop, Position, RoutePoint } from "./lib/new-definitions";
+import { Position, RoutePoint } from "./lib/new-definitions";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import {Stop} from "@/app/lib/definitions";
 
 const routeIcon = new Icon({
   iconUrl: '/images/circle-dot.svg',
@@ -27,7 +28,7 @@ export default function MapComponent({
         stops,
         initialRoutePoints
 }: {
-        stops: BusStop[],
+        stops: Stop[],
         initialRoutePoints: RoutePoint[]
 }) {
   

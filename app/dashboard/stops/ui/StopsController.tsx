@@ -17,8 +17,7 @@ export default function StopsController({
     
     useEffect(() => {
         if (selectedStop) {
-            const { coordinates } = selectedStop.location;
-            map.setView([coordinates[0], coordinates[1]], 15, {
+            map.setView(selectedStop.position, 15, {
                 animate: true,
                 duration: 0.5
             });
@@ -31,7 +30,7 @@ export default function StopsController({
                     <StopMarker
                         key={stop.id}
                         index={stop.id}
-                        initialPosition={stop.location.coordinates}
+                        initialPosition={stop.position}
                         name={stop.name}
                     />
                 ))

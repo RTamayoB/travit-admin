@@ -15,7 +15,7 @@ export default function StopView ({
         stops,
         totalPages,
 }: {
-        stops: any[],
+        stops: Stop[],
         totalPages: number,
 }) {
     

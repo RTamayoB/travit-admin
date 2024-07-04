@@ -1,30 +1,41 @@
 import Map from "@/app/dashboard/components/Map";
 import MapComponent from "./MapComponent";
-import { BusStop, RoutePoint } from "./lib/new-definitions";
+import { RoutePoint } from "./lib/new-definitions";
 import ShowInfoButton from "@/app/dashboard/lines/test-page/ShowInfoButton";
+import { getRouteById } from "./lib/new-actions";
+import { fetchAllStops } from "../lib/get-all-stops-action";
+import {Stop} from "@/app/lib/definitions";
 
 export default async function Page() {
   
-  //const stops = await fetchAllStops()
-  const stops: BusStop[] = [
+
+  const mockStops: Stop[] = [
     {
       id: 1,
+      created_at: "",
       name: "Stop 1",
+      description: "",
       position: {lat: 20.660358444559478, lng: 256.64978340742806},
     },
     {
       id: 2,
+      created_at: "",
       name: "Stop 2",
+      description: "",
       position: {lat: 20.659153778132367, lng: 256.6487634959777},
     },
     {
       id: 3,
+      created_at: "",
       name: "Stop 3",
+      description: "",
       position: {lat: 20.658154901644128, lng: 256.64710617547115},
     },
     {
       id: 4,
+      created_at: "",
       name: "Stop 4",
+      description: "",
       position: {lat: 20.659214011680547, lng: 256.64428270252415},
     },
   ]
@@ -45,6 +56,9 @@ export default async function Page() {
       busStop: null,
     }
   ]
+
+  //const line = await getRouteById(1);
+  const stops = await fetchAllStops()
 
   return (
     <>

@@ -1,3 +1,5 @@
+import { Position } from "../dashboard/lines/test-page/lib/new-definitions";
+
 export type Line = {
     id: string;
     created_at: string;
@@ -15,7 +17,7 @@ export interface Stop {
     created_at: string;
     name: string;
     description: string;
-    location: Location
+    position: Position
 }
 
 export interface Location {
