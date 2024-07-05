@@ -6,19 +6,6 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import {RoutePoint} from "@/app/dashboard/lines/test-page/lib/new-definitions";
 
-const PositionSchema = z.object({
-    lat: z.number(),
-    lng: z.number(),
-});
-
-const StopSchema = z.object({
-    id: z.number(),
-    created_at: z.string().optional(),
-    name: z.string(),
-    description: z.string().nullable(),
-    position: PositionSchema,
-}).nullable();
-
 const RouteSchema = z.object({
     id: z.number().optional(),
     created_at: z.string().optional(),
@@ -54,11 +41,9 @@ export async function saveRoute(id: string, formData: FormData) {
     if (routePointsString != null) {
         routePoints = JSON.parse(routePointsString);
     }
-    
-    console.log("ROUTEPOINTS", routePoints)
 
     try {
-        // Insert route
+        // Update route
         await supabase
             .from('routes')
             .update([{
@@ -69,26 +54,51 @@ export async function saveRoute(id: string, formData: FormData) {
                 transport_type: parsedData.transport_type,
                 line_type: parsedData.line_type,
             }])
-            .eq('id', id)
+            .eq('id', id);
         
+        const { data: existingRoutePoints, error } = await supabase
+            .from('route_points')
+            .select('id, order')
+            .eq('line_id', id);
+
+        if (error) {
+            throw error;
+        }
+
+        const existingRoutePointIds = existingRoutePoints.map((point: { id: number }) => point.id);
+        const newRoutePointIds = routePoints.filter(point => point.id !== null).map(point => point.id);
+
+        // Delete route points that no longer exist
+        const pointsToDelete = existingRoutePointIds.filter(id => !newRoutePointIds.includes(id));
+        if (pointsToDelete.length > 0) {
         await supabase
             .from('route_points')
             .delete()
-            .eq('line_id', id);
+            .in('id', pointsToDelete);
+        }
 
+        // Insert or update route points
         for (const point of routePoints) {
-            
-            console.log("CURRENTPOINT", point)
+            const pointData = {
+                line_id: id,
+                position: `POINT(${point.position.lat} ${point.position.lng})`,
+                is_stop: point.isStop,
+                order: point.order,
+                stop_id: point.busStop?.id,
+            };
 
-            await supabase
-                .from('route_points')
-                .insert([{
-                    line_id: id,
-                    position: `POINT(${point.position.lat} ${point.position.lng})`,
-                    is_stop: point.isStop,
-                    order: point.order,
-                    stop_id: point.busStop?.id,
-                }]);
+            if (point.id === null) {
+                // Insert new point
+                await supabase
+                    .from('route_points')
+                    .insert([pointData]);
+            } else {
+                // Update existing point
+                await supabase
+                    .from('route_points')
+                    .update(pointData)
+                    .eq('id', point.id);
+            }
         }
 
     } catch (error) {

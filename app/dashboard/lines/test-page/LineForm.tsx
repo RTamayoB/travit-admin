@@ -24,7 +24,6 @@ export default function LineForm({
     
     const handleRoutePointsUpdate = (updatedRoutePoints: RoutePoint[]) => {
         setRoutePoints(updatedRoutePoints);
-        console.log("ROUTEPOINTSNEW", routePoints)
     };
     
     const agencyOptions: Option[] = agencies.map((agency) => ({
