@@ -2,7 +2,7 @@
 
 import StopMarker from "@/app/dashboard/lines/ui/StopMarker";
 import MapEvents from "@/app/dashboard/lines/test-page/MapEvents";
-import {useState } from "react";
+import { useState } from "react";
 import { Polyline } from "react-leaflet";
 import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
 import {Icon, LatLng} from "leaflet";
@@ -13,43 +13,45 @@ import {Stop} from "@/app/lib/definitions";
 
 const routeIcon = new Icon({
   iconUrl: '/images/circle-dot.svg',
-  iconSize: [24, 24],
+  iconSize: [30, 30],
   iconAnchor: [12, 12]
 });
 
 
 const stopIcon = new Icon({
   iconUrl: '/images/stop-circle-dot.svg',
-  iconSize: [24, 24],
+  iconSize: [30, 30],
   iconAnchor: [12, 12]
 });
 
 export default function MapComponent({
         stops,
-        initialRoutePoints
+        routePoints,
+        onRoutePointsUpdate
 }: {
         stops: Stop[],
-        initialRoutePoints: RoutePoint[]
+        routePoints: RoutePoint[],
+        onRoutePointsUpdate: (routePoints: RoutePoint[]) => void
 }) {
   
-  const [maxId, setMaxId] = useState(Math.max(0, ...initialRoutePoints.map(point => point.id)));
-  const [routePoints, setRoutePoints] = useState<RoutePoint[]>(initialRoutePoints);
+  const [maxId, setMaxId] = useState(Math.max(0, ...routePoints.map(point => point.order)));
   
   const handleRightClick = (latlng: LatLng) => {
     const newId = maxId + 1;
     const newPoint: RoutePoint = {
-      id: newId,
+      id: null,
       position: latlng,
       isStop: false,
       order: newId,
+      busStop: null
     };
-    setRoutePoints([...routePoints, newPoint]);
+    onRoutePointsUpdate([...routePoints, newPoint])
     setMaxId(newId); 
   };
 
   const handleDeleteLastPoint = () => {
     if (routePoints.length > 0) {
-      setRoutePoints(routePoints.slice(0, -1));
+      onRoutePointsUpdate(routePoints.slice(0, -1))
       setMaxId(maxId - 1);
     }
   };
@@ -64,9 +66,9 @@ export default function MapComponent({
     } else {
       newPoints[index].position = latlng;
       newPoints[index].isStop = false;
-      newPoints[index].busStop = undefined;
+      newPoints[index].busStop = null;
     }
-    setRoutePoints(newPoints);
+    onRoutePointsUpdate(newPoints)
   };
   
   const getMidpoint = (latlng1: Position, latlng2: Position): LatLng => {
@@ -80,10 +82,11 @@ export default function MapComponent({
     const newPoints = [
       ...routePoints.slice(0, index + 1),
       {
-        id: newId,
+        id: null,
         position: latlng,
         isStop: false,
         order: newId, // Adjust order for new point
+        busStop: null
       },
       ...routePoints.slice(index + 1),
     ];
@@ -95,7 +98,7 @@ export default function MapComponent({
     }));
 
     setMaxId(newId);
-    setRoutePoints(updatedPoints);
+    onRoutePointsUpdate(updatedPoints)
   };
 
   return (
@@ -108,9 +111,9 @@ export default function MapComponent({
         ))}
       </MarkerClusterGroup>
       {routePoints.map((point, index) => (
-        <React.Fragment key={point.id}>
+        <React.Fragment key={point.order}>
           <DraggableMarker
-            key={point.id}
+            key={point.order}
             initialPosition={point.position as LatLng}
             onDragEnd={(latlng) => handleDragEnd(index, latlng)}
             icon={point.isStop ? stopIcon : routeIcon}
@@ -130,7 +133,6 @@ export default function MapComponent({
         onRightClick={handleRightClick}
         onDeleteLastPoint={handleDeleteLastPoint}
       />
-      <p>LMAO</p>
     </>
   )
 }

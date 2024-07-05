@@ -6,11 +6,11 @@ export interface Position {
 }
 
 export interface RoutePoint {
-    id: number;
+    id: number | null;
     position: Position;
     isStop: boolean;
     order: number;
-    busStop?: Stop | null;
+    busStop: Stop | null;
 }
 
 export interface Route {

@@ -74,9 +74,6 @@ export async function getRouteById(routeId: string): Promise<Route> {
             };
         })
     };
-    
-    console.log('ROUTE', route)
-    console.log("POINTS", data.route_points[0].position)
 
     return route;
 }
