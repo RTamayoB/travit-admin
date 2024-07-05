@@ -1,14 +1,13 @@
 'use client';
 
 import Map from "@/app/dashboard/components/Map";
-import {Route, RoutePoint} from "./lib/new-definitions";
-import {Agencies, Stop } from "@/app/lib/definitions";
+import {Agencies, Route, RoutePoint, Stop } from "@/app/lib/definitions";
 import MapComponent from "./MapComponent";
 import Link from "next/link";
 import { Button, TextField } from "@/shared/components/atoms";
 import {Dropdown, Option} from "@/shared";
-import {saveRoute} from "@/app/dashboard/lines/test-page/lib/edit-line";
 import { useState } from "react";
+import { saveRoute } from "../lib/edit-line-action";
 
 export default function LineForm({
         stops,

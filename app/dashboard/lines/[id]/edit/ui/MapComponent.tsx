@@ -1,15 +1,14 @@
 'use client';
 
 import StopMarker from "@/app/dashboard/lines/ui/StopMarker";
-import MapEvents from "@/app/dashboard/lines/test-page/MapEvents";
 import { useState } from "react";
 import { Polyline } from "react-leaflet";
 import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
 import {Icon, LatLng} from "leaflet";
 import React from "react";
-import { Position, RoutePoint } from "./lib/new-definitions";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import {Stop} from "@/app/lib/definitions";
+import {Position, RoutePoint, Stop} from "@/app/lib/definitions";
+import MapEvents from "@/app/dashboard/lines/[id]/edit/ui/MapEvents";
 
 const routeIcon = new Icon({
   iconUrl: '/images/circle-dot.svg',
