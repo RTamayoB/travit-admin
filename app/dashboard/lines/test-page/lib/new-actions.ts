@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import {createClient} from "@/utils/supabase/server";
 import {Position, Route} from "@/app/dashboard/lines/test-page/lib/new-definitions";
 import {Stop} from "@/app/lib/definitions";
 
@@ -38,7 +38,7 @@ export async function getRouteById(routeId: string): Promise<Route> {
         throw error
     }
 
-    const route: Route = {
+    return {
         id: data.id,
         created_at: data.created_at,
         updated_at: data.updated_at,
@@ -74,6 +74,4 @@ export async function getRouteById(routeId: string): Promise<Route> {
             };
         })
     };
-
-    return route;
 }

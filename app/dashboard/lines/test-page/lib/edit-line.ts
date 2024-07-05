@@ -19,14 +19,6 @@ const StopSchema = z.object({
     position: PositionSchema,
 }).nullable();
 
-const RoutePointSchema = z.object({
-    id: z.number().optional(),
-    position: PositionSchema,
-    isStop: z.boolean(),
-    order: z.number(),
-    busStop: StopSchema,
-});
-
 const RouteSchema = z.object({
     id: z.number().optional(),
     created_at: z.string().optional(),

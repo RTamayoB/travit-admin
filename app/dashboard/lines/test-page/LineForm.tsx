@@ -46,8 +46,8 @@ export default function LineForm({
             <TextField id="line_number" label='Numero de Linea' defaultValue={line.line_number}/>
             <TextField id="legacy_line_number" label='Numero anterior de Linea' defaultValue={line.legacy_line_number}/>
             <TextField id="units" label='Numero anterior de Linea' defaultValue={line.units}/>
-            <Dropdown data={line_options} onSelected={selected => 1} name='line_type' placeholder="Tipo de Linea"/>
-            <Dropdown data={agencyOptions} onSelected={selected => 1} placeholder="Concesionaria" name="agency_id"/>
+            <Dropdown data={line_options} onSelected={() => 1} name='line_type' placeholder="Tipo de Linea"/>
+            <Dropdown data={agencyOptions} onSelected={() => 1} placeholder="Concesionaria" name="agency_id"/>
             <input type="hidden" name="transport_type" value="bus"/>
             <input type="hidden" name="routePoints" value={JSON.stringify(routePoints)}/>
             <Map position={[20.6597, 256.6500]} zoom={17}>
