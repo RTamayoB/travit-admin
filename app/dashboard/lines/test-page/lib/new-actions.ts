@@ -1,19 +1,18 @@
 import { createClient } from "@/utils/supabase/server";
-import {Route} from "@/app/dashboard/lines/test-page/lib/new-definitions";
+import {Position, Route} from "@/app/dashboard/lines/test-page/lib/new-definitions";
 import {Stop} from "@/app/lib/definitions";
 
-export async function getRouteById(routeId: number): Promise<Route> {
+export async function getRouteById(routeId: string): Promise<Route> {
     const supabase = createClient()
 
     const { data, error } = await supabase
         .from("routes")
         .select(`
             id,
-            name,
             created_at,
             updated_at,
             line_number,
-            line_legacy_number,
+            legacy_line_number,
             units,
             agency_id,
             transport_type,
@@ -28,7 +27,7 @@ export async function getRouteById(routeId: number): Promise<Route> {
                     created_at,
                     name,
                     description,
-                    location
+                    position
                 )
             )
         `)
@@ -39,84 +38,45 @@ export async function getRouteById(routeId: number): Promise<Route> {
         throw error
     }
 
-    return data.map((route: any) => ({
-        id: route.id,
-        name: route.name,
-        created_at: route.created_at,
-        updated_at: route.updated_at,
-        line_number: route.line_number,
-        line_legacy_number: route.line_legacy_number,
-        units: route.units,
-        agency_id: route.agency_id,
-        transport_type: route.transport_type,
-        line_type: route.line_type,
-        points: route.points.map((point: any) => ({
-            id: point.id,
-            position: point.position,
-            isStop: point.isStop,
-            order: point.order,
-            busStop: point.bus_stops ? {
-                id: point.bus_stops.id,
-                name: point.bus_stops.name,
+    const route: Route = {
+        id: data.id,
+        created_at: data.created_at,
+        updated_at: data.updated_at,
+        line_number: data.line_number,
+        legacy_line_number: data.legacy_line_number,
+        units: data.units,
+        agency_id: data.agency_id,
+        transport_type: data.transport_type,
+        line_type: data.line_type,
+        points: data.route_points.map((point: any) => {
+            const busStop: Stop | null = point.stops ? {
+                id: point.stops.id,
+                created_at: point.stops.created_at,
+                name: point.stops.name,
+                description: point.stops.description,
                 position: {
-                    lat: point.bus_stops.position.coordinates[1],
-                    lng: point.bus_stops.position.coordinates[0]
+                    lat: point.stops.position.coordinates[0],
+                    lng: point.stops.position.coordinates[1]
                 }
-            } : null
-        }))
-    }));
-}
+            } : null;
 
-async function insertRoute(route: Route): Promise<void> {
-    const supabase = createClient()
-    
-    const {data: routeData, error: routeError } = await supabase
-        .from("routes")
-        .insert([{ name: route.name }])
-        .select('id')
-        .single()
-    
-    if (routeError) {
-        throw routeError
-    }
-    
-    const routeId = routeData.id
-    
-    const routePoints = route.points.map(point => ({
-        route_id: routeId,
-        position: `SRID=4326;POINT(${point.position.lng} ${point.position.lat})`,
-        is_stop: point.isStop,
-        stop_id: point.busStop ? point.busStop.id : null,
-        order: point.order
-    }));
-    
-    const { error: pointsError } = await supabase
-        .from("route_points")
-        .insert(routePoints)
-    
-    if (pointsError) {
-        throw pointsError
-    }
-}
+            const position: Position = {
+                lat: point.position.coordinates[0],
+                lng: point.position.coordinates[1]
+            };
 
-async function getAllBusStops(): Promise<Stop[]> {
+            return {
+                id: point.id,
+                position,
+                isStop: point.is_stop,
+                order: point.order,
+                busStop
+            };
+        })
+    };
     
-    const supabase = createClient()
-    
-    const { data, error } = await supabase
-        .from('bus_stops')
-        .select('id, name, position');
+    console.log('ROUTE', route)
+    console.log("POINTS", data.route_points[0].position)
 
-    if (error) {
-        throw error;
-    }
-
-    return data.map((row: any) => ({
-        id: row.id,
-        name: row.name,
-        position: {
-            lat: row.position.coordinates[1],
-            lng: row.position.coordinates[0]
-        }
-    }));
+    return route;
 }

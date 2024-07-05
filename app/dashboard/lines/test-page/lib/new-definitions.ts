@@ -15,14 +15,13 @@ export interface RoutePoint {
 
 export interface Route {
     id: number;
-    name: string;
     created_at: string;
     updated_at: string;
     line_number: string;
-    line_legacy_number: string;
+    legacy_line_number: string;
     units: number;
     agency_id: number;
     transport_type: string;
     line_type: string;
-    points: RoutePoint[];
+    points: RoutePoint[] | [];
 }

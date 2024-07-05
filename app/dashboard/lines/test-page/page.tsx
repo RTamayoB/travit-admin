@@ -52,12 +52,12 @@ export default async function Page() {
       id: 2,
       position: {lat: 21.700358444559478, lng: 256.69978340742806},
       isStop: false,
-      order: 2,
+      order: 2,	
       busStop: null,
     }
   ]
 
-  //const line = await getRouteById(1);
+  const line = await getRouteById("1");
   const stops = await fetchAllStops()
 
   return (
@@ -65,7 +65,7 @@ export default async function Page() {
       <div>
         <ShowInfoButton />
         <Map position={[20.6597, 256.6500]} zoom={17}>
-          <MapComponent stops={stops} initialRoutePoints={routePoints}/>
+          <MapComponent stops={stops} initialRoutePoints={line.points}/>
         </Map>
       </div>
     </>
