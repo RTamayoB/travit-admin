@@ -24,6 +24,12 @@ const stopIcon = new Icon({
   iconAnchor: [12, 12]
 });
 
+const dotIcon = new Icon({
+  iconUrl: '/images/bus-stop.svg',
+  iconSize: [24, 24],
+  iconAnchor: [12, 12]
+});
+
 export default function MapComponent({
         stops,
         routePoints,
@@ -107,7 +113,7 @@ export default function MapComponent({
         chunkedLoading
       >
         {stops.map((stop) => (
-          <StopMarker key={stop.id} index={stop.id} initialPosition={stop.position} name={stop.name}/>
+          <StopMarker key={stop.id} index={stop.id} initialPosition={stop.position} name={stop.name} icon={dotIcon}/>
         ))}
       </MarkerClusterGroup>
       {routePoints.map((point, index) => (

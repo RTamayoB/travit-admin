@@ -5,17 +5,14 @@ import Table from "@/shared/components/organisms/TableView/Table/Table";
 import Link from "next/link";
 import styles from "@/app/dashboard/lines/ui/page.module.scss";
 import Map from "@/app/dashboard/components/Map";
-import {Stop} from "@/app/lib/definitions";
-import LineStopsDrawer from "@/app/dashboard/lines/ui/LineStopsDrawer";
-
+import { Route } from "../test-page/lib/new-definitions";
+import LinesDrawer from "@/app/dashboard/lines/ui/LinesDrawer";
 
 export default function LineView ({
         lines,
-        stops,
         totalPages,
 }: {
-        lines: any[],
-        stops: Stop[],
+        lines: Route[],
         totalPages: number,
 }) {
     
@@ -44,7 +41,7 @@ export default function LineView ({
             />
             <br/>
             <Map position={[20.6597, 256.6500]} zoom={12}>
-                <LineStopsDrawer initialStops={stops}/>
+                <LinesDrawer lines={lines}/>
             </Map>
         </>
     )

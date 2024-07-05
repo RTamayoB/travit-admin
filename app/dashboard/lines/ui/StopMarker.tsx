@@ -1,21 +1,15 @@
-import { Icon } from "leaflet";
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Marker, Popup } from "react-leaflet";
 
 export default function StopMarker(props: any) {
     const {
         index,
         initialPosition,
-        name
+        name,
+        icon
     } = props;
 
-    const dotIcon = new Icon({
-        iconUrl: '/images/bus-stop.svg',
-        iconSize: [24, 24],
-        iconAnchor: [12, 12]
-    });
-    
-    const [position, setPosition] = useState(initialPosition);
+  const [position, setPosition] = useState(initialPosition);
 
     useEffect(() => {
         setPosition(initialPosition);
@@ -25,12 +19,14 @@ export default function StopMarker(props: any) {
         <>
             <Marker
                 key={index}
-                icon={dotIcon}
+                icon={icon}
                 position={position}
             >
-                <Popup>
-                    {name}
-                </Popup>
+                {name && (
+                    <Popup>
+                        {name}
+                    </Popup>
+                )}
             </Marker>
         </>
     );
