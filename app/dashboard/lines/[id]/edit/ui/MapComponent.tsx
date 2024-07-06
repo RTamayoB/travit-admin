@@ -41,6 +41,11 @@ export default function MapComponent({
   
   const [maxId, setMaxId] = useState(Math.max(0, ...routePoints.map(point => point.order)));
   
+  const isInputFocused = () => {
+    const activeElement = document.activeElement;
+    return activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA');
+  };
+
   const handleRightClick = (latlng: LatLng) => {
     const newId = maxId + 1;
     const newPoint: RoutePoint = {
@@ -55,7 +60,7 @@ export default function MapComponent({
   };
 
   const handleDeleteLastPoint = () => {
-    if (routePoints.length > 0) {
+    if (routePoints.length > 0 && !isInputFocused()) {
       onRoutePointsUpdate(routePoints.slice(0, -1))
       setMaxId(maxId - 1);
     }
