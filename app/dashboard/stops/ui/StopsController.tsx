@@ -4,6 +4,8 @@ import {useMapEvents} from "react-leaflet";
 import {Stop} from "@/app/lib/definitions";
 import {useEffect} from "react";
 import StopMarker from "@/app/dashboard/lines/ui/StopMarker";
+import { Icon } from "leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
 
 const dotIcon = new Icon({
     iconUrl: '/images/bus-stop.svg',
@@ -32,6 +34,9 @@ export default function StopsController({
 
     return (
         <>
+            <MarkerClusterGroup
+                chunkedLoading
+            >
             {initialStops.map((stop) => (
                     <StopMarker
                         key={stop.id}
@@ -42,6 +47,7 @@ export default function StopsController({
                     />
                 ))
             };
+            </MarkerClusterGroup>
         </>
         )
     }

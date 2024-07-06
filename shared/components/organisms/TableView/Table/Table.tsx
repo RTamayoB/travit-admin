@@ -2,6 +2,7 @@ import { Typography } from '../../../../../shared/components/atoms/Typography';
 import './table.scss';
 import { formatDateToLocal } from '../../../../../app/lib/utils';
 import Link from 'next/link';
+import {Button, LinkButton } from '@/shared/components/atoms';
 
 export default function Table({
   lines,
@@ -49,8 +50,10 @@ export default function Table({
               </td>
             ))}
             <td>
-              <Link href={`/dashboard/lines/edit/${line.id}`}>Edit</Link>
-              <Link href={`/dashboard/lines/delete/${line.id}`}>Delete</Link>
+              <LinkButton label='Editar' href={`/dashboard/lines/${line.id}/edit`}/>
+              <Button>
+                  Eliminar
+              </Button>
             </td>
           </tr>
         ))}

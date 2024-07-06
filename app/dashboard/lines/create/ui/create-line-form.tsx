@@ -1,16 +1,30 @@
 'use client';
 
-import {Agencies} from "@/app/lib/definitions";
-import "@/app/dashboard/lines/create/ui/create-line-form.scss"
-import Map from "../../../../dashboard/components/Map"
+import Map from "@/app/dashboard/components/Map";
+import {Agencies, Route, RoutePoint, Stop } from "@/app/lib/definitions";
 import Link from "next/link";
-import {Button, Dropdown, Option, TextField} from "@/shared/components";
-import { createLine } from "../lib/create-line-action";
-import LineDrawer from "./LineDrawer";
+import { Button, TextField } from "@/shared/components/atoms";
+import {Dropdown, Option} from "@/shared";
+import { useState } from "react";
+import MapComponent from "../../[id]/edit/ui/MapComponent";
+import { createRoute } from "../lib/create-line-action";
 
-export default function CreateLineForm({ agencies }: { agencies: Agencies[] }) {
-    const initialState = { message: null, errors: {} };
+export default function CreateLineForm({
+        stops,
+        agencies,
+        line
+}: {
+        stops: Stop[],
+        agencies: Agencies[],
+        line: Route
+}) {
     
+    const [routePoints, setRoutePoints] = useState(line.points);
+
+    const handleRoutePointsUpdate = (updatedRoutePoints: RoutePoint[]) => {
+        setRoutePoints(updatedRoutePoints);
+    };
+
     const agencyOptions: Option[] = agencies.map((agency) => ({
         label: agency.name,
         value: agency.id.toString(), // Assuming value needs to be a string
@@ -23,41 +37,32 @@ export default function CreateLineForm({ agencies }: { agencies: Agencies[] }) {
         { label: 'Linea', value: 'linea'},
     ]
     
+    const createLine = createRoute.bind(null)
+
     return (
-        <form className="form-container" action={createLine}>
-            <div className="form-row">
-                <div className="MuiFormControl-root">
-                    <TextField id="line_number" label='Nombre de Linea'/>
-                </div>
-                <div className="MuiFormControl-root">
-                    <TextField id={"legacy_line_number"} label={'Nombre anterior de Linea'}/>
-                </div>
-                <div className="MuiFormControl-root">
-                    <Dropdown data={line_options} onSelected={selected => 1} name='line_type' placeholder="Tipo de Linea"/>
-                </div>
-            </div>
-            <div className="form-row">
-                <div className="MuiFormControl-root">
-                    <Dropdown data={agencyOptions} onSelected={selected => 1} placeholder="Concesionaria" name="agency_id"/>
-                </div>
-                <div className="MuiFormControl-root">
-                    <TextField id={"units"} label={'N. unidades'}/>
-                </div>
-                <input type="hidden" name="transport_type" value="bus"/>
-            </div>
+        <form action={createLine}>
+            <TextField id="line_number" label='Numero de Linea' defaultValue={line.line_number}/>
+            <TextField id="legacy_line_number" label='Numero anterior de Linea' defaultValue={line.legacy_line_number}/>
+            <TextField id="units" label='Numero anterior de Linea' defaultValue={line.units}/>
+            <Dropdown data={line_options} onSelected={() => 1} name='line_type' placeholder="Tipo de Linea"/>
+            <Dropdown data={agencyOptions} onSelected={() => 1} placeholder="Concesionaria" name="agency_id"/>
+            <input type="hidden" name="transport_type" value="bus"/>
+            <input type="hidden" name="routePoints" value={JSON.stringify(routePoints)}/>
+            <Map position={[20.6597, 256.6500]} zoom={17}>
+                <MapComponent
+                    stops={stops}
+                    routePoints={routePoints}
+                    onRoutePointsUpdate={handleRoutePointsUpdate}
+                />
+            </Map>
             <div>
-                <Map position={[20.6597, 256.6500]} zoom={12}>
-                    <LineDrawer/>
-                </Map>
-            </div>
-            <div className="actions-container">
                 <Link href={"/dashboard/lines"}>
                     Cancel
                 </Link>
                 <Button type="submit">
-                    Create Line
+                    Editar Linea
                 </Button>
             </div>
         </form>
-    )
+    );
 }
