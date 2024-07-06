@@ -3,11 +3,16 @@ import './table.scss';
 import { formatDateToLocal } from '../../../../../app/lib/utils';
 import Link from 'next/link';
 import {Button, LinkButton } from '@/shared/components/atoms';
+import { Route } from '@/app/lib/definitions';
 
 export default function Table({
   lines,
+  onFocusToggle,
+  focusedLine
 }: {
-  lines: any[]
+  lines: any[],
+  onFocusToggle: (line: Route) => void,
+  focusedLine: Route | null
 }) {
   let keys: string[] = [];
 
@@ -50,6 +55,9 @@ export default function Table({
               </td>
             ))}
             <td>
+              <Button onClick={() => onFocusToggle(line)}>
+                {focusedLine && focusedLine.id === line.id ? 'Unfocus' : 'Focus'}
+              </Button>
               <LinkButton label='Editar' href={`/dashboard/lines/${line.id}/edit`}/>
               <Button>
                   Eliminar

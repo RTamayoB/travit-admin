@@ -5,8 +5,9 @@ import Table from "@/shared/components/organisms/TableView/Table/Table";
 import Link from "next/link";
 import styles from "@/app/dashboard/lines/ui/page.module.scss";
 import Map from "@/app/dashboard/components/Map";
-import { Route } from "../test-page/lib/new-definitions";
 import LinesDrawer from "@/app/dashboard/lines/ui/LinesDrawer";
+import { Route } from "@/app/lib/definitions";
+import { useState } from "react";
 
 export default function LineView ({
         lines,
@@ -15,6 +16,19 @@ export default function LineView ({
         lines: Route[],
         totalPages: number,
 }) {
+    const [focusedLine, setFocusedLine] = useState<Route | null>(null);
+
+    const handleFocusToggle = (line: Route) => {
+      if (focusedLine && focusedLine.id === line.id) {
+        setFocusedLine(null); // Unfocus
+      } else {
+        setFocusedLine(line); // Focus
+      }
+    };
+
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFocusedLine(null);
+    };
     
     return (
         <>
@@ -24,6 +38,7 @@ export default function LineView ({
                   style={{ maxWidth: 300 }}
                   placeholder="Busca lineas..."
                   className={styles.searchbar}
+                  onChange={handleSearchChange}
                 />
                 <Link href={'/dashboard/lines/create'} style={{textDecoration: "none"}}>
                   <Button className={styles.linkButton}>
@@ -33,6 +48,8 @@ export default function LineView ({
             </div>
             <Table
                 lines={lines}
+                onFocusToggle={handleFocusToggle}
+                focusedLine={focusedLine}
             />
             <Pagination
                 align={"center"}
@@ -41,7 +58,7 @@ export default function LineView ({
             />
             <br/>
             <Map position={[20.6597, 256.6500]} zoom={12}>
-                <LinesDrawer lines={lines}/>
+                <LinesDrawer lines={focusedLine ? [focusedLine] : lines}/>
             </Map>
         </>
     )
