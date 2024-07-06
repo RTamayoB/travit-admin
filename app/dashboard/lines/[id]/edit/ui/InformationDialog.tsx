@@ -12,7 +12,7 @@ export default function InformationDialog({
                 <div>
                   <p>1. Manten click en el mapa y desliza para moverte.</p>
                   <p>2. Haz click derecho en el mapa para agregar un punto a la linea.</p>
-                  <p>3. Presiona D para eliminar el ultimo punto agregado.</p>
+                  <p>3. Presiona Shift+D para eliminar el ultimo punto agregado.</p>
                   <p>4. Arrastra y suelta los puntos para modificar la linea.</p>
                   <p>5. Suelta un punto encima de una linea para señalizar que es una parada</p>
                 </div>

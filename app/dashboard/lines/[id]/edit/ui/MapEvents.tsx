@@ -20,7 +20,7 @@ export default function MapEvents({
       };
   
       const handleKeyPress = (event: KeyboardEvent) => {
-        if (event.key === 'd') {
+        if (event.key === 'D' && event.shiftKey) {
           onDeleteLastPoint();
         }
       };
