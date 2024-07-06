@@ -1,9 +1,7 @@
-import { Typography } from '../../../../../shared/components/atoms/Typography';
 import './table.scss';
-import { formatDateToLocal } from '../../../../../app/lib/utils';
-import Link from 'next/link';
-import {Button, LinkButton } from '@/shared/components/atoms';
+import {Button, LinkButton, Typography } from '@/shared/components/atoms';
 import { Route } from '@/app/lib/definitions';
+import { formatDateToLocal } from '@/app/lib/utils';
 
 export default function Table({
   lines,
