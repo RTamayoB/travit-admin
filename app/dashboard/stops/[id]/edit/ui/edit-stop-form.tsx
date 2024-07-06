@@ -16,7 +16,7 @@ export default function EditStopForm({
     stop: Stop
 }) {
     const initialState = { message: null, errors: {} };
-    const [marker, setMarker] = useState<LatLng | null>(new LatLng(stop.location.coordinates[0], stop.location.coordinates[1]));
+    const [marker, setMarker] = useState<LatLng | null>(new LatLng(stop.position.lat, stop.position.lng));
     
     const handleSetMarker = (marker: LatLng) => {
         setMarker(marker);

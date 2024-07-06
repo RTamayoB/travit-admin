@@ -18,7 +18,3 @@ export const Logo: FC<LogoProps> = ({ variant, ...props }) => {
   const SelectedLogo = logos[variant ?? 'logo']
   return <SelectedLogo {...props} />
 }
-
-Logo.defaultProps = {
-  variant: 'logo',
-}

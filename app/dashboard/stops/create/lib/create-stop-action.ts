@@ -36,7 +36,7 @@ export async function createStop(formData: FormData) {
             {
                 name: name,
                 description: description,
-                location: `POINT(${lat} ${lng})`,
+                position: `POINT(${lat} ${lng})`,
             }
         ])
     } catch (error) {

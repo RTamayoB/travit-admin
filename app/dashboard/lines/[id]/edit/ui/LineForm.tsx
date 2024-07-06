@@ -2,14 +2,14 @@
 
 import Map from "@/app/dashboard/components/Map";
 import {Agencies, Route, RoutePoint, Stop } from "@/app/lib/definitions";
+import MapComponent from "./MapComponent";
 import Link from "next/link";
 import { Button, TextField } from "@/shared/components/atoms";
 import {Dropdown, Option} from "@/shared";
 import { useState } from "react";
-import MapComponent from "../../[id]/edit/ui/MapComponent";
-import { createRoute } from "../lib/create-line-action";
+import { saveRoute } from "../lib/edit-line-action";
 
-export default function CreateLineForm({
+export default function LineForm({
         stops,
         agencies,
         line
@@ -20,11 +20,11 @@ export default function CreateLineForm({
 }) {
     
     const [routePoints, setRoutePoints] = useState(line.points);
-
+    
     const handleRoutePointsUpdate = (updatedRoutePoints: RoutePoint[]) => {
         setRoutePoints(updatedRoutePoints);
     };
-
+    
     const agencyOptions: Option[] = agencies.map((agency) => ({
         label: agency.name,
         value: agency.id.toString(), // Assuming value needs to be a string
@@ -37,10 +37,10 @@ export default function CreateLineForm({
         { label: 'Linea', value: 'linea'},
     ]
     
-    const createLine = createRoute.bind(null)
-
+    const editRoute = saveRoute.bind(null, line.id.toString())
+    
     return (
-        <form action={createLine}>
+        <form action={editRoute}>
             <TextField id="line_number" label='Numero de Linea' defaultValue={line.line_number}/>
             <TextField id="legacy_line_number" label='Numero anterior de Linea' defaultValue={line.legacy_line_number}/>
             <TextField id="units" label='Numero anterior de Linea' defaultValue={line.units}/>

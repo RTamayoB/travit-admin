@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { RoutePoint } from '@/app/lib/definitions';
+import {RoutePoint} from "@/app/dashboard/lines/test-page/lib/new-definitions";
 
 const RouteSchema = z.object({
     id: z.number().optional(),
@@ -20,9 +20,10 @@ const RouteSchema = z.object({
 
 const CreateRoute = RouteSchema.omit({ id: true, created_at: true, updated_at: true });
 
-export async function createRoute(formData: FormData) {
+export async function saveRoute(id: string, formData: FormData) {
     const supabase = createClient();
     
+    console.log("ID", id)
     console.log("FORMDATA", formData)
 
     // Parse and validate form data
@@ -42,10 +43,10 @@ export async function createRoute(formData: FormData) {
     }
 
     try {
-        // Create route
-        const  { data: routeData, error: routeError } = await supabase
+        // Update route
+        await supabase
             .from('routes')
-            .insert([{
+            .update([{
                 line_number: parsedData.line_number,
                 legacy_line_number: parsedData.legacy_line_number,
                 units: parsedData.units,
@@ -53,28 +54,51 @@ export async function createRoute(formData: FormData) {
                 transport_type: parsedData.transport_type,
                 line_type: parsedData.line_type,
             }])
-            .select()
-            .single()
+            .eq('id', id);
+        
+        const { data: existingRoutePoints, error } = await supabase
+            .from('route_points')
+            .select('id, order')
+            .eq('line_id', id);
 
-        if (routeError) {
-            throw routeError;
+        if (error) {
+            throw error;
         }
 
-        const routeId = routeData.id;
+        const existingRoutePointIds = existingRoutePoints.map((point: { id: number }) => point.id);
+        const newRoutePointIds = routePoints.filter(point => point.id !== null).map(point => point.id);
+
+        // Delete route points that no longer exist
+        const pointsToDelete = existingRoutePointIds.filter(id => !newRoutePointIds.includes(id));
+        if (pointsToDelete.length > 0) {
+        await supabase
+            .from('route_points')
+            .delete()
+            .in('id', pointsToDelete);
+        }
 
         // Insert or update route points
         for (const point of routePoints) {
             const pointData = {
-                line_id: routeId,
+                line_id: id,
                 position: `POINT(${point.position.lat} ${point.position.lng})`,
                 is_stop: point.isStop,
                 order: point.order,
-                stop_id: point.busStop?.id ?? null,
+                stop_id: point.busStop?.id,
             };
 
-            await supabase
-                .from('route_points')
-                .insert([pointData]);
+            if (point.id === null) {
+                // Insert new point
+                await supabase
+                    .from('route_points')
+                    .insert([pointData]);
+            } else {
+                // Update existing point
+                await supabase
+                    .from('route_points')
+                    .update(pointData)
+                    .eq('id', point.id);
+            }
         }
 
     } catch (error) {

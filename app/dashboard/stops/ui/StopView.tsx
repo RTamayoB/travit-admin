@@ -3,19 +3,19 @@
 import styles from '@/app/dashboard/stops/ui/page.module.scss';
 import { Pagination } from "@/shared/components/organisms/Pagination";
 import StopsTable from "@/shared/components/organisms/TableView/Table/StopsTable";
-import Map from "../components/Map"
-import StopsController from '../components/StopsController';
+import Map from "@/app/dashboard/components/Map";
 import { useState } from "react";
 import { Stop } from "@/app/lib/definitions";
 import { Searchbar } from '@/shared/components/molecules';
 import Link from 'next/link';
 import { Button } from '@/shared/components/atoms';
+import StopsController from "@/app/dashboard/stops/ui/StopsController";
 
 export default function StopView ({
         stops,
         totalPages,
 }: {
-        stops: any[],
+        stops: Stop[],
         totalPages: number,
 }) {
     

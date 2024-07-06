@@ -1,9 +1,3 @@
-export type Line = {
-    id: string;
-    created_at: string;
-    name: string;
-}
-
 export type Agencies = {
     id: number;
     created_at: string;
@@ -15,12 +9,7 @@ export interface Stop {
     created_at: string;
     name: string;
     description: string;
-    location: Location
-}
-
-export interface Location {
-    type: string;
-    coordinates: number[]
+    position: Position
 }
 
 // Map the Agency type to the Option type using a mapped type
@@ -33,4 +22,30 @@ export interface UserInfo {
     full_name: string,
     username: string,
     role: string
+}
+
+export interface Position {
+    lat: number;
+    lng: number;
+}
+
+export interface RoutePoint {
+    id: number | null;
+    position: Position;
+    isStop: boolean;
+    order: number;
+    busStop: Stop | null;
+}
+
+export interface Route {
+    id: number;
+    created_at: string;
+    updated_at: string;
+    line_number: string;
+    legacy_line_number: string;
+    units: number;
+    agency_id: number;
+    transport_type: string;
+    line_type: string;
+    points: RoutePoint[] | [];
 }

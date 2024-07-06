@@ -1,9 +1,17 @@
 'use client';
 
-import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
 import {useMapEvents} from "react-leaflet";
 import {Stop} from "@/app/lib/definitions";
 import {useEffect} from "react";
+import StopMarker from "@/app/dashboard/lines/ui/StopMarker";
+import { Icon } from "leaflet";
+import MarkerClusterGroup from "react-leaflet-cluster";
+
+const dotIcon = new Icon({
+    iconUrl: '/images/bus-stop.svg',
+    iconSize: [24, 24],
+    iconAnchor: [12, 12]
+});
 
 export default function StopsController({
         initialStops,
@@ -17,8 +25,7 @@ export default function StopsController({
     
     useEffect(() => {
         if (selectedStop) {
-            const { coordinates } = selectedStop.location;
-            map.setView([coordinates[0], coordinates[1]], 15, {
+            map.setView(selectedStop.position, 15, {
                 animate: true,
                 duration: 0.5
             });
@@ -27,14 +34,20 @@ export default function StopsController({
 
     return (
         <>
+            <MarkerClusterGroup
+                chunkedLoading
+            >
             {initialStops.map((stop) => (
-                    <DraggableMarker
+                    <StopMarker
                         key={stop.id}
                         index={stop.id}
-                        initialPosition={stop.location.coordinates}
+                        initialPosition={stop.position}
+                        name={stop.name}
+                        icon={dotIcon}
                     />
                 ))
             };
+            </MarkerClusterGroup>
         </>
         )
     }

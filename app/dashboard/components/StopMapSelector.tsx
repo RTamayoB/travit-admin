@@ -2,7 +2,7 @@
 
 import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
 import {useMapEvents} from "react-leaflet";
-import {LatLng} from "leaflet";
+import {Icon, LatLng} from "leaflet";
 
 export default function StopMapSelector({
         marker,
@@ -13,13 +13,19 @@ export default function StopMapSelector({
 }) {
     
 
+    const dotIcon = new Icon({
+        iconUrl: '/images/bus-stop.svg',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+    });
+
     const map = useMapEvents({
         contextmenu(e) {
             onSetMarker(e.latlng)
         },
     });
     
-    const updateMarkerPosition = (index: number, newPosition: LatLng) => {
+    const updateMarkerPosition = (newPosition: LatLng) => {
         onSetMarker(newPosition)
     };
 
@@ -27,9 +33,10 @@ export default function StopMapSelector({
         <>
             {marker != null && (
                 <DraggableMarker
-                    index={0}
+                    key={0}
                     initialPosition={marker}
-                    onMarkerDrag={updateMarkerPosition}
+                    onDragEnd={updateMarkerPosition}
+                    icon={dotIcon}
                     />
             )}
         </>
