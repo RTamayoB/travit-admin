@@ -2,6 +2,7 @@ import './table.scss';
 import {Button, LinkButton, Typography } from '@/shared/components/atoms';
 import { Route } from '@/app/lib/definitions';
 import { formatDateToLocal } from '@/app/lib/utils';
+import { deleteLine } from '@/app/dashboard/lines/[id]/edit/lib/delete-line-action';
 
 export default function Table({
   lines,
@@ -57,7 +58,9 @@ export default function Table({
                 {focusedLine && focusedLine.id === line.id ? 'Unfocus' : 'Focus'}
               </Button>
               <LinkButton label='Editar' href={`/dashboard/lines/${line.id}/edit`}/>
-              <Button>
+              <Button
+                onClick={() => deleteLine(line.id)}
+              >
                   Eliminar
               </Button>
             </td>

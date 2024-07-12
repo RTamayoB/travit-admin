@@ -6,7 +6,7 @@ export async function getRouteById(routeId: string): Promise<Route> {
     const supabase = createClient()
 
     const { data, error } = await supabase
-        .from("routes")
+        .from("lines")
         .select(`
             id,
             created_at,
