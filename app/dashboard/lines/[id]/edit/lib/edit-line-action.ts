@@ -45,7 +45,7 @@ export async function saveRoute(id: string, formData: FormData) {
     try {
         // Update route
         await supabase
-            .from('routes')
+            .from('lines')
             .update([{
                 line_number: parsedData.line_number,
                 legacy_line_number: parsedData.legacy_line_number,

@@ -15,7 +15,7 @@ export async function fetchFilteredLines(
     const to = from + ITEMS_PER_PAGE
 
     let queryBuilder = supabase
-        .from("routes")
+        .from("lines")
         .select(`
             id,
             created_at,

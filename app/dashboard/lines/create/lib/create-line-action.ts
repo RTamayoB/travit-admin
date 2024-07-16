@@ -44,7 +44,7 @@ export async function createRoute(formData: FormData) {
     try {
         // Create route
         const  { data: routeData, error: routeError } = await supabase
-            .from('routes')
+            .from('lines')
             .insert([{
                 line_number: parsedData.line_number,
                 legacy_line_number: parsedData.legacy_line_number,

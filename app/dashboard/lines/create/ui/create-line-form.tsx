@@ -60,7 +60,7 @@ export default function CreateLineForm({
                     Cancel
                 </Link>
                 <Button type="submit">
-                    Editar Linea
+                    Crear Linea
                 </Button>
             </div>
         </form>
