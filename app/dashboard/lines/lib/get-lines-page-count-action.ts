@@ -12,7 +12,7 @@ export async function fetchLinePages(query: string) {
     
     try {
         let queryBuilder = supabase
-        .from("lines")
+        .from("routes")
         .select('*', { count: 'exact'})
         
         if (query) {
