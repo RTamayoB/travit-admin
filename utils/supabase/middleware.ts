@@ -64,7 +64,7 @@ export const updateSession = async (request: NextRequest) => {
         // https://supabase.com/docs/guides/auth/server-side/nextjs
         const { data: { user } } = await supabase.auth.getUser();
 
-        if (!user && !request.nextUrl.pathname.startsWith('/login')) {
+        if (!user && !request.nextUrl.pathname.startsWith('/login') && !request.nextUrl.pathname.startsWith('/signup')) {
             return NextResponse.redirect(new URL('/login', request.url));
         }
 
