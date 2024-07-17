@@ -1,7 +1,7 @@
 'use client';
 
 import Map from "@/app/dashboard/components/Map";
-import {Agencies, Route, RoutePoint, Stop } from "@/app/lib/definitions";
+import {Agencies, Line, RoutePoint, Stop } from "@/app/lib/definitions";
 import Link from "next/link";
 import { Button, TextField } from "@/shared/components/atoms";
 import {Dropdown, Option} from "@/shared";
@@ -16,10 +16,10 @@ export default function CreateLineForm({
 }: {
         stops: Stop[],
         agencies: Agencies[],
-        line: Route
+        line: Line
 }) {
     
-    const [routePoints, setRoutePoints] = useState(line.points);
+    const [routePoints, setRoutePoints] = useState(line.route_points);
 
     const handleRoutePointsUpdate = (updatedRoutePoints: RoutePoint[]) => {
         setRoutePoints(updatedRoutePoints);

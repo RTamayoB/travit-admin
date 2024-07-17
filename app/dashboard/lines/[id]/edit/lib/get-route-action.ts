@@ -1,8 +1,7 @@
 import {createClient} from "@/utils/supabase/server";
-import {Position, Route} from "@/app/dashboard/lines/test-page/lib/new-definitions";
-import {Stop} from "@/app/lib/definitions";
+import {Line} from "@/app/lib/definitions";
 
-export async function getRouteById(routeId: string): Promise<Route> {
+export async function getRouteById(routeId: string): Promise<Line> {
     const supabase = createClient()
 
     const { data, error } = await supabase
@@ -17,19 +16,7 @@ export async function getRouteById(routeId: string): Promise<Route> {
             agency_id,
             transport_type,
             line_type,
-            route_points(
-                id,
-                position,
-                is_stop,
-                order,
-                stops(
-                    id,
-                    created_at,
-                    name,
-                    description,
-                    position
-                )
-            )
+            route_points
         `)
         .eq('id', routeId)
         .single();
@@ -48,30 +35,6 @@ export async function getRouteById(routeId: string): Promise<Route> {
         agency_id: data.agency_id,
         transport_type: data.transport_type,
         line_type: data.line_type,
-        points: data.route_points.map((point: any) => {
-            const busStop: Stop | null = point.stops ? {
-                id: point.stops.id,
-                created_at: point.stops.created_at,
-                name: point.stops.name,
-                description: point.stops.description,
-                position: {
-                    lat: point.stops.position.coordinates[0],
-                    lng: point.stops.position.coordinates[1]
-                }
-            } : null;
-
-            const position: Position = {
-                lat: point.position.coordinates[0],
-                lng: point.position.coordinates[1]
-            };
-
-            return {
-                id: point.id,
-                position,
-                isStop: point.is_stop,
-                order: point.order,
-                busStop
-            };
-        })
+        route_points: data.route_points
     };
 }

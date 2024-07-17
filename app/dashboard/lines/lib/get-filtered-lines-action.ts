@@ -2,8 +2,7 @@
 
 import { ITEMS_PER_PAGE } from '@/app/lib/utils';
 import { createClient } from '@/utils/supabase/server';
-import {Position, Route } from '../test-page/lib/new-definitions';
-import { Stop } from '@/app/lib/definitions';
+import {Line, RoutePoint} from '@/app/lib/definitions';
 
 export async function fetchFilteredLines(
     query: string,
@@ -26,19 +25,7 @@ export async function fetchFilteredLines(
             agency_id,
             transport_type,
             line_type,
-            route_points(
-                id,
-                position,
-                is_stop,
-                order,
-                stops(
-                    id,
-                    created_at,
-                    name,
-                    description,
-                    position
-                )
-            )
+            route_points
         `)
         .range(from, to)
         .limit(ITEMS_PER_PAGE)
@@ -54,7 +41,7 @@ export async function fetchFilteredLines(
         return [];
     }
 
-    const routes: Route[] = data.map((route: any) => {
+    const routes: Line[] = data.map((route: any) => {
         return {
             id: route.id,
             created_at: route.created_at,
@@ -65,31 +52,7 @@ export async function fetchFilteredLines(
             agency_id: route.agency_id,
             transport_type: route.transport_type,
             line_type: route.line_type,
-            points: route.route_points.map((point: any) => {
-                const busStop: Stop | null = point.stops ? {
-                    id: point.stops.id,
-                    created_at: point.stops.created_at,
-                    name: point.stops.name,
-                    description: point.stops.description,
-                    position: {
-                        lat: point.stops.position.coordinates[0],
-                        lng: point.stops.position.coordinates[1]
-                    }
-                } : null;
-
-                const position: Position = {
-                    lat: point.position.coordinates[0],
-                    lng: point.position.coordinates[1]
-                };
-
-                return {
-                    id: point.id,
-                    position,
-                    isStop: point.is_stop,
-                    order: point.order,
-                    busStop
-                };
-            })
+            route_points: route.route_points as RoutePoint[]
         }
     })
 

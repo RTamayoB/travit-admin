@@ -49,7 +49,6 @@ export default function MapComponent({
   const handleRightClick = (latlng: LatLng) => {
     const newId = maxId + 1;
     const newPoint: RoutePoint = {
-      id: null,
       position: latlng,
       isStop: false,
       order: newId,
