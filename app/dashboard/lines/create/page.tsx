@@ -2,12 +2,12 @@ import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
 import { fetchAgencies } from "./lib/get-agencies-action";
 import CreateLineForm from "@/app/dashboard/lines/create/ui/create-line-form";
 import { fetchAllStops } from "../lib/get-all-stops-action";
-import { Route } from "@/app/lib/definitions";
+import { Line } from "@/app/lib/definitions";
 
 export default async function Page() {
     const agencies = await fetchAgencies();
     const stops = await fetchAllStops()
-    const line: Route = {
+    const line: Line = {
         id: 0,
         created_at: "",
         updated_at: "",
@@ -17,7 +17,7 @@ export default async function Page() {
         agency_id: 0,
         transport_type: "",
         line_type: "",
-        points: []
+        route_points: []
     }
 
     return (

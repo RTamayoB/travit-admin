@@ -12,11 +12,6 @@ export interface Stop {
     position: Position
 }
 
-// Map the Agency type to the Option type using a mapped type
-type AgencyToOptionMap = {
-    [K in keyof Agencies]: K extends 'id' ? 'value' : K extends 'name' ? 'label' : never;
-};
-
 export interface UserInfo {
     id: number,
     full_name: string,
@@ -30,14 +25,13 @@ export interface Position {
 }
 
 export interface RoutePoint {
-    id: number | null;
+    order: number;
     position: Position;
     isStop: boolean;
-    order: number;
     busStop: Stop | null;
 }
 
-export interface Route {
+export interface Line {
     id: number;
     created_at: string;
     updated_at: string;
@@ -47,5 +41,5 @@ export interface Route {
     agency_id: number;
     transport_type: string;
     line_type: string;
-    points: RoutePoint[] | [];
+    route_points: RoutePoint[] | [];
 }

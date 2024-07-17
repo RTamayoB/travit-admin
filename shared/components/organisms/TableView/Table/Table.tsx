@@ -1,6 +1,6 @@
 import './table.scss';
 import {Button, LinkButton, Typography } from '@/shared/components/atoms';
-import { Route } from '@/app/lib/definitions';
+import { Line } from '@/app/lib/definitions';
 import { formatDateToLocal } from '@/app/lib/utils';
 import { deleteLine } from '@/app/dashboard/lines/[id]/edit/lib/delete-line-action';
 
@@ -10,13 +10,13 @@ export default function Table({
   focusedLine
 }: {
   lines: any[],
-  onFocusToggle: (line: Route) => void,
-  focusedLine: Route | null
+  onFocusToggle: (line: Line) => void,
+  focusedLine: Line | null
 }) {
   let keys: string[] = [];
 
   if (lines && lines.length > 0) {
-    keys = Object.keys(lines[0]).filter(key => key !== 'points');
+    keys = Object.keys(lines[0]).filter(key => key !== 'route_points');
   }
 
   const renderCellValue = (key: string, value: any) => {

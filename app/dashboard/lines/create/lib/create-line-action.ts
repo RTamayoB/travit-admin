@@ -15,15 +15,13 @@ const RouteSchema = z.object({
     units: z.coerce.number(),
     agency_id: z.coerce.number(),
     transport_type: z.string(),
-    line_type: z.string(),
+    line_type: z.string()
 });
 
 const CreateRoute = RouteSchema.omit({ id: true, created_at: true, updated_at: true });
 
 export async function createRoute(formData: FormData) {
     const supabase = createClient();
-    
-    console.log("FORMDATA", formData)
 
     // Parse and validate form data
     const parsedData = CreateRoute.parse({
@@ -43,7 +41,7 @@ export async function createRoute(formData: FormData) {
 
     try {
         // Create route
-        const  { data: routeData, error: routeError } = await supabase
+        await supabase
             .from('lines')
             .insert([{
                 line_number: parsedData.line_number,
@@ -52,30 +50,10 @@ export async function createRoute(formData: FormData) {
                 agency_id: parsedData.agency_id,
                 transport_type: parsedData.transport_type,
                 line_type: parsedData.line_type,
+                route_points: routePoints
             }])
             .select()
             .single()
-
-        if (routeError) {
-            throw routeError;
-        }
-
-        const routeId = routeData.id;
-
-        // Insert or update route points
-        for (const point of routePoints) {
-            const pointData = {
-                line_id: routeId,
-                position: `POINT(${point.position.lat} ${point.position.lng})`,
-                is_stop: point.isStop,
-                order: point.order,
-                stop_id: point.busStop?.id ?? null,
-            };
-
-            await supabase
-                .from('route_points')
-                .insert([pointData]);
-        }
 
     } catch (error) {
         console.error('Database Error:', error);

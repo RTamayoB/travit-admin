@@ -2,7 +2,7 @@ import React from "react";
 import { Polyline } from "react-leaflet";
 import StopMarker from "@/app/dashboard/lines/ui/StopMarker";
 import { Icon, LatLng } from "leaflet";
-import { Route } from "@/app/lib/definitions";
+import { Line } from "@/app/lib/definitions";
 
 const routeIcon = new Icon({
   iconUrl: "/images/circle-dot.svg",
@@ -16,12 +16,12 @@ const stopIcon = new Icon({
   iconAnchor: [6, 6],
 });
 
-export default function LinesDrawer({ lines }: { lines: Route[] }) {
+export default function LinesDrawer({ lines }: { lines: Line[] }) {
   return (
     <>
       {lines.map((line) => (
         <>
-          {line.points.map((point) => (
+          {line.route_points.map((point) => (
             <React.Fragment key={point.order}>
               <StopMarker
                 key={point.order}
@@ -30,7 +30,7 @@ export default function LinesDrawer({ lines }: { lines: Route[] }) {
               />
             </React.Fragment>
           ))}
-          <Polyline positions={line.points.map((point) => point.position)} />
+          <Polyline positions={line.route_points.map((point) => point.position)} />
         </>
       ))}
       ;
