@@ -1,16 +1,16 @@
 'use server';
 
-import { getRouteById } from "./lib/get-route-action";
 import ShowInfoButton from "@/app/dashboard/lines/[id]/edit/ui/ShowInfoButton";
-import {fetchAllStops} from "@/app/dashboard/lines/lib/get-all-stops-action";
 import LineForm from "@/app/dashboard/lines/[id]/edit/ui/LineForm";
-import {fetchAgencies} from "@/app/dashboard/lines/create/lib/get-agencies-action";
+import {getLineById} from "@/app/dashboard/lines/[id]/edit/data/get-line-by-id";
+import {getAllStops} from "@/app/dashboard/lines/data/get-all-stops";
+import {getAgenciesById} from "@/app/dashboard/lines/create/data/get-agencies-by-id";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const id = params.id
-  const line = await getRouteById(id);
-  const stops = await fetchAllStops()
-  const agencies = await fetchAgencies();
+  const line = await getLineById(id);
+  const stops = await getAllStops()
+  const agencies = await getAgenciesById();
 
   return (
     <>

@@ -7,7 +7,7 @@ import { Button, TextField } from "@/shared/components/atoms";
 import {Dropdown, Option} from "@/shared";
 import { useState } from "react";
 import MapComponent from "../../[id]/edit/ui/MapComponent";
-import { createRoute } from "../lib/create-line-action";
+import {createLine} from "@/app/dashboard/lines/create/data/create-line";
 
 export default function CreateLineForm({
         stops,
@@ -37,10 +37,10 @@ export default function CreateLineForm({
         { label: 'Linea', value: 'linea'},
     ]
     
-    const createLine = createRoute.bind(null)
+    const createNewLine = createLine.bind(null)
 
     return (
-        <form action={createLine}>
+        <form action={createNewLine}>
             <TextField id="line_number" label='Numero de Linea' defaultValue={line.line_number}/>
             <TextField id="legacy_line_number" label='Numero anterior de Linea' defaultValue={line.legacy_line_number}/>
             <TextField id="units" label='Numero anterior de Linea' defaultValue={line.units}/>

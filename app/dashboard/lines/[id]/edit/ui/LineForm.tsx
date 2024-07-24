@@ -7,7 +7,7 @@ import Link from "next/link";
 import { Button, TextField } from "@/shared/components/atoms";
 import {Dropdown, Option} from "@/shared";
 import { useState } from "react";
-import { saveRoute } from "../lib/edit-line-action";
+import {editLine} from "@/app/dashboard/lines/[id]/edit/data/edit-line";
 
 export default function LineForm({
         stops,
@@ -39,10 +39,10 @@ export default function LineForm({
         { label: 'Linea', value: 'linea'},
     ]
     
-    const editRoute = saveRoute.bind(null, line.id.toString())
+    const editCurrentLine = editLine.bind(null, line.id.toString())
     
     return (
-        <form action={editRoute}>
+        <form action={editCurrentLine}>
             <TextField id="line_number" label='Numero de Linea' defaultValue={line.line_number}/>
             <TextField id="legacy_line_number" label='Numero anterior de Linea' defaultValue={line.legacy_line_number}/>
             <TextField id="units" label='Numero anterior de Linea' defaultValue={line.units}/>

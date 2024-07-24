@@ -15,13 +15,16 @@ const RouteSchema = z.object({
     units: z.coerce.number(),
     agency_id: z.coerce.number(),
     transport_type: z.string(),
-    line_type: z.string()
+    line_type: z.string(),
 });
 
 const CreateRoute = RouteSchema.omit({ id: true, created_at: true, updated_at: true });
 
-export async function createRoute(formData: FormData) {
+export async function editLine(id: string, formData: FormData) {
     const supabase = createClient();
+    
+    console.log("ID", id)
+    console.log("FORMDATA", formData)
 
     // Parse and validate form data
     const parsedData = CreateRoute.parse({
@@ -40,10 +43,10 @@ export async function createRoute(formData: FormData) {
     }
 
     try {
-        // Create route
+        // Update route
         await supabase
             .from('lines')
-            .insert([{
+            .update([{
                 line_number: parsedData.line_number,
                 legacy_line_number: parsedData.legacy_line_number,
                 units: parsedData.units,
@@ -52,8 +55,7 @@ export async function createRoute(formData: FormData) {
                 line_type: parsedData.line_type,
                 route_points: routePoints
             }])
-            .select()
-            .single()
+            .eq('id', id);
 
     } catch (error) {
         console.error('Database Error:', error);

@@ -1,10 +1,9 @@
 'use server';
 
 import {createClient} from '@/utils/supabase/server';
-import { Stop } from "@/app/lib/definitions";
-import { Position } from '../test-page/lib/new-definitions';
+import { Stop, Position } from "@/app/lib/definitions";
 
-export async function fetchAllStops() {
+export async function getAllStops() {
     const supabase = createClient();
     
     try {

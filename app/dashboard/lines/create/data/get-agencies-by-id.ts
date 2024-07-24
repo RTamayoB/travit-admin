@@ -4,7 +4,7 @@ import {unstable_noStore as noStore} from "next/cache";
 import {createClient} from '@/utils/supabase/server';
 import {Agencies} from "@/app/lib/definitions";
 
-export async function fetchAgencies(): Promise<Agencies[]> {
+export async function getAgenciesById(): Promise<Agencies[]> {
     noStore();
     
     const supabase = createClient();

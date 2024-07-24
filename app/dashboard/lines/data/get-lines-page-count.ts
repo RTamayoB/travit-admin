@@ -4,7 +4,7 @@ import {unstable_noStore as noStore} from "next/cache";
 import {createClient} from "@/utils/supabase/server";
 import { ITEMS_PER_PAGE } from "@/app/lib/utils";
 
-export async function fetchLinePages(query: string) {
+export async function getLinesPageCount(query: string) {
     
     const supabase = createClient();
     

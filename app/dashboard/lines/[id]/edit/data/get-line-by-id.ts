@@ -1,7 +1,7 @@
 import {createClient} from "@/utils/supabase/server";
 import {Line} from "@/app/lib/definitions";
 
-export async function getRouteById(routeId: string): Promise<Line> {
+export async function getLineById(routeId: string): Promise<Line> {
     const supabase = createClient()
 
     const { data, error } = await supabase
