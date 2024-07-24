@@ -13,9 +13,7 @@ export async function sendPasswordResetEmail(formData: FormData) {
         { redirectTo: '/update-password'}
     )
     
-    
     if (error) {
-        console.log('ERROR' + error)
         redirect('/error?message='+error)
     }
     

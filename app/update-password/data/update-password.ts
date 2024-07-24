@@ -22,7 +22,6 @@ export async function updatePassword(formData: FormData) {
     )
     
     if (error) {
-        console.log('ERROR' + error)
         redirect('/error')
     }
     

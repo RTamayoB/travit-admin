@@ -1,11 +1,11 @@
 import styles from "@/app/dashboard/.ui/layout.module.scss";
 import React from "react";
 import { SideBar } from "@/shared/components/organisms/SideBar";
-import {fetchUserInfo} from "@/app/dashboard/.lib/get-user-action";
+import {getLoggedUser} from "@/app/dashboard/data/get-logged-user";
 
 export default async function Layout({ children }: { children: React.ReactNode}) {
 
-    const userInfo = await fetchUserInfo()
+    const userInfo = await getLoggedUser()
 
     return (
         <div className={styles.container}>

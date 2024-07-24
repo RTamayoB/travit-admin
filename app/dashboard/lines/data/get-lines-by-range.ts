@@ -4,7 +4,7 @@ import { ITEMS_PER_PAGE } from '@/app/lib/utils';
 import { createClient } from '@/utils/supabase/server';
 import {Line, RoutePoint} from '@/app/lib/definitions';
 
-export async function fetchFilteredLines(
+export async function getLinesByRange(
     query: string,
     currentPage: number,
 ) {

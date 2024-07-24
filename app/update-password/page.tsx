@@ -1,4 +1,4 @@
-import { updatePassword } from './actions'
+import { updatePassword } from './data/update-password'
 import styles from '../user-form.module.scss'
 import {Button, Logo} from '@/shared/components/'
 

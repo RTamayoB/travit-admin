@@ -1,10 +1,9 @@
 'use server';
 
-import { Position } from '@/app/dashboard/lines/test-page/lib/new-definitions';
-import { Stop } from '@/app/lib/definitions';
+import {Position, Stop } from '@/app/lib/definitions';
 import {createClient} from '@/utils/supabase/server';
 
-export async function fetchStopById(id: string) {
+export async function getStopById(id: string) {
 
     const supabase = createClient();
     
@@ -34,7 +33,6 @@ export async function fetchStopById(id: string) {
 
         return stop;
     } catch (error) {
-        console.error('Database Error:', error)
         throw new Error('Failed to fetch stops')
     }
 }
