@@ -1,6 +1,6 @@
-import { sendPasswordResetEmail } from './actions'
-import styles from '../user-form.module.scss'
-import {Button, Logo} from '@/shared/components'
+import { sendPasswordResetEmail } from './data/reset-password';
+import styles from '../user-form.module.scss';
+import {Button, Logo} from '@/shared/components';
 
 export default function Page() {
     return (

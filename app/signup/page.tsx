@@ -1,4 +1,4 @@
-import { signup } from './actions'
+import { signup } from './data/signup';
 import { Button, Typography } from "@/shared/components";
 import styles from '../user-form.module.scss';
 import Image from "next/image";

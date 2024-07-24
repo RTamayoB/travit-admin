@@ -1,8 +1,8 @@
-import { login } from './actions'
-import styles from '../user-form.module.scss'
-import Link from 'next/link'
-import Image from "next/image"
-import {Button, Typography} from '@/shared/components'
+import { login } from './data/login';
+import styles from '../user-form.module.scss';
+import Link from 'next/link';
+import Image from "next/image";
+import {Button, Typography} from '@/shared/components';
 
 export default function LoginPage({
     searchParams
