@@ -2,7 +2,7 @@ import {unstable_noStore as noStore} from "next/cache";
 import {createClient} from '@/utils/supabase/server';
 import { UserInfo } from "@/app/lib/definitions";
 
-export async function fetchUserInfo(): Promise<UserInfo> {
+export async function getLoggedUser(): Promise<UserInfo> {
 
     const supabase = createClient();
 
