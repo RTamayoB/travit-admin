@@ -2,11 +2,11 @@
 
 import {Button, TextField, Typography} from "@/shared/components/atoms";
 import { useState } from "react";
-import Map from "../../../../dashboard/components/Map"
-import  '@/app/dashboard/stops/ui/stop-form.module.scss'
+import Map from "../../../../dashboard/components/Map";
+import  '@/app/dashboard/stops/ui/stop-form.module.scss';
 import {LatLng} from "leaflet";
 import Link from "next/link";
-import { createStop } from "../lib/create-stop-action";
+import { createStop } from "../data/create-stop";
 import StopMapSelector from "@/app/dashboard/components/StopMapSelector";
 
 export default function CreateStopForm() {

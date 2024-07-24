@@ -1,11 +1,10 @@
 'use server';
 
 import {createClient} from '@/utils/supabase/server';
-import { Stop } from "@/app/lib/definitions";
+import { Stop, Position } from "@/app/lib/definitions";
 import { ITEMS_PER_PAGE } from '@/app/lib/utils';
-import { Position } from '../../lines/test-page/lib/new-definitions';
 
-export async function fetchFilteredStops(
+export async function getStopsByRange(
     query: string,
     currentPage: number,
 ) {

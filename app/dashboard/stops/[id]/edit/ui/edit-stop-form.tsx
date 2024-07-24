@@ -8,7 +8,7 @@ import StopMapSelector from "../../../../components/StopMapSelector";
 import {LatLng} from "leaflet";
 import Link from "next/link";
 import {Stop} from "@/app/lib/definitions";
-import {editStopById} from "@/app/dashboard/stops/[id]/edit/lib/edit-stop-action";
+import { editStopById } from "../data/edit-stop";
 
 export default function EditStopForm({
         stop

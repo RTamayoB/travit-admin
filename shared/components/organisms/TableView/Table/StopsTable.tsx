@@ -4,7 +4,7 @@ import './table.scss'
 import {formatDateToLocal} from '../../../../../app/lib/utils'
 import { Button } from '../../../../../shared/components/atoms/Button';
 import {UpdateStop} from "@/shared/components/organisms/TableView/Table/UpdateStop";
-import { deleteStop } from '@/app/dashboard/stops/lib/delete-stop-action';
+import { deleteStop } from '@/app/dashboard/stops/data/delete-stop';
 
 export default function StopsTable ({
         stops,
