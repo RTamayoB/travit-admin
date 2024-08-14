@@ -1,4 +1,4 @@
-import { LinkButton } from "@/shared/components/atoms";
+import { LinkButton } from "../../../../../shared/components/atoms";
 
 export function UpdateStop({ id }: { id: string }) {
     return (

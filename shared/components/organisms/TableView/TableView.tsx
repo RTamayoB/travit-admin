@@ -1,6 +1,10 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
 
 import './tableview.scss'
+import { Typography } from '../../atoms/Typography'
+import { Searchbar } from '../../molecules/Searchbar/Searchbar'
+import Table from './Table/Table'
+import { Pagination } from '../Pagination/Pagination'
 
 export interface TableViewProps {
   tableTitle?: string

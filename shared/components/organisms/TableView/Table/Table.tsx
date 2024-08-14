@@ -1,8 +1,8 @@
 import './table.scss';
-import {Button, LinkButton, Typography } from '@/shared/components/atoms';
+import {Button, LinkButton, Typography } from '../../../../../shared/components/atoms';
 import { Line } from '@/app/lib/definitions';
-import { formatDateToLocal } from '@/app/lib/utils';
-import { deleteLine } from '@/app/dashboard/lines/[id]/edit/lib/delete-line-action';
+import { formatDateToLocal } from '../../../../../app/lib/utils';
+import { deleteLine } from '../../../../../app/dashboard/lines/[id]/edit/data/delete-line';
 
 export default function Table({
   lines,
