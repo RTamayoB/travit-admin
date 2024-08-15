@@ -57,7 +57,7 @@ export default function CreateLineForm({
             </Map>
             <div>
                 <Link href={"/dashboard/lines"}>
-                    Cancel
+                    Cancelar
                 </Link>
                 <Button type="submit">
                     Crear Linea

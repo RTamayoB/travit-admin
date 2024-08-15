@@ -33,16 +33,16 @@ export default function Table({
     <table className="table">
       <thead>
         <tr>
-          {keys.map(value => (
-            <th key={value}>
-              <Typography variant="bodySmall" bold>
-                {value}
-              </Typography>
-            </th>
-          ))}
-          <th>
-            Actions
-          </th>
+          <th>ID</th>
+          <th>Fecha creacion</th>
+          <th>Fecha actualizacion</th>
+          <th>Numero de Linea</th>
+          <th>Numero de Linea antiguo</th>
+          <th>Unidades</th>
+          <th>ID Agencia</th>
+          <th>Tipo de transporte</th>
+          <th>Tipo de linea</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -55,7 +55,7 @@ export default function Table({
             ))}
             <td>
               <Button onClick={() => onFocusToggle(line)}>
-                {focusedLine && focusedLine.id === line.id ? 'Unfocus' : 'Focus'}
+                {focusedLine && focusedLine.id === line.id ? 'Desenfocar' : 'Enfocar'}
               </Button>
               <LinkButton label='Editar' href={`/dashboard/lines/${line.id}/edit`}/>
               <Button

@@ -44,8 +44,6 @@ export default function EditStopForm({
                     />
                 </Map>
             </div>
-            <Typography variant={"note"}>LAT: {marker?.lat}</Typography>
-            <Typography variant={"note"}>LNG: {marker?.lng}</Typography>
             <Typography variant={"note"}>Haz click derecho en cualquier lugar del mapa para colocar un marcador.</Typography>
             <Typography variant={"note"}>Para moverlo, arrastralo o haz click derecho de nuevo para cambiar su posición.</Typography>
             <div className="actions-container">

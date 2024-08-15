@@ -59,7 +59,7 @@ export default function LineForm({
             </Map>
             <div>
                 <Link href={"/dashboard/lines"}>
-                    Cancel
+                    Cancelar
                 </Link>
                 <Button type="submit">
                     Editar Linea

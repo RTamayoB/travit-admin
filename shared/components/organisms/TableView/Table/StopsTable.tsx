@@ -38,19 +38,12 @@ export default function StopsTable ({
         <table className="table">
             <thead>
                 <tr>
-                    {keys.map(value => (
-                        <th key={value}>
-                            <Typography variant="bodySmall" bold>
-                                {value.toUpperCase()}
-                            </Typography>
-                        </th>
-                        ))}
-                     <th>
-                         
-                     </th>
-                     <th>
-                         Acciones
-                     </th>
+                    <th>ID</th>
+                    <th>Fecha de creacion</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Posicion</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -67,15 +60,13 @@ export default function StopsTable ({
                                     >
                                         Localizar
                                     </Button>
-                                </td>    
-                            <td>
-                                <UpdateStop id={stop.id}/>
-                                <Button
-                                    onClick={() => deleteStop(stop.id)}
-                                >
-                                    Eliminar
-                                </Button>
-                            </td>
+                                    <UpdateStop id={stop.id}/>
+                                    <Button
+                                        onClick={() => deleteStop(stop.id)}
+                                    >
+                                        Eliminar
+                                    </Button>
+                                </td>
                         </tr>
                     ))}
             </tbody>
