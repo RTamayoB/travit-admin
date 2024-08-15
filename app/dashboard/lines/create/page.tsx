@@ -23,9 +23,9 @@ export default async function Page() {
     return (
         <main>
             <Breadcrumbs breadcrumbs={[
-                {label: 'Invoices', href: '/dashboard/lines'},
+                {label: 'Lineas', href: '/dashboard/lines'},
                 {
-                    label: 'Create Invoice',
+                    label: 'Crear Linea',
                     href: '/dashboard/invoices/create',
                     active: true
                 },
