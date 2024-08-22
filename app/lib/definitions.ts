@@ -6,7 +6,6 @@ export type Agencies = {
 
 export interface Stop {
     id: number;
-    created_at: string;
     name: string;
     description: string;
     position: Position
@@ -33,8 +32,6 @@ export interface RoutePoint {
 
 export interface Line {
     id: number;
-    created_at: string;
-    updated_at: string;
     line_number: string;
     legacy_line_number: string;
     units: number;

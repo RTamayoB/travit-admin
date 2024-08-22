@@ -1,12 +1,11 @@
 'use client';
-import {Typography } from '../../../../../shared/components/atoms/Typography';
-import './table.scss'
-import {formatDateToLocal} from '../../../../../app/lib/utils'
-import { Button } from '../../../../../shared/components/atoms/Button';
-import {UpdateStop} from "./UpdateStop";
-import { deleteStop } from '../../../../../app/dashboard/stops/data/delete-stop';
 
-export default function StopsTable ({
+import {formatDateToLocal} from '../../../../app/lib/utils'
+import { Button, LinkButton } from '../../../../shared/components/atoms';
+import { deleteStop } from '../../../../app/dashboard/stops/data/delete-stop';
+import Table from '@/shared/components/organisms/TableView/Table/Table';
+
+/*export default function StopsTable ({
         stops,
         onLocateStop,
     }: {
@@ -60,7 +59,7 @@ export default function StopsTable ({
                                     >
                                         Localizar
                                     </Button>
-                                    <UpdateStop id={stop.id}/>
+                                    <LinkButton label='Editar' href={`/dashboard/stops/${stop.id}/edit`}/>
                                     <Button
                                         onClick={() => deleteStop(stop.id)}
                                     >
@@ -72,4 +71,35 @@ export default function StopsTable ({
             </tbody>
         </table>
     );
-}
+}*/
+
+export default function StopsTable({
+        stops,
+        onLocateStop
+      }: {
+        stops: any[],
+        onLocateStop: (stop: any) => void
+      }) {
+        const renderActions = (stop: any) => (
+          <>
+            <Button onClick={() => onLocateStop(stop)}>Localizar</Button>
+            <LinkButton label='Editar' href={`/dashboard/stops/${stop.id}/edit`} />
+            <Button onClick={() => deleteStop(stop.id)}>Eliminar</Button>
+          </>
+        );
+      
+        const customRenderCell = (key: string, value: any) => {
+          if (key === 'location' && value.coordinates) {
+            return `${value.coordinates.join(', ')}`;
+          }
+          return undefined; // Fallback to default rendering
+        };
+      
+        return (
+          <Table
+            data={stops}
+            renderActions={renderActions}
+            keysToIgnore={['position']}
+          />
+        );
+      }

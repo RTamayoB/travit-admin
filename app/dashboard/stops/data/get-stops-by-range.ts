@@ -14,7 +14,7 @@ export async function getStopsByRange(
     try {
         let queryBuilder = supabase
         .from("stops")
-        .select("id, created_at, name, description, position")
+        .select("id, name, description, position")
         .range(from, to)
         .order('id', { ascending: true })
         .limit(ITEMS_PER_PAGE)

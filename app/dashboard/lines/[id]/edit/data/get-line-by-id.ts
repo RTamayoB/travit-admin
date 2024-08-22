@@ -8,8 +8,6 @@ export async function getLineById(routeId: string): Promise<Line> {
         .from("lines")
         .select(`
             id,
-            created_at,
-            updated_at,
             line_number,
             legacy_line_number,
             units,
@@ -27,8 +25,6 @@ export async function getLineById(routeId: string): Promise<Line> {
 
     return {
         id: data.id,
-        created_at: data.created_at,
-        updated_at: data.updated_at,
         line_number: data.line_number,
         legacy_line_number: data.legacy_line_number,
         units: data.units,

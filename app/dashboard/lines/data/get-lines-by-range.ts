@@ -17,8 +17,6 @@ export async function getLinesByRange(
         .from("lines")
         .select(`
             id,
-            created_at,
-            updated_at,
             line_number,
             legacy_line_number,
             units,
@@ -41,20 +39,18 @@ export async function getLinesByRange(
         return [];
     }
 
-    const routes: Line[] = data.map((route: any) => {
+    const lines: Line[] = data.map((line: any) => {
         return {
-            id: route.id,
-            created_at: route.created_at,
-            updated_at: route.updated_at,
-            line_number: route.line_number,
-            legacy_line_number: route.legacy_line_number,
-            units: route.units,
-            agency_id: route.agency_id,
-            transport_type: route.transport_type,
-            line_type: route.line_type,
-            route_points: route.route_points as RoutePoint[]
+            id: line.id,
+            line_number: line.line_number,
+            legacy_line_number: line.legacy_line_number,
+            units: line.units,
+            agency_id: line.agency_id,
+            transport_type: line.transport_type,
+            line_type: line.line_type,
+            route_points: line.route_points as RoutePoint[]
         }
     })
 
-    return routes;
+    return lines;
 }

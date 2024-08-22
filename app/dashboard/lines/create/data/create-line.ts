@@ -8,8 +8,6 @@ import { RoutePoint } from '@/app/lib/definitions';
 
 const RouteSchema = z.object({
     id: z.number().optional(),
-    created_at: z.string().optional(),
-    updated_at: z.string().optional(),
     line_number: z.string(),
     legacy_line_number: z.string(),
     units: z.coerce.number(),

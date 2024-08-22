@@ -1,24 +1,24 @@
 'use client';
 
 import {Button, Pagination, Searchbar } from "@/shared/components";
-import Table from "@/shared/components/organisms/TableView/Table/Table";
+import LineTable from "./LineTable";
 import Link from "next/link";
 import styles from "@/app/dashboard/lines/ui/page.module.scss";
 import Map from "@/app/dashboard/components/Map";
 import LinesDrawer from "@/app/dashboard/lines/ui/LinesDrawer";
-import { Route } from "@/app/lib/definitions";
+import { Line } from "@/app/lib/definitions";
 import { useState } from "react";
 
 export default function LineView ({
         lines,
         totalPages,
 }: {
-        lines: Route[],
+        lines: Line[],
         totalPages: number,
 }) {
-    const [focusedLine, setFocusedLine] = useState<Route | null>(null);
+    const [focusedLine, setFocusedLine] = useState<Line | null>(null);
 
-    const handleFocusToggle = (line: Route) => {
+    const handleFocusToggle = (line: Line) => {
       if (focusedLine && focusedLine.id === line.id) {
         setFocusedLine(null); // Unfocus
       } else {
@@ -46,7 +46,7 @@ export default function LineView ({
                   </Button>
                 </Link>
             </div>
-            <Table
+            <LineTable
                 lines={lines}
                 onFocusToggle={handleFocusToggle}
                 focusedLine={focusedLine}

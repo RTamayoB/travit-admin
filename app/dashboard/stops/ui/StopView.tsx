@@ -2,7 +2,7 @@
 
 import styles from '@/app/dashboard/stops/ui/page.module.scss';
 import { Pagination } from "@/shared/components/organisms/Pagination";
-import StopsTable from "@/shared/components/organisms/TableView/Table/StopsTable";
+import StopsTable from "./StopsTable";
 import Map from "@/app/dashboard/components/Map";
 import { useState } from "react";
 import { Stop } from "@/app/lib/definitions";
