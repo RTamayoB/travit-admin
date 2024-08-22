@@ -12,7 +12,7 @@ export async function getAgenciesById(): Promise<Agencies[]> {
     try {
         let queryBuilder = supabase
         .from("agencies")
-        .select("id, created_at, name")
+        .select("id, name")
         .order('id', { ascending: true })
         const { data } = await queryBuilder
         console.log('Agencies', data)

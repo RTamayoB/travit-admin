@@ -10,7 +10,7 @@ export async function getStopById(id: string) {
     try {
         let queryBuilder = supabase
         .from("stops")
-        .select("id, created_at, name, description, position")
+        .select("id, name, description, position")
         .eq('id', id)
         .single()
 
@@ -25,7 +25,6 @@ export async function getStopById(id: string) {
 
         const stop: Stop = {
             id: data.id,
-            created_at: data.created_at,
             name: data.name,
             description: data.description,
             position

@@ -7,7 +7,6 @@ import {redirect} from "next/navigation";
 
 const CreateStopFormSchema = z.object({
     id: z.number(),
-    created_at: z.string(),
     name: z.string(),
     description: z.string(),
     lat: z.string(),

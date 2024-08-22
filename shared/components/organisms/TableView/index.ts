@@ -1,2 +1,2 @@
 export * from './TableView'
-export * from './Table'
+export * from './Table/Table'

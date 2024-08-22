@@ -3,8 +3,9 @@ import React, { FC, ReactNode, useEffect, useState } from 'react'
 import './tableview.scss'
 import { Typography } from '../../atoms/Typography'
 import { Searchbar } from '../../molecules/Searchbar/Searchbar'
-import Table from './Table/Table'
 import { Pagination } from '../Pagination/Pagination'
+import Table from './Table/Table'
+import { Button } from '../../atoms'
 
 export interface TableViewProps {
   tableTitle?: string
@@ -56,6 +57,12 @@ export const TableView: FC<TableViewProps> = ({
     )
   }, [filteredData])
 
+  const renderActions = () => (
+    <>
+      <Button>Localizar</Button>
+    </>
+  );
+
   return (
     <div className="msv-tableView">
       <div className="msv-tableView__header">
@@ -78,7 +85,10 @@ export const TableView: FC<TableViewProps> = ({
           }
         />
       </div>
-      <Table tableData={pageChunks[activePage]} />
+      <Table
+        data={tableData}
+        renderActions={renderActions}
+      />
       <Pagination
         align={paginationAlign}
         totalPages={totalPages}
