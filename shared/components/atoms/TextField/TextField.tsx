@@ -59,7 +59,6 @@ export const TextField: FC<TextFieldProps> = ({
           <label htmlFor={id}>
             <Typography bold variant="note">
               {label}
-              {required && <span style={{ color: '#D04116' }}> *</span>}
             </Typography>
           </label>
         )}
