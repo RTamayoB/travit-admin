@@ -1,6 +1,7 @@
 import React, { FC, KeyboardEvent, useEffect, useState } from 'react'
-import { Base } from '../../../../shared/interfaces'
+import { Base } from '@/shared'
 import './dropdown.scss'
+import { Typography } from '@/shared'
 
 export interface Option {
   label: string
@@ -11,7 +12,8 @@ export interface DropdownProps extends Base {
   name: string,
   placeholder?: string
   defaultSelected?: Option
-  onSelected: (selected: Option | undefined) => void
+  onSelected: (selected: Option | undefined) => void,
+  label?: string
 }
 
 export const Dropdown: FC<DropdownProps> = ({
@@ -22,6 +24,7 @@ export const Dropdown: FC<DropdownProps> = ({
   onSelected,
   placeholder,
   defaultSelected,
+  label
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [filteredOps, setFilteredOps] = useState(data)
@@ -84,6 +87,13 @@ export const Dropdown: FC<DropdownProps> = ({
   return (
     <div className={['msv-dropdown', className].join(' ')} style={style}>
       <div className="msv-dropdown__input" data-opened={isOpen}>
+        {label && (
+          <label htmlFor={name}>
+            <Typography bold variant="note">
+              {label}
+            </Typography>
+          </label>
+        )}
         <input
           onFocus={() => setIsOpen(true)}
           value={search}
@@ -91,6 +101,7 @@ export const Dropdown: FC<DropdownProps> = ({
           placeholder={placeholder ?? 'Select...'}
           onKeyUp={(e) => handleOnKeyUp(e)}
           onChange={(e) => handleInputChange(e.target.value)}
+
         />
         <input type="hidden" name={name} value={selected?.value || ''} />
       </div>
