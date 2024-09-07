@@ -1,4 +1,3 @@
-import {Typography} from "@/shared/components";
 import StopView from "@/app/dashboard/stops/ui/StopView";
 import {getStopsPageCount} from "@/app/dashboard/stops/data/get-stops-page-count";
 import {getStopsByRange} from "@/app/dashboard/stops/data/get-stops-by-range";
@@ -19,16 +18,6 @@ export default async function Page({
     const stops = await getStopsByRange(query, currentPage)
 
     return (
-        <>
-            <div>
-                <Typography variant="h5" bold>
-                    Paradas
-                </Typography>
-                <StopView
-                    stops={stops}
-                    totalPages={totalPages}
-                />
-            </div>
-        </>
+        <StopView stops={stops} totalPages={totalPages}/>
     )
 }

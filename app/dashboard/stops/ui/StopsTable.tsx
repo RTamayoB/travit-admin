@@ -1,8 +1,10 @@
 'use client';
 
-import { Button, LinkButton } from '@/shared';
 import { deleteStop } from '@/app/dashboard/stops/data/delete-stop';
 import Table from '@/shared/components/organisms/TableView/Table/Table';
+import Link from 'next/link';
+import Image from "next/image";
+import styles from '@/app/dashboard/stops/ui/stop-table.module.scss';
 
 export default function StopsTable({
         stops,
@@ -12,19 +14,38 @@ export default function StopsTable({
         onLocateStop: (stop: any) => void
       }) {
         const renderActions = (stop: any) => (
-          <>
-            <Button onClick={() => onLocateStop(stop)}>Localizar</Button>
-            <LinkButton label='Editar' href={`/dashboard/stops/${stop.id}/edit`} />
-            <Button onClick={() => deleteStop(stop.id)}>Eliminar</Button>
-          </>
+          <div className={styles.actions}>
+            <button onClick={() => onLocateStop(stop)}>
+              <Image
+                src={'/images/map-pin.svg'}
+                width={24}
+                height={24}
+                blurDataURL={'/images/map-pin.svg'}
+                alt={'Locate stop'}
+              />
+            </button>
+            <Link
+              href={`/dashboard/stops/${stop.id}/edit`}
+            >
+              <Image
+                src={'/images/edit.svg'}
+                width={24}
+                height={24}
+                blurDataURL={'/images/edit.svg'}
+                alt={'Edit button'}
+              />
+            </Link>
+            <button onClick={() => deleteStop(stop.id)}>
+              <Image
+                src={'/images/delete.svg'}
+                width={24}
+                height={24}
+                blurDataURL={'/images/delete.svg'}
+                alt={'Delete button'}
+              />
+            </button>
+          </div>
         );
-      
-        const customRenderCell = (key: string, value: any) => {
-          if (key === 'location' && value.coordinates) {
-            return `${value.coordinates.join(', ')}`;
-          }
-          return undefined; // Fallback to default rendering
-        };
       
         return (
           <Table

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Stop } from "@/app/lib/definitions";
 import { Searchbar } from '@/shared/components/molecules';
 import Link from 'next/link';
-import { Button } from '@/shared/components/atoms';
+import { Button, Typography } from '@/shared/components/atoms';
 import StopsController from "@/app/dashboard/stops/ui/StopsController";
 
 export default function StopView ({
@@ -27,6 +27,16 @@ export default function StopView ({
     
     return (
         <>
+            <div className={styles.header}>
+                <Typography variant="h5" bold>
+                    Paradas
+                </Typography>
+                <Link href={'/dashboard/stops/create'} style={{textDecoration: "none"}} className={styles.linkButton}>
+                    <Button>
+                        Crear Parada +
+                    </Button>
+                </Link>
+            </div>
             <div className={styles.searchbarContainer}>
                 <Searchbar
                     id="table_search"
@@ -34,11 +44,6 @@ export default function StopView ({
                     placeholder="Busca paradas..."
                     className={styles.searchbar}
                 />
-                <Link href={'/dashboard/stops/create'} style={{textDecoration: "none"}} className={styles.linkButton}>
-                    <Button>
-                        Crear Parada +
-                    </Button>
-                </Link>
             </div>
             <StopsTable
                 stops={stops}

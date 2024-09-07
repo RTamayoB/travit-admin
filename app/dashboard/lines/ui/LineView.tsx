@@ -1,6 +1,6 @@
 'use client';
 
-import {Button, Pagination, Searchbar } from "@/shared/components";
+import {Button, Pagination, Searchbar, Typography } from "@/shared/components";
 import LineTable from "./LineTable";
 import Link from "next/link";
 import styles from "@/app/dashboard/lines/ui/page.module.scss";
@@ -25,26 +25,26 @@ export default function LineView ({
         setFocusedLine(line); // Focus
       }
     };
-
-    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFocusedLine(null);
-    };
     
     return (
         <>
+            <div className={styles.header}>
+                <Typography variant="h5" bold>
+                    Lineas
+                </Typography>
+                <Link href={'/dashboard/lines/create'} style={{textDecoration: "none"}}>
+                    <Button className={styles.linkButton}>
+                      Crear Linea +
+                    </Button>
+                  </Link>
+            </div>
             <div className={styles.searchbarContainer}>
                 <Searchbar
                   id="table_search"
                   style={{ maxWidth: 300 }}
                   placeholder="Busca lineas..."
                   className={styles.searchbar}
-                  onChange={handleSearchChange}
                 />
-                <Link href={'/dashboard/lines/create'} style={{textDecoration: "none"}}>
-                  <Button className={styles.linkButton}>
-                    Crear Linea +
-                  </Button>
-                </Link>
             </div>
             <LineTable
                 lines={lines}
