@@ -1,4 +1,3 @@
-import {Typography} from "@/shared/components";
 import LineView from "@/app/dashboard/lines/ui/LineView";
 import {getLinesPageCount} from "@/app/dashboard/lines/data/get-lines-page-count";
 import {getLinesByRange} from "@/app/dashboard/lines/data/get-lines-by-range";
@@ -17,13 +16,6 @@ export default async function Page({
   const lines = await getLinesByRange(query, currentPage)
 
   return (
-    <>
-      <div>
-        <Typography variant="h5" bold>
-          Lineas
-        </Typography>
-        <LineView lines={lines} totalPages={totalPages}/>
-      </div>
-    </>
+    <LineView lines={lines} totalPages={totalPages}/>
   )
 }
