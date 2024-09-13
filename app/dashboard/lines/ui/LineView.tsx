@@ -8,6 +8,7 @@ import Map from "@/app/dashboard/components/Map";
 import LinesDrawer from "@/app/dashboard/lines/ui/LinesDrawer";
 import { Line } from "@/app/lib/definitions";
 import { useState } from "react";
+import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
 
 export default function LineView ({
         lines,
@@ -29,9 +30,7 @@ export default function LineView ({
     return (
         <>
             <div className={styles.header}>
-                <Typography variant="h5" bold>
-                    Lineas
-                </Typography>
+                <Breadcrumbs breadcrumbs={[{label: 'Lineas', href: '/dashboard/lines', active: true}]}/>
                 <Link href={'/dashboard/lines/create'} style={{textDecoration: "none"}}>
                     <Button className={styles.linkButton}>
                       Crear Linea +

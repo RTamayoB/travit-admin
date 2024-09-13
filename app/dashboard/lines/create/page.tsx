@@ -9,8 +9,6 @@ export default async function Page() {
     const stops = await getAllStops()
     const line: Line = {
         id: 0,
-        created_at: "",
-        updated_at: "",
         line_number: "",
         legacy_line_number: "",
         units: 0,
@@ -26,7 +24,7 @@ export default async function Page() {
                 {label: 'Lineas', href: '/dashboard/lines'},
                 {
                     label: 'Crear Linea',
-                    href: '/dashboard/invoices/create',
+                    href: '/dashboard/lines/create',
                     active: true
                 },
                 ]}

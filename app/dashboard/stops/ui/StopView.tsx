@@ -10,6 +10,7 @@ import { Searchbar } from '@/shared/components/molecules';
 import Link from 'next/link';
 import { Button, Typography } from '@/shared/components/atoms';
 import StopsController from "@/app/dashboard/stops/ui/StopsController";
+import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
 
 export default function StopView ({
         stops,
@@ -28,9 +29,7 @@ export default function StopView ({
     return (
         <>
             <div className={styles.header}>
-                <Typography variant="h5" bold>
-                    Paradas
-                </Typography>
+                <Breadcrumbs breadcrumbs={[{label: 'Paradas', href: '/dashboard/stops', active: true}]}/>
                 <Link href={'/dashboard/stops/create'} style={{textDecoration: "none"}} className={styles.linkButton}>
                     <Button>
                         Crear Parada +
