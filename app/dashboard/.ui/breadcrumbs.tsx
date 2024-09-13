@@ -1,5 +1,7 @@
 import { clsx } from 'clsx';
 import Link from 'next/link';
+import styles from "@/app/dashboard/.ui/breadcrumbs.module.scss";
+import { Typography } from '@/shared/components/atoms/Typography';
 
 interface Breadcrumb {
     label: string;
@@ -13,19 +15,22 @@ export default function Breadcrumbs({
     breadcrumbs: Breadcrumb[];
 }) {
     return (
-        <nav aria-label="Breadcrumb" className="mb-6 block">
-            <ol className="flex text-xl md:text-2xl">
+        <nav className={styles.breadcrumbs}>
+            <ol className={styles.ol}>
                 {breadcrumbs.map((breadcrumb, index) => (
                     <li
                         key={breadcrumb.href}
-                        aria-current={breadcrumb.active}
                         className={clsx(
-                            breadcrumb.active ? 'text-gray-900' : 'text-gray-500',
-                        )}
+                            {[styles.active]: breadcrumb.active
+                            })}
                     >
-                        <Link href={breadcrumb.href}>{breadcrumb.label}</Link>
+                        <Link href={breadcrumb.href}>
+                            <Typography variant="h5" bold>
+                                {breadcrumb.label}
+                            </Typography>
+                        </Link>
                         {index < breadcrumbs.length - 1 ? (
-                            <span className="mx-3 inline-block">/</span>
+                            <span className={styles.separator}><Typography variant="h5" bold>/</Typography></span>
                         ) : null}
                     </li>
                 ))}
