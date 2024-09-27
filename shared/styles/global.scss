@@ -1,0 +1,26 @@
+@import "./variants";
+
+button {
+    gap: 4px;
+    border: none;
+    display: flex;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    line-height: 16.8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 1px 2px 0px #1018280d;
+}
+
+body {
+    font-family: $satoshi-regular;
+}
+
+input {
+    font-family: $satoshi-regular;
+    font-size: 13px;
+}

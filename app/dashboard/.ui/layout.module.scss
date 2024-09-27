@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    height: 100vh; /* Full viewport height */
+}
+  
+.sidenav {
+    flex: 0 0 12.5%; /* 1/8 of the width */
+    height: 100%;
+    display: flex;
+}
+  
+.content {
+    flex: 1; /* Takes the rest of the width */
+    height: 100%;
+    margin-left: 16px;
+}

@@ -1,0 +1,116 @@
+import { Canvas, Meta, Controls } from '@storybook/blocks'
+import * as SideBarStories from './SideBar.stories.tsx'
+
+<Meta of={SideBarStories} />
+
+# Tableview
+
+### [- Figma](https://www.figma.com/file/jT69LhIFVmKzyWtOVBrLf7/Travit's-components?type=design&node-id=240-282&mode=design&t=UAoalmxvNdDKEG8n-0)
+
+## Arguments
+
+<Controls />
+
+## Base Interface
+
+`SideBarItemProps` is used in all properties:
+
+**contentItems** (SideBar top items) = `SideBarItemProps[]`
+
+### Example
+
+```
+const contentItems: SideBarItemProps[] = [
+  {
+    label: 'Rutas',
+    icon: RoutesLogo,
+    subItems: [
+      {
+        label: 'Configuracion',
+        icon: SettingsLogo,
+        route: '/settings',
+        onClick: (route) => console.log(route),
+      },
+      {
+        label: 'Salir',
+        icon: LogoutLogo,
+        route: '/logout',
+        onClick: (route) => console.log(route),
+      },
+    ],
+    onClick: (route) => console.log(route),
+    route: '/routes',
+  },
+  {
+    label: 'Paradas',
+    icon: StopsLogo,
+    onClick: (route) => console.log(route),
+    route: '/stops',
+  },
+]
+```
+
+**user** = `SideBarItemProps[]`
+
+### Example
+
+```
+const user: SideBarItemProps = {
+  subtitle: 'CEO',
+  route: '/profile',
+  isForProfile: true,
+  label: 'Anaid Ortega',
+  onClick: (route) => console.log(route),
+}
+```
+
+**footerItems** (SideBar bottom items) = `SideBarItemProps[]`
+
+This property depends on whether there is a user or not.
+
+### Example of how to handle it
+
+```
+// Footer Items if theres an existing user
+const userItems: SideBarItemProps[] = [
+  {
+    label: 'Configuracion',
+    icon: SettingsLogo,
+    route: '/settings',
+    onClick: (e) => console.log(e),
+  },
+  {
+    label: 'Salir',
+    icon: LogoutLogo,
+    route: '/profile',
+    onClick: (e) => console.log(e),
+  },
+]
+
+// Footer Items if theres not an existing user
+const nonUserItems: SideBarItemProps[] = [
+  {
+    label: 'Iniciar sesión',
+    icon: LogoutLogo,
+    route: '/login',
+    onClick: (e) => console.log(e),
+  },
+]
+```
+
+## Example of data
+
+This `mock` is an **example** of the data recived by the component using the data above.
+
+```
+export const USER_SIDEBAR_MOCK: SideBarProps = {
+  contentItems,
+  user,
+  footerItems: userItems,
+}
+export const NON_USER_SIDEBAR_MOCK: SideBarProps = {
+  contentItems,
+  footerItems: nonUserItems,
+}
+
+```

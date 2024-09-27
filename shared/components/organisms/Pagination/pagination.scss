@@ -1,0 +1,81 @@
+@import "../../../../shared/styles";
+
+.msv-pagination {
+    &--left {
+        @include flex($gap: 20px, $justify: left);
+
+        @media (max-width: 576px) {
+            @include flex($gap: 20px, $align: flex-start, $dir: column);
+        }
+    }
+    &--center {
+        @include flex($gap: 20px);
+
+        @media (max-width: 576px) {
+            @include flex($gap: 20px, $dir: column);
+        }
+    }
+    &--right {
+        @include flex($gap: 20px, $justify: right);
+
+        @media (max-width: 576px) {
+            @include flex($gap: 20px, $align: end, $dir: column);
+            align-items: flex-end;
+        }
+    }
+
+    &__pageSelector {
+        @include flex;
+    }
+    &__pageButtons {
+        @include flex;
+
+        .link {
+            display: flex;
+            width: 32px;
+            height: 32px;
+            position: relative;
+            background-color: $white;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #d1d3d8;
+
+            &:hover {
+                background-color: #fdede7;
+                border: 1px solid #8c2f09;
+                p {
+                    color: $primary !important;
+                }
+            }
+            &__doubleArrow {
+                border: 1px solid #434343;
+                &:after {
+                    @include paginationArrow(8.67px, 8px, url("../assets/svg/doubleArrowLeft.svg"));
+                }
+                &--right:after {
+                    transform: rotate(180deg);
+                }
+            }
+
+            &__singleArrow {
+                border: 1px solid #434343;
+                &:after {
+                    @include paginationArrow(5.33px, 9.33px, url("../assets/svg/singleArrowLeft.svg"));
+                }
+                &--right:after {
+                    transform: rotate(180deg);
+                }
+            }
+
+            &__number {
+                &--active {
+                    background: $primary;
+                    border: 1px solid $primary;
+                }
+            }
+        }
+    }
+    .rounded button {
+        border-radius: 100%;
+    }
+}

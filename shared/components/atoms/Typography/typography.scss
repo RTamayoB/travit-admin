@@ -1,0 +1,50 @@
+.msv-font {
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+
+    &__bodySmall {
+        font-size: 13px;
+    }
+    &__bodyMedium {
+        font-size: 16px;
+    }
+    &__bodyLarge {
+        font-size: 19px;
+    }
+    &__note {
+        font-size: 11px;
+    }
+    &__footnote {
+        font-size: 9px;
+    }
+    &__button {
+        font-size: 14px;
+    }
+    &__subtitle {
+        font-size: 23px;
+    }
+
+    &__h1 {
+        font-size: 69px;
+    }
+    &__h2 {
+        font-size: 57px;
+    }
+    &__h3 {
+        font-size: 48px;
+    }
+    &__h4 {
+        font-size: 40px;
+    }
+    &__h5 {
+        font-size: 33px;
+    }
+    &__h6 {
+        font-size: 28px;
+    }
+
+    &--bold {
+        font-weight: bold;
+    }
+}

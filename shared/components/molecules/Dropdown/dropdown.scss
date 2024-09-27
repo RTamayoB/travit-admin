@@ -1,0 +1,108 @@
+@import "../../../styles/index.scss";
+
+.msv-dropdown {
+    cursor: pointer;
+    position: relative;
+    margin-top: 14px;
+    margin-bottom: 18px;
+
+    label {
+        top: 6px;
+        left: 6px;
+        opacity: 1;
+        z-index: 0;
+        bottom: 0;
+        margin: auto;
+        @include flex;
+        color: #5e6368;
+        padding: 0 4px;
+        line-height: 11px;
+        position: absolute;
+        transition:
+            transform 0.6s;
+        transform: translateY(-100%);
+    }
+
+    &__input {
+        position: relative;
+        &:after {
+            top: 0px;
+            right: 15px;
+            content: "";
+            bottom: 0px;
+            margin: auto;
+            width: 9.33px;
+            height: 5.33px;
+            position: absolute;
+            transition: all 0.4s;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-image: url("../../../assets/svg/downArrow.svg");
+        }
+        &[data-opened="true"]:after {
+            transform: rotate(180deg);
+        }
+        input {
+            width: 100%;
+            outline: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: $white;
+            border: 1px solid #dddddd;
+
+            &:hover {
+                border: 1px solid #bbbbbb;
+            }
+            &:focus {
+                border: 1px solid #1f81b9;
+            }
+        }
+    }
+
+    &__optionsContainer {
+        left: 0px;
+        right: 0px;
+        opacity: 0;
+        z-index: 999999;
+        max-height: 1px;
+        position: absolute;
+        border-radius: 8px;
+        overflow-y: scroll;
+        transition: all 0.4s;
+        background-color: $white;
+        border: 1px solid #dddddd;
+        box-shadow: 0px 1px 2px 0px #1018280d;
+
+        &::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            border-radius: 9999px;
+            border: 5px solid white;
+            background-color: #eeeeee;
+        }
+
+        &--opened {
+            opacity: 1;
+            max-height: 150px;
+        }
+
+        &__option {
+            width: 100%;
+            padding: 8px 15px;
+            background: $white;
+            border-radius: 0px;
+            font-weight: normal;
+            justify-content: left;
+            &:hover,
+            &[data-selected="true"] {
+                background-color: #ededed;
+            }
+        }
+        &:hover button[data-selected="true"] {
+            background-color: $white;
+        }
+    }
+}

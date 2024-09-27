@@ -1,0 +1,19 @@
+@import "../../../../styles";
+
+.table {
+    width: 100%;
+
+    tr:nth-child(even) {
+        background-color: var(--Color-Background-Cell-Table-Grey, #ededed);
+    }
+
+    th {
+        background-color: $primary;
+        color: white;
+    }
+
+    td {
+        text-align: center;
+    }
+
+}
