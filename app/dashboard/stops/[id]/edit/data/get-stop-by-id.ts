@@ -14,7 +14,12 @@ export async function getStopById(id: string) {
         .eq('id', id)
         .single()
 
-        const { data } = await queryBuilder
+        const { data, error } = await queryBuilder
+
+        // Check if data exists and handle the error case
+        if (!data || error) {
+            throw new Error('Failed to fetch stop data');
+        }
 
         const position: Position = data.position
             ? {

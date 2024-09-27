@@ -13,7 +13,6 @@ const meta = {
   },
   tags: ['autodocs'],
   args: {
-    onSearch: fn(),
   },
 } satisfies Meta<typeof Searchbar>
 
@@ -33,23 +32,6 @@ export const ObjectArrayItems: Story = {
   args: {
     id: 'Searchbar test',
     label: 'Search in Object Array',
-    searchItems: [
-      {
-        label: 'primer elemento',
-        id: 'uno',
-        value: '1',
-      },
-      {
-        label: 'segundo elemento',
-        id: 'dos',
-        value: '2',
-      },
-      {
-        label: 'tercer elemento',
-        id: 'tres',
-        value: '3',
-      },
-    ],
     helperText:
       'Returns filtered items from a provided array of object<number | string> items.',
   },
@@ -59,7 +41,6 @@ export const StringArrayItems: Story = {
   args: {
     id: 'Searchbar test',
     label: 'Searchbar in string array',
-    searchItems: ['uno', 'dos', 'tres', 'cuatro', 'cinco'],
     helperText: 'Returns filtered items from a provided array of string items.',
   },
 }

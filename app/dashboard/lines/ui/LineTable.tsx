@@ -46,7 +46,7 @@ export default function LineTable({
             alt={'Edit button'}
           />
         </Link>
-        <button onClick={() => deleteLine(line.id)}>
+        <button onClick={() => deleteLine(line.id.toString())}>
           <Image
             src={'/images/delete.svg'}
             width={24}
@@ -57,7 +57,7 @@ export default function LineTable({
         </button>
       </div>
     );
-  
+
     return (
       <Table
         data={lines}

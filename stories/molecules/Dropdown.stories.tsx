@@ -22,6 +22,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
+    name: 'example-dropdown',
     data: [
       { label: 'Uno', value: '1' },
       { label: 'Dos', value: '2' },
