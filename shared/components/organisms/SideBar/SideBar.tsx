@@ -1,12 +1,12 @@
 'use client';
 
 import React, { FC, useState } from 'react'
-import { Logo } from '../../atoms'
-import { logos, sideBarVariants } from '../../../constants'
+import { Logo } from '@/shared'
+import { logos, sideBarVariants } from '@/shared'
 import './sideBar.scss'
 import { UserInfo } from '@/app/lib/definitions';
-import {Destination, SingleItem} from "../../organisms/SideBar/SideBarItem";
-import {LogoutButton} from "../../../../shared/components/organisms/SideBar/LogoutButton/LogoutButton";
+import {Destination, SingleItem} from "@/shared";
+import {LogoutButton} from "@/shared/components/organisms/SideBar/LogoutButton/LogoutButton";
 
 export interface SideBarProps {
   userInfo: UserInfo,
@@ -32,6 +32,11 @@ export const SideBar: FC<SideBarProps> = ({
         "label": "Paradas",
         "icon": "/images/stops.svg",
         "route": "/dashboard/stops"
+      },
+      {
+        "label": "Concesionarias",
+        "icon": "/images/building-estate.svg",
+        "route": "/dashboard/agencies"
       }
     ]
 
