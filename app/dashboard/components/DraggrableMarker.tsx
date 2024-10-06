@@ -1,6 +1,7 @@
 import {Icon, LatLng} from "leaflet";
 import {useEffect, useMemo, useRef, useState } from "react";
 import {Marker} from "react-leaflet";
+import {Marker as LeafletMarker} from "leaflet";
 
 export default function DraggableMarker(
     {
@@ -17,7 +18,7 @@ export default function DraggableMarker(
 ) {
 
     const [position, setPosition] = useState(initialPosition);
-    const markerRef = useRef(null);
+    const markerRef = useRef<LeafletMarker | null>(null);
     const eventHandlers = useMemo(
         () => ({
             dragend() {

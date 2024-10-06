@@ -31,7 +31,7 @@ export async function getLoggedUser(): Promise<UserInfo> {
             id: data?.id,
             full_name: data?.full_name,
             username: data?.username,
-            role: data?.admins?.role
+            role: data?.admins?.[0]?.role
         }
         
         return userInfo

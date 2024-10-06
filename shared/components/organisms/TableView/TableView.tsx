@@ -12,7 +12,7 @@ export interface TableViewProps {
   itemsPerPage?: number
   actionButtons?: ReactNode[]
   roundedPagination?: boolean
-  tableData?: TransformDataTable[]
+  tableData: any[]
   paginationAlign?: 'left' | 'center' | 'right'
 }
 
@@ -79,10 +79,6 @@ export const TableView: FC<TableViewProps> = ({
         <Searchbar
           id="table_search"
           style={{ maxWidth: 300 }}
-          searchItems={tableData ?? []}
-          onSearch={(value) =>
-            setFilteredData(value as unknown as TransformDataTable[])
-          }
         />
       </div>
       <Table
@@ -93,7 +89,6 @@ export const TableView: FC<TableViewProps> = ({
         align={paginationAlign}
         totalPages={totalPages}
         rounded={roundedPagination}
-        onIndexChange={setActivePage}
         className="msv-tableView__pagination"
       />
     </div>
