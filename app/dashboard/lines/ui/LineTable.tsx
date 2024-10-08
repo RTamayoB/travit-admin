@@ -2,8 +2,9 @@ import { Line } from '@/app/lib/definitions';
 import { deleteLine } from '@/app/dashboard/lines/[id]/edit/data/delete-line';
 import Table from '@/shared/components/organisms/TableView/Table/Table';
 import Image from "next/image";
-import Link from 'next/link';
 import styles from '@/app/dashboard/lines/ui/line-table.module.scss';
+import EditIconButton from "@/app/dashboard/components/EditIconButton";
+import DeleteIconButton from "@/app/dashboard/components/DeleteIconButton";
 
 export default function LineTable({
     lines,
@@ -16,7 +17,10 @@ export default function LineTable({
   }) {
     const renderActions = (line: Line) => (
       <div className={styles.actions}>
-        <button onClick={() => onFocusToggle(line)}>
+        <button
+          onClick={() => onFocusToggle(line)}
+          title="Enfocar/Desenfocar"
+        >
           {
             focusedLine && focusedLine.id === line.id ?
             <Image
@@ -35,26 +39,8 @@ export default function LineTable({
             />
           }
         </button>
-        <Link
-          href={`/dashboard/lines/${line.id}/edit`}
-        >
-          <Image
-            src={'/images/edit.svg'}
-            width={24}
-            height={24}
-            blurDataURL={'/images/edit.svg'}
-            alt={'Edit button'}
-          />
-        </Link>
-        <button onClick={() => deleteLine(line.id.toString())}>
-          <Image
-            src={'/images/delete.svg'}
-            width={24}
-            height={24}
-            blurDataURL={'/images/delete.svg'}
-            alt={'Delete button'}
-          />
-        </button>
+        <EditIconButton href={`/dashboard/lines/${line.id}/edit`} />
+        <DeleteIconButton action={() => deleteLine(line.id.toString())} />
       </div>
     );
 
