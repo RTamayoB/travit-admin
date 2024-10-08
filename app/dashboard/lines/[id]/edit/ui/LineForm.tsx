@@ -45,7 +45,7 @@ export default function LineForm({
         <form action={editCurrentLine}>
             <TextField id="line_number" label='Numero de Linea' defaultValue={line.line_number}/>
             <TextField id="legacy_line_number" label='Numero anterior de Linea' defaultValue={line.legacy_line_number}/>
-            <TextField id="units" label='Numero anterior de Linea' defaultValue={line.units}/>
+            <TextField id="units" label='Numero de unidades' defaultValue={line.units}/>
             <Dropdown data={line_options} onSelected={() => 1} name='line_type' label="Tipo de Linea"/>
             <Dropdown data={agencyOptions} onSelected={() => 1} label="Concesionaria" name="agency_id"/>
             <input type="hidden" name="transport_type" value="bus"/>
