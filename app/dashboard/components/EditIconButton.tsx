@@ -2,14 +2,17 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function EditIconButton({
-    href
+    href,
+    className
   }: {
-    href: string
+    href: string,
+    className?: string
   }) {
     return (
       <Link
         href={href}
         title="Editar"
+        className={className}
       >
         <Image
           src={'/images/edit.svg'}

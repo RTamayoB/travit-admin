@@ -8,6 +8,7 @@ import {Dropdown, Option} from "@/shared";
 import { useState } from "react";
 import MapComponent from "../../[id]/edit/ui/MapComponent";
 import {createLine} from "@/app/dashboard/lines/create/data/create-line";
+import {Combobox} from "@/shared/components/molecules/Combobox/Combobox";
 
 export default function CreateLineForm({
         stops,
@@ -45,7 +46,12 @@ export default function CreateLineForm({
             <TextField id="legacy_line_number" label='Numero anterior de Linea' defaultValue={line.legacy_line_number}/>
             <TextField id="units" label='Numero de Unidades' defaultValue={line.units}/>
             <Dropdown data={line_options} onSelected={() => 1} name='line_type' label="Tipo de Linea"/>
-            <Dropdown data={agencyOptions} onSelected={() => 1} label="Concesionaria" name="agency_id"/>
+            <Combobox
+                data={agencyOptions}
+                name="agency_id"
+                label="Concesionaria"
+                onSelected={() => 1}
+            />
             <input type="hidden" name="transport_type" value="bus"/>
             <input type="hidden" name="routePoints" value={JSON.stringify(routePoints)}/>
             <Map position={[20.6597, 256.6500]} zoom={17}>
