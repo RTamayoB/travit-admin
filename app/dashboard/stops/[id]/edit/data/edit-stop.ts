@@ -5,7 +5,7 @@ import {createClient} from '@/utils/supabase/server';
 import {z} from "zod";
 import {redirect} from "next/navigation";
 
-const CreateStopFormSchema = z.object({
+const EditStopFormSchema = z.object({
     id: z.number(),
     name: z.string(),
     description: z.string(),
@@ -13,7 +13,7 @@ const CreateStopFormSchema = z.object({
     lng: z.string()
 });
 
-const CreateLine = CreateStopFormSchema.omit({ id: true, created_at: true });
+const CreateLine = EditStopFormSchema.omit({ id: true, created_at: true });
 
 
 export async function editStopById(id: string, formData: FormData) {

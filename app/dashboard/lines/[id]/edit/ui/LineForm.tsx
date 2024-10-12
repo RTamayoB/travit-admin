@@ -4,7 +4,7 @@ import Map from "@/app/dashboard/components/Map";
 import {Agencies, Line, RoutePoint, Stop } from "@/app/lib/definitions";
 import MapComponent from "./MapComponent";
 import Link from "next/link";
-import { Button, TextField } from "@/shared/components/atoms";
+import { Button, TextField, Typography } from "@/shared/components/atoms";
 import {Dropdown, Option} from "@/shared";
 import { useState } from "react";
 import {editLine} from "@/app/dashboard/lines/[id]/edit/data/edit-line";
@@ -45,7 +45,7 @@ export default function LineForm({
         <form action={editCurrentLine}>
             <TextField id="line_number" label='Numero de Linea' defaultValue={line.line_number}/>
             <TextField id="legacy_line_number" label='Numero anterior de Linea' defaultValue={line.legacy_line_number}/>
-            <TextField id="units" label='Numero anterior de Linea' defaultValue={line.units}/>
+            <TextField id="units" label='Numero de unidades' defaultValue={line.units}/>
             <Dropdown data={line_options} onSelected={() => 1} name='line_type' label="Tipo de Linea"/>
             <Dropdown data={agencyOptions} onSelected={() => 1} label="Concesionaria" name="agency_id"/>
             <input type="hidden" name="transport_type" value="bus"/>
@@ -57,6 +57,11 @@ export default function LineForm({
                     onRoutePointsUpdate={handleRoutePointsUpdate}
                 />
             </Map>
+            <Typography variant={"note"}>Haz click derecho en cualquier lugar del mapa para colocar un punto de la ruta.</Typography>
+            <Typography variant={"note"}>Para mover cualquier punto, arrastralo hacia una nueva posicion.</Typography>
+            <Typography variant={"note"}>Si arrastras un punto encima de una parada, este cambiara de color, indicando que esta es una parada del recorrido.</Typography>
+            <Typography variant={"note"}>Si arrastras los puntos grises entre dos puntos ya creados, podras añadir bifurcaciones a tu ruta</Typography>
+            <Typography variant={"note"}>Para eliminar el ultimo punto de la ruta, has Shift+D</Typography>
             <div>
                 <Link href={"/dashboard/lines"}>
                     Cancelar
