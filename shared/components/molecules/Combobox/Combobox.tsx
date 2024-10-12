@@ -1,13 +1,9 @@
 import React, { FC, KeyboardEvent, useEffect, useState } from 'react'
-import { Base } from '@/shared'
+import {Base, Option} from '@/shared'
 import './combobox.scss'
 import { Typography } from '@/shared'
 import EditIconButton from '@/app/dashboard/components/EditIconButton'
 
-export interface Option {
-  label: string
-  value: string
-}
 export interface ComboboxProps extends Base {
   data: Option[],
   name: string,
