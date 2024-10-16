@@ -3,7 +3,7 @@
 import {Button, Pagination, Searchbar } from "@/shared/components";
 import Link from "next/link";
 import styles from "@/app/dashboard/agencies/ui/page.module.scss";
-import {Agencies} from "@/app/lib/definitions";
+import {Agency} from "@/app/lib/definitions";
 import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
 import AgencyTable from "@/app/dashboard/agencies/ui/AgencyTable";
 
@@ -11,7 +11,7 @@ export default function AgencyView ({
         agencies,
         totalPages,
 }: {
-        agencies: Agencies[],
+        agencies: Agency[],
         totalPages: number,
 }) {
 

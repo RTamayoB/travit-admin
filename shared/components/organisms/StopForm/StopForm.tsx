@@ -2,29 +2,38 @@
 
 import {Button, TextField, Typography} from "@/shared/components/atoms";
 import { useState } from "react";
-import Map from "../../../../dashboard/components/Map";
-import  '@/app/dashboard/stops/ui/stop-form.module.scss';
+import Map from "@/app/dashboard/components/Map";
+import  './stop-form.module.scss';
 import {LatLng} from "leaflet";
 import Link from "next/link";
-import { createStop } from "../data/create-stop";
 import StopMapSelector from "@/app/dashboard/components/StopMapSelector";
+import { Stop } from "@/app/lib/definitions";
 
-export default function CreateStopForm() {
-    const initialState = { message: null, errors: {} };
-    const [marker, setMarker] = useState<LatLng | null>(null);
+interface StopFormProps {
+    stop: Stop,
+    onSubmit: (formData: FormData) => Promise<void>;
+    submitButtonText: string;
+}
+
+export default function StopForm({
+    stop,
+    onSubmit,
+    submitButtonText
+}: StopFormProps) {    
+    const [marker, setMarker] = useState<LatLng | null>(new LatLng(stop.position.lat, stop.position.lng));
     
     const handleSetMarker = (marker: LatLng) => {
         setMarker(marker);
     };
     
     return (
-        <form className='form-container' action={createStop}>
+        <form className='form-container' action={onSubmit}>
             <div className='form-row'>
                 <div className='textfield'>
-                    <TextField id="name" label='Nombre de Parada' />
+                    <TextField id="name" label='Nombre de Parada' defaultValue={stop.name} />
                 </div>
                 <div className='textfield'>
-                    <TextField id="description" label='Descripcion de la Parada'/>
+                    <TextField id="description" label='Descripcion de la Parada' defaultValue={stop.description}/>
                 </div>
             </div>
             <input type="hidden" name="lat" value={marker?.lat}/>
@@ -44,7 +53,7 @@ export default function CreateStopForm() {
                     Cancel
                 </Link>
                 <Button type="submit">
-                    Crear Parada
+                    {submitButtonText}
                 </Button>
             </div>
         </form>

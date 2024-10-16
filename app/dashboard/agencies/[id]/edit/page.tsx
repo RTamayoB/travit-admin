@@ -2,11 +2,14 @@
 
 import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
 import { getAgencyById } from "./data/get-agency-by-id";
-import EditAgencyForm from "./ui/edit-agency-form";
+import AgencyForm from "@/shared/components/organisms/AgencyForm/AgencyForm";
+import { editAgencyById } from "./data/edit-agency";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const id = params.id
     const agency = await getAgencyById(id)
+
+    const editAgency = editAgencyById.bind(null, agency.id.toString())
 
     return (
         <>
@@ -19,7 +22,11 @@ export default async function Page({ params }: { params: { id: string } }) {
                              },
                              ]}
             />
-            <EditAgencyForm agency={agency} />
+            <AgencyForm 
+                agency={agency}
+                onSubmit={editAgency}  
+                submitButtonText="Editar Concesionaria"
+            />
         </>
     )
 }

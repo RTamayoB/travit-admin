@@ -1,20 +1,26 @@
 'use client';
 
 import {Button, TextField} from "@/shared/components/atoms";
-import  '@/app/dashboard/agencies/ui/agency-form.module.scss'
+import styles from './agency-form.module.scss'
 import Link from "next/link";
-import {Agencies} from "@/app/lib/definitions";
-import { editAgencyById } from "../data/edit-agency";
+import { Agency } from "@/app/lib/definitions";
 
-export default function EditAgencyForm({
-        agency
-} : {
-    agency: Agencies
-}) {
-    const editAgency = editAgencyById.bind(null, agency.id.toString())
+interface AgencyFormProps {
+    agency: Agency;
+    onSubmit: (formData: FormData) => Promise<void>;
+    submitButtonText: string;
+  }
+  
+
+export default function AgencyForm({
+    agency,
+    onSubmit,
+    submitButtonText
+}: AgencyFormProps
+) {
 
     return (
-        <form className='form-container' action={editAgency}>
+        <form className='form-container' action={onSubmit}>
             <div className='form-row'>
                 <div className='textfield'>
                     <TextField id="name" label='Nombre de la Concesionaria' defaultValue={agency.name}/>
@@ -25,7 +31,7 @@ export default function EditAgencyForm({
                     Cancel
                 </Link>
                 <Button type="submit">
-                    Editar Concesionaria
+                    {submitButtonText}
                 </Button>
             </div>
         </form>

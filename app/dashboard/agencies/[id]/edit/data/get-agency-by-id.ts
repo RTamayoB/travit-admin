@@ -1,6 +1,6 @@
 'use server';
 
-import {Agencies } from '@/app/lib/definitions';
+import {Agency } from '@/app/lib/definitions';
 import {createClient} from '@/utils/supabase/server';
 
 export async function getAgencyById(id: string) {
@@ -21,7 +21,7 @@ export async function getAgencyById(id: string) {
             throw new Error('Failed to fetch agency data');
         }
 
-        const agency: Agencies = {
+        const agency: Agency = {
             id: data.id,
             name: data.name,
         };
