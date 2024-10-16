@@ -1,4 +1,4 @@
-import { Agencies } from '@/app/lib/definitions';
+import { Agency } from '@/app/lib/definitions';
 import Table from '@/shared/components/organisms/TableView/Table/Table';
 import styles from '@/app/dashboard/lines/ui/line-table.module.scss';
 import { deleteAgency } from '../data/delete-agency';
@@ -14,9 +14,9 @@ export default function AgencyTable({
 }) {
 
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [agencyToDelete, setAgencyToDelete] = useState<Agencies | null>(null);
+  const [agencyToDelete, setAgencyToDelete] = useState<Agency | null>(null);
 
-  const handleDeleteClick = (line: Agencies) => {
+  const handleDeleteClick = (line: Agency) => {
     setAgencyToDelete(line);
     setDialogOpen(true);
   }
@@ -33,7 +33,7 @@ export default function AgencyTable({
     setDialogOpen(false);  // Just close the dialog
     setAgencyToDelete(null); // Reset the lineToDelete
   };
-  const renderActions = (agency: Agencies) => (
+  const renderActions = (agency: Agency) => (
     <div className={styles.actions}>
       <EditIconButton href={`/dashboard/agencies/${agency.id}/edit`} />
       <DeleteIconButton action={() => handleDeleteClick(agency)} />

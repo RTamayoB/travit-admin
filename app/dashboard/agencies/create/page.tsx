@@ -1,7 +1,14 @@
+import AgencyForm from "@/shared/components/organisms/AgencyForm/AgencyForm";
 import Breadcrumbs from "../../.ui/breadcrumbs";
-import CreateAgencyForm from "./ui/create-agency-form";
+import { createAgency } from "./data/create-agency";
+import { Agency } from "@/app/lib/definitions";
 
 export default async function Page() {
+
+    const agency: Agency = {
+        id: 0,
+        name: ""
+    }
 
     return (
         <main>
@@ -14,7 +21,11 @@ export default async function Page() {
                 },
                 ]}
             />
-            <CreateAgencyForm />
+            <AgencyForm 
+                agency={agency}
+                onSubmit={createAgency}
+                submitButtonText="Crear Concesionaria" 
+            />
         </main>
     )
 }

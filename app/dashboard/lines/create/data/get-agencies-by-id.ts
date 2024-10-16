@@ -2,9 +2,9 @@
 
 import {unstable_noStore as noStore} from "next/cache";
 import {createClient} from '@/utils/supabase/server';
-import {Agencies} from "@/app/lib/definitions";
+import {Agency} from "@/app/lib/definitions";
 
-export async function getAgenciesById(): Promise<Agencies[]> {
+export async function getAgenciesById(): Promise<Agency[]> {
     noStore();
     
     const supabase = createClient();
@@ -16,7 +16,7 @@ export async function getAgenciesById(): Promise<Agencies[]> {
         .order('id', { ascending: true })
         const { data } = await queryBuilder
         console.log('Agencies', data)
-        return data as Agencies[]
+        return data as Agency[]
     } catch (error) {
         console.error('Database Error:', error)
         throw new Error('Failed to fetch agencies')

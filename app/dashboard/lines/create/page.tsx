@@ -1,8 +1,9 @@
 import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
-import CreateLineForm from "@/app/dashboard/lines/create/ui/create-line-form";
 import { Line } from "@/app/lib/definitions";
 import {getAllStops} from "@/app/dashboard/lines/data/get-all-stops";
 import {getAgenciesById} from "@/app/dashboard/lines/create/data/get-agencies-by-id";
+import { createLine } from "./data/create-line";
+import LineForm from "@/shared/components/organisms/LineForm/LineForm";
 
 export default async function Page() {
     const agencies = await getAgenciesById();
@@ -29,7 +30,13 @@ export default async function Page() {
                 },
                 ]}
             />
-            <CreateLineForm stops={stops} agencies={agencies} line={line}/>
+            <LineForm 
+                stops={stops} 
+                agencies={agencies} 
+                line={line} 
+                onSubmit={createLine}
+                submitButtonText="Crear Linea"
+            />
         </main>
     );
 }

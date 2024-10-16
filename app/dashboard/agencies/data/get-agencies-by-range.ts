@@ -2,7 +2,7 @@
 
 import { ITEMS_PER_PAGE } from '@/app/lib/utils';
 import { createClient } from '@/utils/supabase/server';
-import { Agencies } from '@/app/lib/definitions';
+import { Agency } from '@/app/lib/definitions';
 
 export async function getAgenciesByRange(
     query: string,
@@ -33,7 +33,7 @@ export async function getAgenciesByRange(
         return [];
     }
 
-    const agencies: Agencies[] = data.map((agency: any) => {
+    const agencies: Agency[] = data.map((agency: any) => {
         return {
             id: agency.id,
             name: agency.name
