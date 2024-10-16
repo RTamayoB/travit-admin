@@ -1,3 +1,5 @@
+'use client';
+
 import styles from '../user-form.module.scss';
 import {Button, Logo} from '@/shared/components';
 
