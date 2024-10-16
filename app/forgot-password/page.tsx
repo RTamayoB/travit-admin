@@ -1,4 +1,3 @@
-import { sendPasswordResetEmail } from './data/reset-password';
 import styles from '../user-form.module.scss';
 import {Button, Logo} from '@/shared/components';
 
@@ -15,7 +14,7 @@ export default function Page() {
                 <label htmlFor="email">Ingresa tu correo electronico, si existe, recibiras un correo para actualizar tu contraseña:</label>
                 <input id="recoverEmail" name="recoverEmail" type="email" required/>
                 <div className={styles.buttonContainer}>
-                    <Button formAction={sendPasswordResetEmail} className={styles.button}>Enviar correo</Button>
+                    <Button className={styles.button}>Enviar correo</Button>
                 </div>
             </form>
         </div>
