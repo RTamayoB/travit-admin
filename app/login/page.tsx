@@ -24,7 +24,7 @@ export default function LoginPage({
                 <input id="email" name="email" type="email" required/>
                 <label htmlFor="password">Contraseña:</label>
                 <input id="password" name="password" type="password" required/>
-                <Link href={"/forgot-password/"} className={styles.forgot}>Olvidaste la contraseña?</Link>
+                <Link href={""} className={styles.forgot}>Olvidaste la contraseña?</Link>
                 <div className={styles.buttonContainer}>
                     <Button formAction={login} className={styles.button}>Login</Button>
                     <Typography variant="bodySmall">No tienes una cuenta? <Link href={"/signup"} className={styles.link}>Registrate</Link></Typography>
