@@ -1,0 +1,77 @@
+@import "../../styles/variables.scss";
+
+$padding-small: 4px 8px;
+$padding-medium: 8px 12px;
+$padding-large: 12px 16px;
+
+$font-small: 12px;
+$font-medium: 14px;
+$font-large: 16px;
+
+@mixin button-hover($background-color, $border-color) {
+  &:hover {
+    background-color: $background-color;
+    border-color: $border-color;
+  }
+}
+
+@mixin button-active($bg-color, $color: null) {
+  &:active {
+    background-color: $bg-color;
+    @if $color {
+      color: $color;
+    }
+  }
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+
+  &--primary {
+    background-color: $primary;
+    border-color: $primary-dark;
+    color: $white;
+
+    @include button-hover($primary-light, $primary-dark);
+    @include button-active($primary-dark);
+  }
+
+  &--secondary {
+    background-color: $secondary;
+    border-color: $grey-light;
+    color: $grey-dark;
+
+    @include button-hover($secondary-light, $secondary-dark);
+    @include button-active($secondary-dark, $white);
+  }
+
+  &--small {
+    padding: $padding-small;
+    font-size: $font-small;
+  }
+
+  &--medium {
+    padding: $padding-medium;
+    font-size: $font-medium;
+  }
+
+  &--large {
+    padding: $padding-large;
+    font-size: $font-large;
+  }
+
+  &:disabled {
+    background-color: $white-grey;
+    border-color: $grey-light;
+    color: $grey;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
