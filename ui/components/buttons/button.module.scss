@@ -1,0 +1,61 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+
+  &--primary {
+    background-color: #d04116;
+    border-color: #571b09;
+    color: white;
+
+    &:hover {
+      background-color: #d96745;
+      border-color: #571b09;
+    }
+    &:active {
+      background-color: #571b09;
+    }
+  }
+
+  &--secondary {
+    background-color: #ededed;
+    border-color: #c7c7c7;
+    color: #434343;
+
+    &:hover {
+      background-color: #f8c8b5;
+      border-color: #e9a894;
+    }
+    &:active {
+      background-color: #e04b0e;
+      color: white;
+    }
+  }
+
+  &--small {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  &--medium {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  &--large {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  &:disabled {
+    background-color: #e9eaec;
+    color: #6e6e6e;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
