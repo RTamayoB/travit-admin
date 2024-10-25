@@ -6,16 +6,16 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
   primary?: boolean;
   size?: "small" | "medium" | "large";
-  leadingIconSrc?: string;
-  trailingIconSrc?: string;
+  leadIconUrl?: string;
+  trailIconUrl?: string;
 }
 
 function Button({
   label,
   primary = true,
   size = "medium",
-  leadingIconSrc,
-  trailingIconSrc,
+  leadIconUrl,
+  trailIconUrl,
   ...props
 }: ButtonProps) {
   const buttonClass = `${styles.button} ${
@@ -27,12 +27,12 @@ function Button({
       className={buttonClass}
       {...props}
     >
-      {leadingIconSrc && (
-        <Image src={leadingIconSrc} alt="" width={24} height={24} />
+      {leadIconUrl && (
+        <Image src={leadIconUrl} alt="" width={24} height={24} />
       )}
       {label}
-      {trailingIconSrc && (
-        <Image src={trailingIconSrc} alt="" width={24} height={24} />
+      {trailIconUrl && (
+        <Image src={trailIconUrl} alt="" width={24} height={24} />
       )}
     </button>
   );

@@ -1,27 +1,6 @@
 @import "../../styles/variables.scss";
 
-/*.textfield {
-    position: relative;
-    padding-top: 16px;
-
-    .input {
-        min-width: 260px;
-        min-height: 32px;
-        border-radius: 4px;
-    }
-
-    &__label {
-        position: absolute;
-        top: 50%;
-        left: 10px;
-        transform: translateY(-50%);
-        background-color: white;
-        padding: 0 4px;
-        color: gray;
-        pointer-events: none;
-        transition: 0.2s ease all;
-    }
-}*/
+$onfocus: #006EFB;
 
 .textfield {
   position: relative;
@@ -33,26 +12,54 @@
     top: 50%;
     left: 8px;
     transform: translateY(-50%);
-    color: gray;
     font-size: 16px;
     pointer-events: none;
     transition: 0.2s ease all;
-    background-color: white; // For the label to not overlap with the input
+    color: $grey;
+    background-color: transparent;
+    padding-left: 0;
+    padding-top: 0;
 
     &--focus {
       top: 0;
       transform: translateY(-50%);
+      background-color: white;
       font-size: 12px;
-      color: blue;
+      color: $onfocus;
     }
+
+    &--icon {
+      left: 40px;
+    }
+
+    &--message {
+      color: red;
+    }
+
+    &--disabled {
+      color: $grey-dark;
+    }
+  }
+
+  &--lead-icon {
+    position: absolute;
+    object-fit: cover;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 12px;
   }
 
   &--input {
     min-width: 260px;
-    padding: 8px;
-    border: 2px solid gray;
+    padding: 30px;
+    border: 2px solid $grey-light;
     border-radius: 4px;
     outline: none;
+
+    &:focus {
+      border-color: $onfocus;
+    }
 
     &--small {
       padding: 8px;
@@ -64,6 +71,33 @@
 
     &--large {
       padding: 16px 8px;
+    }
+
+    &--icon {
+      padding-left: 40px;
+    }
+
+    &--message {
+      border-color: red;
+    }
+
+    &:disabled {
+      background-color: #acacac;
+      border-color: $grey-light;
+      color: #5E6368;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  &--message {
+    position: absolute;
+    margin-top: 4px;
+    color: red;
+    font-size: 13px;
+
+    &--disabled {
+      color: $grey-dark;
     }
   }
 }
