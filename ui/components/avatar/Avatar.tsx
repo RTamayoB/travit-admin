@@ -14,7 +14,7 @@ interface AvatarProps {
 
 function Avatar({
   src,
-  size = "small",
+  size = "regular",
 }: AvatarProps) {
   const sizeMap = {
     "extra-small": 16,
