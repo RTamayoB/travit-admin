@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes } from "react";
 import Image from "next/image";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  text: string;
+  label: string;
   primary?: boolean;
   size?: "small" | "medium" | "large";
   leadingIconSrc?: string;
@@ -11,7 +11,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 function Button({
-  text,
+  label,
   primary = true,
   size = "medium",
   leadingIconSrc,
@@ -30,7 +30,7 @@ function Button({
       {leadingIconSrc && (
         <Image src={leadingIconSrc} alt="" width={24} height={24} />
       )}
-      {text}
+      {label}
       {trailingIconSrc && (
         <Image src={trailingIconSrc} alt="" width={24} height={24} />
       )}
