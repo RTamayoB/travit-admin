@@ -3,15 +3,16 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Avatar from "./Avatar";
 
 const meta: Meta<typeof Avatar> = {
-  title: 'Design System/Components/Avatar',
+  title: "Design System/Components/Avatar",
   component: Avatar,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     design: {
       type: "figma",
-      url: "https://www.figma.com/design/jT69LhIFVmKzyWtOVBrLf7/Travit's-components?node-id=32-62420&t=4Z9ISfcB0Vr7Tzss-1"
-    }
-  }
+      url:
+        "https://www.figma.com/design/jT69LhIFVmKzyWtOVBrLf7/Travit's-components?node-id=32-62420&t=4Z9ISfcB0Vr7Tzss-1",
+    },
+  },
 };
 
 export default meta;

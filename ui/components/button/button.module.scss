@@ -54,17 +54,14 @@ $font-large: 16px;
 
   &--small {
     padding: $padding-small;
-    font-size: $font-small;
   }
 
   &--medium {
     padding: $padding-medium;
-    font-size: $font-medium;
   }
 
   &--large {
     padding: $padding-large;
-    font-size: $font-large;
   }
 
   &:disabled {

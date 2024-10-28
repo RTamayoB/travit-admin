@@ -1,6 +1,7 @@
 import styles from "./button.module.scss";
 import { ButtonHTMLAttributes } from "react";
 import Image from "next/image";
+import Typography from "../typography";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   label: string;
@@ -27,10 +28,10 @@ function Button({
       className={buttonClass}
       {...props}
     >
-      {leadIconUrl && (
-        <Image src={leadIconUrl} alt="" width={24} height={24} />
-      )}
-      {label}
+      {leadIconUrl && <Image src={leadIconUrl} alt="" width={24} height={24} />}
+      <Typography variant="button">
+        {label}
+      </Typography>
       {trailIconUrl && (
         <Image src={trailIconUrl} alt="" width={24} height={24} />
       )}

@@ -1,21 +1,26 @@
-import { ChangeEvent, ChangeEventHandler, HtmlHTMLAttributes, InputHTMLAttributes, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import styles from "./textfield.module.scss";
 import Image from "next/image";
+import Typography from "../typography";
 
 interface TextFieldProps {
-  value: string
+  value: string;
   onValueChange: (value: string) => void;
   label?: string;
-  size?: 'small' | 'medium' | 'large'
+  placeholder?: string;
+  id?: string;
+  size?: "small" | "medium" | "large";
   leadIconUrl?: string;
-  errorMessage?: string
-  disabled?: boolean
+  errorMessage?: string;
+  disabled?: boolean;
 }
 
 function TextField({
   value,
   onValueChange,
-  label = "",
+  label,
+  placeholder,
+  id,
   size = "small",
   leadIconUrl,
   errorMessage,
@@ -24,7 +29,7 @@ function TextField({
   const [focus, setFocus] = useState(false);
 
   function handleValueChange(e: ChangeEvent<HTMLInputElement>) {
-    onValueChange(e.target.value)
+    onValueChange(e.target.value);
   }
 
   function handleFocus() {
@@ -40,7 +45,11 @@ function TextField({
   const labelClass = `
     ${styles["textfield--label"]} 
     ${(focus || value) ? styles["textfield--label--focus"] : ""}
-    ${(leadIconUrl && (focus || value)) ? styles["textfield--label--focus--icon"] : ""}
+    ${
+    (leadIconUrl && (focus || value))
+      ? styles["textfield--label--focus--icon"]
+      : ""
+  }
     ${(!focus && !value && leadIconUrl) ? styles["textfield--label--icon"] : ""}
     ${errorMessage ? styles["textfield--label--message"] : ""}
     ${disabled ? styles["textfield--label--disabled"] : ""}
@@ -60,7 +69,7 @@ function TextField({
 
   return (
     <div className={styles.textfield}>
-      <label className={labelClass}>
+      <label className={labelClass} htmlFor={id}>
         {label}
       </label>
       {leadIconUrl && (
@@ -76,13 +85,17 @@ function TextField({
         type="text"
         className={inputClass}
         value={value}
+        id={id}
         onChange={handleValueChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
         disabled={disabled}
+        placeholder={(placeholder && focus) || (!label) ? placeholder : ""}
       />
       {errorMessage && (
-        <p className={messageClass}>{errorMessage}</p>
+        <Typography variant="note" className={messageClass}>
+          {errorMessage}
+        </Typography>
       )}
     </div>
   );

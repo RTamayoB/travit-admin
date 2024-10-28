@@ -82,7 +82,7 @@
     &:disabled {
       background-color: #acacac;
       border-color: $grey-light;
-      color: #5E6368;
+      color: #5e6368;
       cursor: not-allowed;
       pointer-events: none;
     }
@@ -92,7 +92,6 @@
     position: absolute;
     margin-top: 4px;
     color: red;
-    font-size: 13px;
 
     &--disabled {
       color: $grey-dark;

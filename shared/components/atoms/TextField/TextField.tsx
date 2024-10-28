@@ -7,8 +7,9 @@ import React, {
   ChangeEvent,
   InputHTMLAttributes,
 } from 'react'
-import { ButtonSizes, Typography } from '../../../'
+import { ButtonSizes } from '../../../'
 import './textField.scss'
+import Typography from '@/ui/components/typography';
 
 export interface TextFieldProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {

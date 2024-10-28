@@ -1,6 +1,6 @@
 'use client';
 
-import {Button, Pagination, Searchbar, Typography } from "@/shared/components";
+import {Button, Pagination, Searchbar } from "@/shared/components";
 import LineTable from "./LineTable";
 import Link from "next/link";
 import styles from "@/app/dashboard/lines/ui/page.module.scss";

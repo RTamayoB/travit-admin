@@ -1,1 +1,1 @@
-export * from './Typography'
+export * from '../../../../ui/components/typography/Typography'

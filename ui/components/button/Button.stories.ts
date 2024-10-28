@@ -3,13 +3,14 @@ import type { Meta, StoryObj } from "@storybook/react";
 import Button from "./Button";
 
 const meta: Meta<typeof Button> = {
-  title: 'Design System/Components/Button',
+  title: "Design System/Components/Button",
   component: Button,
-  tags: ['autodocs'],
+  tags: ["autodocs"],
   parameters: {
     design: {
-      type: 'figma',
-      url: "https://www.figma.com/file/jT69LhIFVmKzyWtOVBrLf7/Travit's-components?type=design&node-id=6-64150&mode=design&t=qmEk3xCCXNU73aDo-11",
+      type: "figma",
+      url:
+        "https://www.figma.com/file/jT69LhIFVmKzyWtOVBrLf7/Travit's-components?type=design&node-id=6-64150&mode=design&t=qmEk3xCCXNU73aDo-11",
     },
   },
 };
@@ -19,35 +20,35 @@ type Story = StoryObj<typeof Button>;
 
 export const Primary: Story = {
   args: {
-    label: "Button"
+    label: "Button",
   },
 };
 
 export const Secondary: Story = {
   args: {
     primary: false,
-    label: "Button"
+    label: "Button",
   },
 };
 
 export const Small: Story = {
   args: {
     label: "Button",
-    size: "small"
+    size: "small",
   },
 };
 
 export const Medium: Story = {
   args: {
     label: "Button",
-    size: "medium"
+    size: "medium",
   },
 };
 
 export const Large: Story = {
   args: {
     label: "Button",
-    size: "large"
+    size: "large",
   },
 };
 

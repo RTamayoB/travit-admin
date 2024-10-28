@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import Link from 'next/link';
 import styles from "@/app/dashboard/.ui/breadcrumbs.module.scss";
-import { Typography } from '@/shared/components/atoms/Typography';
+import Typography from '@/ui/components/typography';
 
 interface Breadcrumb {
     label: string;

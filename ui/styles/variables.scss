@@ -1,7 +1,18 @@
 //Colors
-$primary: #d04116;
-$primary-dark: #571b09;
-$primary-light: #d96745;
+$orange-50: #faece8;
+$orange-100: #f0c4b7;
+$orange-200: #e9a894;
+$orange-300: #e08063;
+$orange-400: #d96745;
+$orange-500: #d04116;
+$orange-600: #bd3b14;
+$orange-700: #942e10;
+$orange-800: #72240c;
+$orange-900: #571b09;
+
+$primary: $orange-500;
+$primary-dark: $orange-900;
+$primary-light: $orange-400;
 
 $secondary: #ededed;
 $secondary-light: #f8c8b5;
