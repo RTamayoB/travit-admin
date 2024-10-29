@@ -17,13 +17,13 @@
         }
 
         a {
-          text-decoration: none;
           color: lightgray; // Default (inactive) breadcrumb color
           transition: color 0.3s ease; // Smooth color transition when switching states
         }
 
         &.active { // Class for active breadcrumb
           a {
+            text-decoration: none;
             color: black; // Active breadcrumb color
           }
         }

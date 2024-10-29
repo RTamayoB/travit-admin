@@ -1,5 +1,5 @@
 export * from './Button'
-export * from './LinkButton'
+export * from '../../../ui/components/linkbutton'
 export * from './Typography'
 export * from './TextField'
 export * from './Logo'

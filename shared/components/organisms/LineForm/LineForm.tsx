@@ -2,12 +2,13 @@
 
 import Map from "@/app/dashboard/components/Map";
 import { Agency, Line, RoutePoint, Stop } from "@/app/lib/definitions";
-import { Button, TextField, Typography } from "@/shared/components/atoms";
+import { Button, TextField } from "@/shared/components/atoms";
 import { Dropdown, Option } from "@/shared";
 import { useState } from "react";
 import MapComponent from "@/app/dashboard/lines/[id]/edit/ui/MapComponent";
 import Link from "next/link";
 import { Combobox } from "@/shared/components/molecules/Combobox/Combobox";
+import Typography from "@/ui/components/typography";
 
 interface LineFormProps {
   stops: Stop[];

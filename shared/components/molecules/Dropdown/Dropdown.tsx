@@ -1,7 +1,7 @@
 import React, { FC, KeyboardEvent, useEffect, useState } from 'react'
 import { Base } from '@/shared'
 import './dropdown.scss'
-import { Typography } from '@/shared'
+import Typography from '@/ui/components/typography'
 
 export interface Option {
   label: string
