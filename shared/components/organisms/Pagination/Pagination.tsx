@@ -1,13 +1,13 @@
 'use client';
 
 import { FC } from 'react'
-import { Typography } from '../../../../shared/components/atoms/Typography'
 import { Base } from '@/shared/interfaces'
 import './pagination.scss'
 import {usePathname, useSearchParams} from "next/navigation";
 import { generatePagination } from '../../../../app/lib/utils'
 import Link from "next/link";
 import clsx from 'clsx';
+import Typography from '@/ui/components/typography';
 
 export interface PaginationProps extends Base {
   rounded?: boolean

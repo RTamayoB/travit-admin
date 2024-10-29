@@ -9,6 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "small" | "medium" | "large";
   leadIconUrl?: string;
   trailIconUrl?: string;
+  classNanme?: string;
 }
 
 function Button({
@@ -17,11 +18,12 @@ function Button({
   size = "medium",
   leadIconUrl,
   trailIconUrl,
+  className,
   ...props
 }: ButtonProps) {
   const buttonClass = `${styles.button} ${
     styles[`button--${primary ? "primary" : "secondary"}`]
-  } ${styles[`button--${size}`]}`;
+  } ${styles[`button--${size}`]} ${className && className}`;
 
   return (
     <button

@@ -5,11 +5,13 @@ type LogoVariants = "logotype" | "isotype";
 export interface LogoProps {
   variant: LogoVariants;
   size?: number;
+  className?: string;
 }
 
 function Logo({
   variant,
   size = 24,
+  className,
 }: LogoProps) {
   function returnSrc(variant: LogoVariants): string {
     switch (variant) {
@@ -30,6 +32,7 @@ function Logo({
       alt={variant}
       width={size}
       height={size}
+      className={className}
     />
   );
 }

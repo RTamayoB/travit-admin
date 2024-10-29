@@ -1,13 +1,15 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, InputHTMLAttributes, useEffect, useState } from "react";
 import styles from "./textfield.module.scss";
 import Image from "next/image";
 import Typography from "../typography";
 
-interface TextFieldProps {
-  value: string;
-  onValueChange: (value: string) => void;
+interface TextFieldProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
+  value?: string;
+  onValueChange?: (value: string) => void;
   label?: string;
   placeholder?: string;
+  className?: string;
   id?: string;
   size?: "small" | "medium" | "large";
   leadIconUrl?: string;
@@ -20,16 +22,30 @@ function TextField({
   onValueChange,
   label,
   placeholder,
+  className,
   id,
   size = "small",
   leadIconUrl,
   errorMessage,
   disabled = false,
+  ...props
 }: TextFieldProps) {
-  const [focus, setFocus] = useState(false);
+  const [inputValue, setValue] = useState(value || "");
+  const [focus, setFocus] = useState(value ? true : false);
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setValue(value);
+    }
+  }, [value]);
 
   function handleValueChange(e: ChangeEvent<HTMLInputElement>) {
-    onValueChange(e.target.value);
+    const newValue = e.target.value;
+    setValue(newValue);
+
+    if (onValueChange) {
+      onValueChange(newValue);
+    }
   }
 
   function handleFocus() {
@@ -37,20 +53,24 @@ function TextField({
   }
 
   function handleBlur() {
-    if (!value) {
+    if (!inputValue) {
       setFocus(false);
     }
   }
 
   const labelClass = `
     ${styles["textfield--label"]} 
-    ${(focus || value) ? styles["textfield--label--focus"] : ""}
+    ${(focus || inputValue) ? styles["textfield--label--focus"] : ""}
     ${
-    (leadIconUrl && (focus || value))
+    (leadIconUrl && (focus || inputValue))
       ? styles["textfield--label--focus--icon"]
       : ""
   }
-    ${(!focus && !value && leadIconUrl) ? styles["textfield--label--icon"] : ""}
+    ${
+    (!focus && !inputValue && leadIconUrl)
+      ? styles["textfield--label--icon"]
+      : ""
+  }
     ${errorMessage ? styles["textfield--label--message"] : ""}
     ${disabled ? styles["textfield--label--disabled"] : ""}
   `;
@@ -68,7 +88,7 @@ function TextField({
   `;
 
   return (
-    <div className={styles.textfield}>
+    <div className={`${styles.textfield} ${className ? className : ""}`}>
       <label className={labelClass} htmlFor={id}>
         {label}
       </label>
@@ -84,13 +104,13 @@ function TextField({
       <input
         type="text"
         className={inputClass}
-        value={value}
-        id={id}
+        value={inputValue}
         onChange={handleValueChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
         disabled={disabled}
         placeholder={(placeholder && focus) || (!label) ? placeholder : ""}
+        {...props}
       />
       {errorMessage && (
         <Typography variant="note" className={messageClass}>
