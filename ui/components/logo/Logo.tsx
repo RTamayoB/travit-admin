@@ -16,9 +16,9 @@ function Logo({
   function returnSrc(variant: LogoVariants): string {
     switch (variant) {
       case "isotype":
-        return "images/logo/isotype.svg";
+        return "/images/logo/isotype.svg";
       case "logotype":
-        return "images/logo/logotype.svg";
+        return "/images/logo/logotype.svg";
       default:
         return "/images/logo/logotype.svg";
     }

@@ -22,17 +22,17 @@ type Story = StoryObj<typeof Breadcrumbs>;
 const breadcrumbs: Breadcrumb[] = [
   {
     label: "Inicio",
-    href: "www.example.com/home"
+    href: "www.example.com/home",
   },
   {
     label: "Sub-pagina",
     href: "www.example.com/home/sub-page",
-    active: true
-  }
-] 
+    active: true,
+  },
+];
 
 export const Default: Story = {
   args: {
-    breadcrumbs: breadcrumbs
+    breadcrumbs: breadcrumbs,
   },
 };

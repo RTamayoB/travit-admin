@@ -4,12 +4,12 @@ import Image from "next/image";
 import Typography from "../typography";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  label: string;
+  label?: string;
   primary?: boolean;
   size?: "small" | "medium" | "large";
   leadIconUrl?: string;
   trailIconUrl?: string;
-  classNanme?: string;
+  className?: string;
 }
 
 function Button({
@@ -23,7 +23,7 @@ function Button({
 }: ButtonProps) {
   const buttonClass = `${styles.button} ${
     styles[`button--${primary ? "primary" : "secondary"}`]
-  } ${styles[`button--${size}`]} ${className && className}`;
+  } ${styles[`button--${size}`]} ${className || ""}`;
 
   return (
     <button
@@ -31,9 +31,11 @@ function Button({
       {...props}
     >
       {leadIconUrl && <Image src={leadIconUrl} alt="" width={24} height={24} />}
-      <Typography variant="button">
-        {label}
-      </Typography>
+      {label && (
+        <Typography variant="button">
+          {label}
+        </Typography>
+      )}
       {trailIconUrl && (
         <Image src={trailIconUrl} alt="" width={24} height={24} />
       )}
