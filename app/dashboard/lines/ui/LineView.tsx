@@ -9,7 +9,7 @@ import LinesDrawer from "@/app/dashboard/lines/ui/LinesDrawer";
 import { Line } from "@/app/lib/definitions";
 import { useState } from "react";
 import Breadcrumbs from "@/ui/components/breadcrumbs";
-import TableHeader from "@/ui/header/Header";
+import TableHeader from "@/ui/sections/header/Header";
 import { LinkButton } from "@/ui/components";
 
 export default function LineView ({

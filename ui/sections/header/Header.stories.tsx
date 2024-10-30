@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import Header from "./Header";
-import { LinkButton } from "../components";
+import { LinkButton } from "../../components";
 
 const meta: Meta<typeof Header> = {
-  title: "Design System/Header",
+  title: "Design System/Sections/Header",
   component: Header,
   tags: ["autodocs"],
   parameters: {
@@ -27,13 +27,13 @@ export const MainHeader: Story = {
 
 export const SubHeader: Story = {
   args: {
-    breadcrumbList: [{label: 'Pagina', href: '/page', active: true}, {label: 'SubPagina', href: '/page/sub-page', active: true}]
+    breadcrumbList: [{label: 'Pagina', href: '/page'}, {label: 'SubPagina', href: '/page/sub-page', active: true}]
   },
 };
 
 export const WithActions: Story = {
   args: {
-    breadcrumbList: [{label: 'Pagina', href: '/page', active: true}, {label: 'SubPagina', href: '/page/sub-page', active: true}],
+    breadcrumbList: [{label: 'Pagina', href: '/page'}, {label: 'SubPagina', href: '/page/sub-page', active: true}],
     actions: (
       <LinkButton href={'/page/action'} label="Action Button"/>
     )
