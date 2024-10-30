@@ -1,3 +1,5 @@
+"use client";
+
 import { ChangeEvent, InputHTMLAttributes, useEffect, useState } from "react";
 import styles from "./textfield.module.scss";
 import Image from "next/image";
