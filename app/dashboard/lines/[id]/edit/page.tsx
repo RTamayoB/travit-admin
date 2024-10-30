@@ -4,7 +4,7 @@ import ShowInfoButton from "@/app/dashboard/lines/[id]/edit/ui/ShowInfoButton";
 import {getLineById} from "@/app/dashboard/lines/[id]/edit/data/get-line-by-id";
 import {getAllStops} from "@/app/dashboard/lines/data/get-all-stops";
 import {getAgenciesById} from "@/app/dashboard/lines/create/data/get-agencies-by-id";
-import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
+import Breadcrumbs from "@/ui/components/breadcrumbs/Breadcrumbs";
 import { editLine } from "./data/edit-line";
 import LineForm from "@/shared/components/organisms/LineForm/LineForm";
 

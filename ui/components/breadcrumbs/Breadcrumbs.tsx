@@ -1,15 +1,15 @@
 import { clsx } from 'clsx';
 import Link from 'next/link';
-import styles from "@/app/dashboard/.ui/breadcrumbs.module.scss";
+import styles from "./breadcrumbs.module.scss";
 import Typography from '@/ui/components/typography';
 
-interface Breadcrumb {
+export interface Breadcrumb {
     label: string;
     href: string;
     active?: boolean;
 }
 
-export default function Breadcrumbs({
+function Breadcrumbs({
     breadcrumbs,
 }: {
     breadcrumbs: Breadcrumb[];
@@ -24,11 +24,17 @@ export default function Breadcrumbs({
                             {[styles.active]: breadcrumb.active
                             })}
                     >
-                        <Link href={breadcrumb.href}>
+                        {breadcrumb.active ? (
                             <Typography variant="h5" bold>
                                 {breadcrumb.label}
                             </Typography>
-                        </Link>
+                        ) : (
+                            <Link href={breadcrumb.href}>
+                            <Typography variant="h5" bold>
+                                {breadcrumb.label}
+                            </Typography>
+                            </Link>
+                        )}
                         {index < breadcrumbs.length - 1 ? (
                             <span className={styles.separator}><Typography variant="h5" bold>/</Typography></span>
                         ) : null}
@@ -38,3 +44,5 @@ export default function Breadcrumbs({
         </nav>
     );
 }
+
+export default Breadcrumbs;

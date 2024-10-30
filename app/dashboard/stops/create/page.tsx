@@ -1,5 +1,5 @@
 import StopForm from "@/shared/components/organisms/StopForm/StopForm";
-import Breadcrumbs from "../../.ui/breadcrumbs";
+import Breadcrumbs from "../../../../ui/components/breadcrumbs/Breadcrumbs";
 import { createStop } from "./data/create-stop";
 import { Position, Stop } from "@/app/lib/definitions";
 

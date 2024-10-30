@@ -1,4 +1,4 @@
-import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
+import Breadcrumbs from "@/ui/components/breadcrumbs/Breadcrumbs";
 import { Line } from "@/app/lib/definitions";
 import {getAllStops} from "@/app/dashboard/lines/data/get-all-stops";
 import {getAgenciesById} from "@/app/dashboard/lines/create/data/get-agencies-by-id";

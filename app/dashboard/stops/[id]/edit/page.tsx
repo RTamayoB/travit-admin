@@ -1,6 +1,6 @@
 'use server';
 
-import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
+import Breadcrumbs from "@/ui/components/breadcrumbs/Breadcrumbs";
 import {getStopById} from "@/app/dashboard/stops/[id]/edit/data/get-stop-by-id";
 import { editStopById } from "./data/edit-stop";
 import StopForm from "@/shared/components/organisms/StopForm/StopForm";

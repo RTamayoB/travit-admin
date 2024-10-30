@@ -1,6 +1,6 @@
 'use server';
 
-import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
+import Breadcrumbs from "@/ui/components/breadcrumbs/Breadcrumbs";
 import { getAgencyById } from "./data/get-agency-by-id";
 import AgencyForm from "@/shared/components/organisms/AgencyForm/AgencyForm";
 import { editAgencyById } from "./data/edit-agency";

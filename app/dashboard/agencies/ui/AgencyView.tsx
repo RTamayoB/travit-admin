@@ -4,7 +4,7 @@ import {Button, Pagination, Searchbar } from "@/shared/components";
 import Link from "next/link";
 import styles from "@/app/dashboard/agencies/ui/page.module.scss";
 import {Agency} from "@/app/lib/definitions";
-import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
+import Breadcrumbs from "@/ui/components/breadcrumbs/Breadcrumbs";
 import AgencyTable from "@/app/dashboard/agencies/ui/AgencyTable";
 
 export default function AgencyView ({

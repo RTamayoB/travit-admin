@@ -10,7 +10,7 @@ import { Searchbar } from '@/shared/components/molecules';
 import Link from 'next/link';
 import { Button, Typography } from '@/shared/components/atoms';
 import StopsController from "@/app/dashboard/stops/ui/StopsController";
-import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
+import Breadcrumbs from "@/ui/components/breadcrumbs/Breadcrumbs";
 
 export default function StopView ({
         stops,

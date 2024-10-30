@@ -8,7 +8,7 @@ import Map from "@/app/dashboard/components/Map";
 import LinesDrawer from "@/app/dashboard/lines/ui/LinesDrawer";
 import { Line } from "@/app/lib/definitions";
 import { useState } from "react";
-import Breadcrumbs from "@/app/dashboard/.ui/breadcrumbs";
+import Breadcrumbs from "@/ui/components/breadcrumbs/Breadcrumbs";
 
 export default function LineView ({
         lines,

@@ -1,5 +1,5 @@
 import AgencyForm from "@/shared/components/organisms/AgencyForm/AgencyForm";
-import Breadcrumbs from "../../.ui/breadcrumbs";
+import Breadcrumbs from "../../../../ui/components/breadcrumbs/Breadcrumbs";
 import { createAgency } from "./data/create-agency";
 import { Agency } from "@/app/lib/definitions";
 
