@@ -5,14 +5,14 @@ import Typography from "../typography";
 import Image from "next/image";
 
 interface LinkButtonProps {
-  label: string;
+  label?: string;
   href: Url;
   leadIconUrl?: string;
   trailIconUrl?: string;
 }
 
 function LinkButton({
-  label = "",
+  label,
   href,
   leadIconUrl,
   trailIconUrl,
@@ -21,7 +21,6 @@ function LinkButton({
     <Link
       href={href}
       className={styles.linkbutton}
-      //style={{ textDecoration: 'none' }}
     >
       {leadIconUrl && (
         <Image
@@ -32,9 +31,11 @@ function LinkButton({
           className={styles["linkbutton--icon-left"]}
         />
       )}
-      <Typography variant="button">
-        {label}
-      </Typography>
+      {label && (
+            <Typography variant="button">
+              {label}
+            </Typography>
+      )}
       {trailIconUrl && (
         <Image
           src={trailIconUrl}

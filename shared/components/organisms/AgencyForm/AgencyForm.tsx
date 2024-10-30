@@ -1,9 +1,7 @@
 'use client';
 
-import {Button, TextField} from "@/shared/components/atoms";
-import styles from './agency-form.module.scss'
-import Link from "next/link";
 import { Agency } from "@/app/lib/definitions";
+import { Button, LinkButton, TextField } from '@/ui/components';
 
 interface AgencyFormProps {
     agency: Agency;
@@ -22,17 +20,11 @@ export default function AgencyForm({
     return (
         <form className='form-container' action={onSubmit}>
             <div className='form-row'>
-                <div className='textfield'>
-                    <TextField id="name" label='Nombre de la Concesionaria' defaultValue={agency.name}/>
-                </div>
+                <TextField id="name" name='name' label='Nombre de la Concesionaria' defaultValue={agency.name} className='formfield'/>
             </div>
             <div className="actions-container">
-                <Link href={"/dashboard/agencies"}>
-                    Cancel
-                </Link>
-                <Button type="submit">
-                    {submitButtonText}
-                </Button>
+                <LinkButton label='Cancelar' href={"/dashboard/agencies"} />
+                <Button label={submitButtonText} type="submit" />
             </div>
         </form>
     );

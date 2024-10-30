@@ -1,6 +1,7 @@
 import React, {useEffect, useRef} from "react";
 import './confirmationdialog.scss'
-import {Button, Typography} from "@/shared";
+import {Button} from "@/shared";
+import { Typography } from "@/ui/components";
 
 // Define the props type
 interface ConfirmationDialogProps {

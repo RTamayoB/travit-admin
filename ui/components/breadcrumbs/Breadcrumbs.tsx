@@ -3,7 +3,7 @@ import Link from "next/link";
 import styles from "./breadcrumbs.module.scss";
 import Typography from "@/ui/components/typography";
 
-export interface Breadcrumb {
+export interface BreadcrumbItem {
   label: string;
   href: string;
   active?: boolean;
@@ -12,7 +12,7 @@ export interface Breadcrumb {
 function Breadcrumbs({
   breadcrumbs,
 }: {
-  breadcrumbs: Breadcrumb[];
+  breadcrumbs: BreadcrumbItem[];
 }) {
   return (
     <nav className={styles.breadcrumbs}>
