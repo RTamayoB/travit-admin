@@ -66,6 +66,14 @@ $font-large: 16px;
     padding: $padding-large;
   }
 
+  &--disabled {
+    pointer-events: none;
+    text-decoration: none;
+    background-color: $white-grey;
+    border-color: $grey-light;
+    color: $grey;
+    cursor: not-allowed;
+  }
 }
 
 .iconleft {

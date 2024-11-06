@@ -30,26 +30,27 @@ function Button({
       className={buttonClass}
       {...props}
     >
-      {leadIconUrl && 
-        <Image 
-          src={leadIconUrl} 
-          alt="" 
-          width={24} 
-          height={24} 
-          className={styles.iconleft}
-        />
-      }
+      {leadIconUrl &&
+        (
+          <Image
+            src={leadIconUrl}
+            alt=""
+            width={24}
+            height={24}
+            className={styles.iconleft}
+          />
+        )}
       {label && (
         <Typography variant="button">
           {label}
         </Typography>
       )}
       {trailIconUrl && (
-        <Image 
-          src={trailIconUrl} 
-          alt="" 
-          width={24} 
-          height={24} 
+        <Image
+          src={trailIconUrl}
+          alt=""
+          width={24}
+          height={24}
           className={styles.iconright}
         />
       )}

@@ -9,6 +9,7 @@ interface LinkButtonProps {
   primary?: boolean;
   size?: "small" | "medium" | "large";
   href: Url;
+  disabled?: boolean;
   leadIconUrl?: string;
   trailIconUrl?: string;
 }
@@ -18,14 +19,20 @@ function LinkButton({
   primary = true,
   size = "medium",
   href,
+  disabled = false,
   leadIconUrl,
   trailIconUrl,
 }: LinkButtonProps) {
-  const linkButtonClass = `${styles.linkbutton} ${styles[`linkbutton--${primary ? "primary" : "secondary"}`]} ${styles[`linkbutton--${size}`]}`;
+  const linkButtonClass = `${styles.linkbutton} ${
+    styles[`linkbutton--${primary ? "primary" : "secondary"}`]
+  } ${styles[`linkbutton--${size}`]} ${
+    styles[`linkbutton--${disabled ? "disabled" : "enabled"}`]
+  }`;
 
   return (
     <Link
       href={href}
+      aria-disabled={disabled}
       className={`${linkButtonClass}`}
     >
       {leadIconUrl && (
@@ -34,13 +41,13 @@ function LinkButton({
           alt=""
           width={24}
           height={24}
-          className={styles.iconleft}
+          className={`${label && styles.iconleft}`}
         />
       )}
       {label && (
-            <Typography variant="button">
-              {label}
-            </Typography>
+        <Typography variant="button">
+          {label}
+        </Typography>
       )}
       {trailIconUrl && (
         <Image
@@ -48,7 +55,7 @@ function LinkButton({
           alt=""
           width={24}
           height={24}
-          className={styles.iconright}
+          className={`${label && styles.iconright}`}
         />
       )}
     </Link>
