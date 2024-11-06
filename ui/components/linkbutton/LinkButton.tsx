@@ -6,6 +6,8 @@ import Image from "next/image";
 
 interface LinkButtonProps {
   label?: string;
+  primary?: boolean;
+  size?: "small" | "medium" | "large";
   href: Url;
   leadIconUrl?: string;
   trailIconUrl?: string;
@@ -13,14 +15,18 @@ interface LinkButtonProps {
 
 function LinkButton({
   label,
+  primary = true,
+  size = "medium",
   href,
   leadIconUrl,
   trailIconUrl,
 }: LinkButtonProps) {
+  const linkButtonClass = `${styles.linkbutton} ${styles[`linkbutton--${primary ? "primary" : "secondary"}`]} ${styles[`linkbutton--${size}`]}`;
+
   return (
     <Link
       href={href}
-      className={styles.linkbutton}
+      className={`${linkButtonClass}`}
     >
       {leadIconUrl && (
         <Image
@@ -28,7 +34,7 @@ function LinkButton({
           alt=""
           width={24}
           height={24}
-          className={styles["linkbutton--icon-left"]}
+          className={styles.iconleft}
         />
       )}
       {label && (
@@ -42,7 +48,7 @@ function LinkButton({
           alt=""
           width={24}
           height={24}
-          className={styles["linkbutton--icon-right"]}
+          className={styles.iconright}
         />
       )}
     </Link>
