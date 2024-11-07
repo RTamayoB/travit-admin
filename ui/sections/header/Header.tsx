@@ -2,22 +2,22 @@ import { Breadcrumbs } from "@/ui/components";
 import styles from "./header.module.scss";
 import { BreadcrumbItem } from "@/ui/components/breadcrumbs";
 
-interface TableHeaderProps {
+interface HeaderProps {
   breadcrumbList: BreadcrumbItem[];
-  actions: React.ReactNode;
+  actions?: React.ReactNode;
 }
 
 function Header({
   breadcrumbList,
   actions,
-}: TableHeaderProps) {
+}: HeaderProps) {
   return (
-    <div className={styles.header}>
+    <header className={styles.header}>
       <Breadcrumbs breadcrumbs={breadcrumbList} />
       <div>
         {actions}
       </div>
-    </div>
+    </header>
   );
 }
 

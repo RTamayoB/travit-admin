@@ -1,4 +1,3 @@
-import Pagination from "./pagination/Pagination";
 import styles from "./table.module.scss";
 
 interface TableProps {
@@ -19,8 +18,7 @@ function Table({
   }
 
   return (
-    <div className={styles.container}>
-      <table className={styles.table}>
+    <table className={styles.table}>
         <thead>
           <tr>
             {keys.map((key) => <th key={key}>{key.replace("_", " ")}</th>)}
@@ -44,8 +42,6 @@ function Table({
           ))}
         </tbody>
       </table>
-      <Pagination totalPages={10} />
-    </div>
   );
 }
 
