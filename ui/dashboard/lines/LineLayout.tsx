@@ -3,7 +3,7 @@ import { LinkButton } from "@/ui/components";
 import Header from "@/ui/sections/header";
 import SearchBar from "@/ui/sections/searchbar";
 import Table from "@/ui/sections/table";
-import Pagination from "@/ui/sections/table/pagination/Pagination";
+import Pagination from "@/ui/sections/pagination";
 import styles from './linelayout.module.scss';
 import Map from "@/app/dashboard/components/Map";
 
