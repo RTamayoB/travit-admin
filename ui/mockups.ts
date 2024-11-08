@@ -1,4 +1,25 @@
-import { Line } from "@/app/lib/definitions";
+import { Line, Stop } from "@/app/lib/definitions";
+
+export const mockupStops: Stop[] = [
+  {
+    id: 1,
+    name: "Stop 1",
+    description: "Mockup Stop #1",
+    position: { lat: 20.6797, lng: 256.6700 },
+  },
+  {
+    id: 2,
+    name: "Stop 2",
+    description: "Mockup Stop #2",
+    position: { lat: 20.6397, lng: 256.6300 },
+  },
+  {
+    id: 3,
+    name: "Stop 3",
+    description: "Mockup Stop #3",
+    position: { lat: 20.6397, lng: 256.6700 },
+  },
+];
 
 export const mockupLines: Line[] = [
   {

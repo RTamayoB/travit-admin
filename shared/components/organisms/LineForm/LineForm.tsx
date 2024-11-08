@@ -9,6 +9,7 @@ import MapComponent from "@/app/dashboard/lines/[id]/edit/ui/MapComponent";
 import Link from "next/link";
 import { Combobox } from "@/shared/components/molecules/Combobox/Combobox";
 import Typography from "@/ui/components/typography";
+import LineEditMap from "@/ui/sections/maps/lineeditmap";
 
 interface LineFormProps {
   stops: Stop[];
@@ -57,13 +58,11 @@ export default function LineForm({
       />
       <input type="hidden" name="transport_type" value="bus" />
       <input type="hidden" name="routePoints" value={JSON.stringify(routePoints)} />
-      <Map position={[20.6597, 256.6500]} zoom={17}>
-        <MapComponent
-          stops={stops}
-          routePoints={routePoints}
-          onRoutePointsUpdate={handleRoutePointsUpdate}
-        />
-      </Map>
+      <LineEditMap
+        stops={stops}
+        routePoints={routePoints}
+        onRoutePointsUpdate={handleRoutePointsUpdate}
+      />
       <Typography variant={"note"}>Haz click derecho en cualquier lugar del mapa para colocar un punto de la ruta.</Typography>
       <Typography variant={"note"}>Para mover cualquier punto, arrastralo hacia una nueva posicion.</Typography>
       <Typography variant={"note"}>Si arrastras un punto encima de una parada, este cambiara de color, indicando que esta es una parada del recorrido.</Typography>

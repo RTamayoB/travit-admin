@@ -25,28 +25,26 @@ function LinesMap({
   });
 
   return (
-    <Map
-      children={
-        <>
-          {lines.map((line) => (
-            <>
-              {line.route_points.map((point) => (
-                <React.Fragment key={point.order}>
-                  <MarkerWithPopup
-                    key={point.order}
-                    initialPosition={point.position}
-                    icon={point.isStop ? stopIcon : routeIcon}
-                  />
-                </React.Fragment>
-              ))}
-              <Polyline
-                positions={line.route_points.map((point) => point.position)}
-              />
-            </>
-          ))}
-        </>
-      }
-    />
+    <Map>
+      <>
+        {lines.map((line) => (
+          <>
+            {line.route_points.map((point) => (
+              <React.Fragment key={point.order}>
+                <MarkerWithPopup
+                  key={point.order}
+                  initialPosition={point.position}
+                  icon={point.isStop ? stopIcon : routeIcon}
+                />
+              </React.Fragment>
+            ))}
+            <Polyline
+              positions={line.route_points.map((point) => point.position)}
+            />
+          </>
+        ))}
+      </>
+    </Map>
   );
 }
 
