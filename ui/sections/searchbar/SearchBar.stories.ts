@@ -20,16 +20,16 @@ type Story = StoryObj<typeof SearchBar>;
 
 export const MainHeader: Story = {
   args: {
-    searchPlaceholder: "Buscar Lineas..."
+    searchPlaceholder: "Buscar Lineas...",
   },
   parameters: {
     appDirectory: true,
     nextjs: {
       router: {
-        basePath: '/dashboard/lines',
+        basePath: "/dashboard/lines",
       },
       navigation: {
-        pathname: '/dashboard/lines'
+        pathname: "/dashboard/lines",
       },
     },
   },

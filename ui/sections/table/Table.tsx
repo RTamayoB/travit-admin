@@ -19,29 +19,29 @@ function Table({
 
   return (
     <table className={styles.table}>
-        <thead>
-          <tr>
-            {keys.map((key) => <th key={key}>{key.replace("_", " ")}</th>)}
-            {actions && <th>Acciones</th>}
+      <thead>
+        <tr>
+          {keys.map((key) => <th key={key}>{key.replace("_", " ")}</th>)}
+          {actions && <th>Acciones</th>}
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((item) => (
+          <tr key={item.id}>
+            {keys.map((key) => (
+              <td key={`${item.id}-${key}`}>
+                {item[key]}
+              </td>
+            ))}
+            {actions && (
+              <td>
+                {actions}
+              </td>
+            )}
           </tr>
-        </thead>
-        <tbody>
-          {data.map((item) => (
-            <tr key={item.id}>
-              {keys.map((key) => (
-                <td key={`${item.id}-${key}`}>
-                  {item[key]}
-                </td>
-              ))}
-              {actions && (
-                <td>
-                  {actions}
-                </td>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        ))}
+      </tbody>
+    </table>
   );
 }
 

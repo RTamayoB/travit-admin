@@ -3,7 +3,7 @@
 import StopMarker from "@/app/dashboard/lines/ui/StopMarker";
 import { useState } from "react";
 import { Polyline } from "react-leaflet";
-import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
+import DraggableMarker from "@/ui/sections/maps/base/markers/dragglablemarker/DraggableMarker";
 import {Icon, LatLng} from "leaflet";
 import React from "react";
 import MarkerClusterGroup from "react-leaflet-cluster";

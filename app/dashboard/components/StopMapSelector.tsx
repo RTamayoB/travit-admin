@@ -1,6 +1,6 @@
 'use client';
 
-import DraggableMarker from "@/app/dashboard/components/DraggrableMarker";
+import DraggableMarker from "@/ui/sections/maps/base/markers/dragglablemarker/DraggableMarker";
 import {useMapEvents} from "react-leaflet";
 import {Icon, LatLng} from "leaflet";
 

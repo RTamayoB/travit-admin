@@ -3,35 +3,34 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 
 interface SearchBarProps {
-  searchPlaceholder: string
+  searchPlaceholder: string;
 }
 
 function SearchBar({
-  searchPlaceholder
+  searchPlaceholder,
 }: SearchBarProps) {
-
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set('page','1');
+    params.set("page", "1");
     if (term) {
-      params.set('query', term);
+      params.set("query", term);
     } else {
-      params.delete('query');
+      params.delete("query");
     }
-    router.replace(`${pathname}?${params.toString()}`)
-  }, 300)
+    router.replace(`${pathname}?${params.toString()}`);
+  }, 300);
 
   return (
-    <TextField 
+    <TextField
       placeholder={searchPlaceholder}
       leadIconUrl="/icons/search.svg"
       onValueChange={(e) => handleSearch(e)}
     />
-  )
+  );
 }
 
 export default SearchBar;

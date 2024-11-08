@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import LineLayout from "./LineLayout";
+import LinesMap from "./LinesMap";
 import { mockupLines } from "@/ui/mockups";
 
-const meta: Meta<typeof LineLayout> = {
-  title: "Design System/Dashboard/Lines/Layout",
-  component: LineLayout,
+const meta: Meta<typeof LinesMap> = {
+  title: "Design System/Sections/Maps/LinesMap",
+  component: LinesMap,
   tags: ["autodocs"],
   parameters: {
     design: {
@@ -17,11 +17,10 @@ const meta: Meta<typeof LineLayout> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof LineLayout>;
+type Story = StoryObj<typeof LinesMap>;
 
-export const Layout: Story = {
+export const Default: Story = {
   args: {
     lines: mockupLines,
-    totalPages: 1,
   },
 };
