@@ -4,9 +4,9 @@ import DraggableMarker from "../base/markers/dragglablemarker";
 import { useMapEvents } from "react-leaflet";
 
 const dotIcon = new Icon({
-  iconUrl: '/images/bus-stop.svg',
+  iconUrl: "/images/bus-stop.svg",
   iconSize: [24, 24],
-  iconAnchor: [12, 12]
+  iconAnchor: [12, 12],
 });
 
 interface StopEditMapProps {
@@ -16,11 +16,10 @@ interface StopEditMapProps {
 
 function StopEditMap({
   marker,
-  onSetMarker
+  onSetMarker,
 }: StopEditMapProps) {
-
   const updateMarkerPosition = (newPosition: LatLng) => {
-    onSetMarker(newPosition)
+    onSetMarker(newPosition);
   };
 
   return (
@@ -41,14 +40,13 @@ function StopEditMap({
 }
 
 function MapEvents({
-  handleMarkerPosition
+  handleMarkerPosition,
 }: {
-  handleMarkerPosition: (newPosition: LatLng) => void
+  handleMarkerPosition: (newPosition: LatLng) => void;
 }) {
-
   const map = useMapEvents({
     contextmenu(e) {
-      handleMarkerPosition(e.latlng)
+      handleMarkerPosition(e.latlng);
     },
   });
 

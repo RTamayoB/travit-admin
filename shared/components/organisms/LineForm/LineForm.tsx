@@ -7,7 +7,7 @@ import { Dropdown, Option } from "@/shared";
 import { useState } from "react";
 import MapComponent from "@/app/dashboard/lines/[id]/edit/ui/MapComponent";
 import Link from "next/link";
-import { Combobox } from "@/shared/components/molecules/Combobox/Combobox";
+import { Combobox } from "@/ui/components/combobox/Combobox";
 import Typography from "@/ui/components/typography";
 import LineEditMap from "@/ui/sections/maps/lineeditmap";
 

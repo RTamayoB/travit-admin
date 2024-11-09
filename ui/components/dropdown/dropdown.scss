@@ -1,4 +1,4 @@
-@import "../../../styles/index.scss";
+@import "../../../shared/styles/index.scss";
 
 .msv-dropdown {
     cursor: pointer;
@@ -37,7 +37,7 @@
             transition: all 0.4s;
             background-size: cover;
             background-repeat: no-repeat;
-            background-image: url("../../../assets/svg/downArrow.svg");
+            background-image: url("../../../shared/assets/svg/downArrow.svg");
         }
         &[data-opened="true"]:after {
             transform: rotate(180deg);

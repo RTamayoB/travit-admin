@@ -1,0 +1,17 @@
+.fieldsContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 4px;
+
+  &--field {
+    width: 80vw;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: start;
+  gap: 4px;
+}

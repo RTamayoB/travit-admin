@@ -1,1 +1,1 @@
-export { default } from './StopEditMap';
+export { default } from "./StopEditMap";

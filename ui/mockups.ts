@@ -1,4 +1,4 @@
-import { Line, Stop } from "@/app/lib/definitions";
+import { Agency, Line, Stop } from "@/app/lib/definitions";
 
 export const mockupStops: Stop[] = [
   {
@@ -69,3 +69,18 @@ export const mockupLines: Line[] = [
     ],
   },
 ];
+
+export const mockupAgencies: Agency[] = [
+  {
+    id: 1,
+    name: "Agency 1"
+  },
+  {
+    id: 2,
+    name: "Agency 2"
+  },
+  {
+    id: 3,
+    name: "Agency 3"
+  },
+]

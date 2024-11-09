@@ -22,6 +22,6 @@ type Story = StoryObj<typeof StopEditMap>;
 
 export const Default: Story = {
   args: {
-    marker: new LatLng(20.6797, 256.6700)
+    marker: new LatLng(20.6797, 256.6700),
   },
 };

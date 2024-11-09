@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
-import { Typography } from '../..'
 import { Base } from '@/shared/interfaces'
 import './checkbox.scss'
+import Typography from '../typography'
 
 export interface CheckboxProps extends Base {
   label?: ReactNode
