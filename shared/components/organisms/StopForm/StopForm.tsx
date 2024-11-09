@@ -1,6 +1,6 @@
 'use client';
 
-import {Button, TextField, Typography} from "@/shared/components/atoms";
+import {Button, TextField} from "@/shared/components/atoms";
 import { useState } from "react";
 import Map from "@/app/dashboard/components/Map";
 import  './stop-form.module.scss';
@@ -8,6 +8,8 @@ import {LatLng} from "leaflet";
 import Link from "next/link";
 import StopMapSelector from "@/app/dashboard/components/StopMapSelector";
 import { Stop } from "@/app/lib/definitions";
+import StopEditMap from "@/ui/sections/maps/stopeditmap";
+import { Typography } from "@/ui/components";
 
 interface StopFormProps {
     stop: Stop,
@@ -38,14 +40,10 @@ export default function StopForm({
             </div>
             <input type="hidden" name="lat" value={marker?.lat}/>
             <input type="hidden" name="lng" value={marker?.lng}/>
-            <div>
-                <Map position={[20.6597, 256.6500]} zoom={12}>
-                    <StopMapSelector
-                        marker={marker}
-                        onSetMarker={handleSetMarker}
-                    />
-                </Map>
-            </div>
+            <StopEditMap
+                marker={marker}
+                onSetMarker={handleSetMarker}
+            />
             <Typography variant={"note"}>Haz click derecho en cualquier lugar del mapa para colocar un marcador.</Typography>
             <Typography variant={"note"}>Para moverlo, arrastralo o haz click derecho de nuevo para cambiar su posición.</Typography>
             <div className="actions-container">
