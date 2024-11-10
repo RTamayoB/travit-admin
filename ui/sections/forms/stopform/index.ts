@@ -1,2 +1,1 @@
-export { default } from './StopForm';
- 
+export { default } from "./StopForm";

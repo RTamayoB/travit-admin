@@ -1,133 +1,184 @@
-import React, { FC, KeyboardEvent, useEffect, useState } from 'react'
-import { Base } from '@/shared'
-import './dropdown.scss'
-import Typography from '@/ui/components/typography'
+"use client";
 
-export interface Option {
-  label: string
-  value: string
-}
-export interface DropdownProps extends Base {
-  data: Option[],
-  name: string,
-  placeholder?: string
-  defaultSelected?: Option
-  onSelected: (selected: Option | undefined) => void,
-  label?: string
+import {
+  ChangeEvent,
+  InputHTMLAttributes,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import styles from "./dropdown.module.scss";
+import Image from "next/image";
+import Typography from "../typography";
+
+export interface DropdownOption<T> {
+  key: T;
+  value: string;
 }
 
-export const Dropdown: FC<DropdownProps> = ({
-  data,
-  name,
-  style,
-  className,
-  onSelected,
+interface DropdownProps<T>
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
+  options: DropdownOption<T>[];
+  defaultOption?: DropdownOption<T>;
+  onOptionSelected: (key: T) => void;
+  label?: string;
+  placeholder?: string;
+  className?: string;
+  id?: string;
+  size?: "small" | "medium" | "large";
+  leadIconUrl?: string;
+  errorMessage?: string;
+  disabled?: boolean;
+}
+
+function Dropdown<T>({
+  options,
+  defaultOption,
+  onOptionSelected,
+  label,
   placeholder,
-  defaultSelected,
-  label
-}) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [filteredOps, setFilteredOps] = useState(data)
-  const [search, setSearch] = useState<string>(defaultSelected?.label ?? '')
-  const [selected, setSelected] = useState<Option | undefined>(defaultSelected)
-
-  const handleOptionClick = (i: Option) => {
-    setSelected(i)
-    onSelected(i)
-    setSearch(i.label)
-  }
-  // Allow user to use Enter key to blur input focus
-  const handleOnKeyUp = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      e.currentTarget.blur()
-    }
-  }
-  //Action Blur
-  const handleBlur = () => {
-    // Check if search is equal to any of the options
-    const searchExists = data.find(
-      (i) => i.label.toLowerCase() === search?.toLowerCase(),
-    )
-    // If it doesn't exists clear all values
-    if (!searchExists) {
-      setSelected(undefined)
-      setSearch('')
-      onSelected(undefined)
-    } else {
-      setSelected(searchExists)
-      setSearch(searchExists.label)
-      onSelected(searchExists)
-    }
-  }
-  // Input change action
-  const handleInputChange = (value: string) => {
-    setSearch(value)
-    if (value) {
-      // Filter the options according to the search
-      const filtered = data.filter(({ label }) =>
-        label.toLowerCase().includes(value?.toLowerCase()),
-      )
-      setFilteredOps(filtered)
-    } else {
-      setFilteredOps(data)
-    }
-  }
-
-  // Return selected value to the user every time it changes
-  useEffect(() => {
-    setSearch(defaultSelected?.label ?? '')
-    setSelected(defaultSelected)
-  }, [defaultSelected])
+  className,
+  id,
+  size = "small",
+  leadIconUrl,
+  errorMessage,
+  disabled = false,
+  ...props
+}: DropdownProps<T>) {
+  const [inputValue, setInputValue] = useState(defaultOption?.value || "");
+  const [focus, setFocus] = useState(!!defaultOption?.value);
+  const [filteredOptions, setFilteredOptions] = useState(options);
+  const [showOptions, setShowOptions] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setIsOpen(false)
-  }, [selected])
+    if (defaultOption) {
+      setInputValue(defaultOption.value);
+    }
+  }, [defaultOption]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowOptions(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
+    const newValue = e.target.value;
+    setInputValue(newValue);
+    setFilteredOptions(
+      options.filter((option) =>
+        option.value.toLowerCase().includes(newValue.toLowerCase())
+      ),
+    );
+    setShowOptions(true);
+  }
+
+  function handleFocus() {
+    setFocus(true);
+    setShowOptions(true);
+  }
+
+  function handleBlur() {
+    if (!inputValue) {
+      setFocus(false);
+    }
+  }
+
+  function handleOptionClick(option: DropdownOption<T>) {
+    setInputValue(option.value);
+    setShowOptions(false);
+    onOptionSelected(option.key);
+  }
+
+  const labelClass = `
+    ${styles["dropdown--label"]} 
+    ${(focus || inputValue) ? styles["dropdown--label--focus"] : ""}
+    ${
+    (leadIconUrl && (focus || inputValue))
+      ? styles["dropdown--label--focus--icon"]
+      : ""
+  }
+    ${
+    (!focus && !inputValue && leadIconUrl)
+      ? styles["dropdown--label--icon"]
+      : ""
+  }
+    ${errorMessage ? styles["dropdown--label--message"] : ""}
+    ${disabled ? styles["dropdown--label--disabled"] : ""}
+  `;
+
+  const inputClass = `
+    ${styles["dropdown--input"]} 
+    ${styles[`dropdown--input--${size}`]} 
+    ${leadIconUrl ? styles["dropdown--input--icon"] : ""}
+    ${errorMessage ? styles["dropdown--input--message"] : ""}
+  `;
+
+  const messageClass = `
+    ${styles["dropdown--message"]} 
+    ${disabled ? styles["dropdown--message--disabled"] : ""}
+  `;
 
   return (
-    <div className={['msv-dropdown', className].join(' ')} style={style}>
-      <div className="msv-dropdown__input" data-opened={isOpen}>
-        {label && (
-          <label htmlFor={name}>
-            <Typography bold variant="note">
-              {label}
-            </Typography>
-          </label>
-        )}
-        <input
-          onFocus={() => setIsOpen(true)}
-          value={search}
-          onBlur={handleBlur}
-          placeholder={placeholder ?? 'Select...'}
-          onKeyUp={(e) => handleOnKeyUp(e)}
-          onChange={(e) => handleInputChange(e.target.value)}
-
+    <div
+      className={`${styles.dropdown} ${className ? className : ""}`}
+      ref={dropdownRef}
+    >
+      <label className={labelClass} htmlFor={id}>
+        {label}
+      </label>
+      {leadIconUrl && (
+        <Image
+          className={`${styles[`dropdown--lead-icon`]}`}
+          src={leadIconUrl}
+          alt="Leading Icon"
+          width={24}
+          height={24}
         />
-        <input type="hidden" name={name} value={selected?.value || ''} />
-      </div>
-      <div
-        className={[
-          'msv-dropdown__optionsContainer',
-          isOpen && 'msv-dropdown__optionsContainer--opened',
-        ].join(' ')}
-      >
-        {filteredOps.map((i) => (
-          <button
-            type="button"
-            key={i.value}
-            onClick={() => handleOptionClick(i)}
-            data-selected={selected?.value === i.value}
-            className="msv-dropdown__optionsContainer__option"
-          >
-            {i.label}
-          </button>
-        ))}
-      </div>
+      )}
+      <input
+        type="text"
+        className={inputClass}
+        value={inputValue}
+        onChange={handleInputChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        disabled={disabled}
+        placeholder={(placeholder && focus) || (!label) ? placeholder : ""}
+        {...props}
+      />
+      {showOptions && filteredOptions.length > 0 && (
+        <ul className={styles["dropdown--options"]}>
+          {filteredOptions.map((option) => (
+            <li
+              key={String(option.key)}
+              className={styles["dropdown--option"]}
+              onClick={() => handleOptionClick(option)}
+            >
+              <Typography variant="bodySmall">
+                {option.value}
+              </Typography>
+            </li>
+          ))}
+        </ul>
+      )}
+      {errorMessage && (
+        <Typography variant="note" className={messageClass}>
+          {errorMessage}
+        </Typography>
+      )}
     </div>
-  )
+  );
 }
 
-Dropdown.defaultProps = {
-  defaultSelected: undefined,
-  placeholder: undefined,
-}
+export default Dropdown;

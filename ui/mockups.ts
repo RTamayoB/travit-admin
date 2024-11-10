@@ -73,14 +73,22 @@ export const mockupLines: Line[] = [
 export const mockupAgencies: Agency[] = [
   {
     id: 1,
-    name: "Agency 1"
+    name: "Agency 1",
   },
   {
     id: 2,
-    name: "Agency 2"
+    name: "Agency 2",
   },
   {
     id: 3,
-    name: "Agency 3"
+    name: "Agency 3",
   },
-]
+  {
+    id: 4,
+    name: "Agency 4",
+  },
+  {
+    id: 5,
+    name: "Agency 5",
+  },
+];

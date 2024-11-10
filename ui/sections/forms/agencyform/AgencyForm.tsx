@@ -9,7 +9,7 @@ interface AgencyFormProps {
 }
 
 function AgencyForm({
-  agency =  {
+  agency = {
     id: 0,
     name: "",
   },
