@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import StopForm from "./StopForm";
-import { mockupStops } from "@/ui/mockups";
 
 const meta: Meta<typeof StopForm> = {
   title: "Design System/Sections/Forms/StopForm",

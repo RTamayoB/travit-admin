@@ -5,7 +5,6 @@ import { Button, LinkButton, TextField, Typography } from "@/ui/components";
 import { useState } from "react";
 import LineEditMap from "../../maps/lineeditmap";
 import styles from "../form.module.scss";
-import { Dropdown as Dropped } from "@/ui/components";
 import Dropdown, { DropdownOption } from "@/ui/components/dropdown";
 
 interface LineFormProps {
@@ -33,21 +32,24 @@ function LineForm({
   submitButtonText,
 }: LineFormProps) {
   const [routePoints, setRoutePoints] = useState(line.route_points);
+  const [lineType, setLineType] = useState(line.line_type);
+  const [agencyId, setAgencyId] = useState(line.agency_id);
 
   const handleRoutePointsUpdate = (updatedRoutePoints: RoutePoint[]) => {
     setRoutePoints(updatedRoutePoints);
   };
-  const agencyOptions: DropdownOption<number>[] = agencies.map((agency) => ({
-    value: agency.name,
-    key: agency.id,
-  }));
 
-  const lineOptions: DropdownOption<string>[] = [
+  const lineTypeOptions: DropdownOption<string>[] = [
     { value: "Troncal", key: "troncal" },
     { value: "Complementaria", key: "complementaria" },
     { value: "Alimentadora", key: "alimentadora" },
     { value: "Linea", key: "linea" },
   ];
+
+  const agencyOptions: DropdownOption<number>[] = agencies.map((agency) => ({
+    value: agency.name,
+    key: agency.id,
+  }));
 
   return (
     <form action={onSubmit}>
@@ -71,17 +73,23 @@ function LineForm({
           className={styles["fieldsContainer--field"]}
         />
         <Dropdown
-          options={lineOptions}
-          onOptionSelected={() => 1}
+          options={lineTypeOptions}
+          defaultOption={lineTypeOptions.find((option) =>
+            option.key == lineType
+          )}
+          onOptionSelected={(value) => setLineType(value)}
           label="Tipo de Linea"
           className={styles["fieldsContainer--field"]}
         />
         <Dropdown
           options={agencyOptions}
-          onOptionSelected={() => 1}
+          defaultOption={agencyOptions.find((option) => option.key == agencyId)}
+          onOptionSelected={(value) => setAgencyId(value)}
           label="Concesionaria"
           className={styles["fieldsContainer--field"]}
         />
+        <input type="hidden" name="line_type" value={lineType} />
+        <input type="hidden" name="agency_id" value={agencyId} />
         <input type="hidden" name="transport_type" value="bus" />
         <input
           type="hidden"
