@@ -1,0 +1,19 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.searchbar {
+  width: 50%;
+  padding-bottom: 8px;
+}
+
+.actions {
+  padding: 2px;
+  gap: 4px;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,6 +1,7 @@
-import StopView from "@/app/dashboard/stops/ui/StopView";
 import {getStopsPageCount} from "@/app/dashboard/stops/data/get-stops-page-count";
 import {getStopsByRange} from "@/app/dashboard/stops/data/get-stops-by-range";
+import StopsLayout from "@/ui/dashboard/stops/StopsLayout";
+import { deleteStop } from "./data/delete-stop";
 
 export default async function Page({
         searchParams,
@@ -18,6 +19,6 @@ export default async function Page({
     const stops = await getStopsByRange(query, currentPage)
 
     return (
-        <StopView stops={stops} totalPages={totalPages}/>
+        <StopsLayout stops={stops} totalPages={totalPages} onDeleteStop={deleteStop} />
     )
 }

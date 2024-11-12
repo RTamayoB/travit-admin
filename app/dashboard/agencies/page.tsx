@@ -1,6 +1,7 @@
 import {getAgenciesPageCount} from "@/app/dashboard/agencies/data/get-agencies-page-count";
 import {getAgenciesByRange} from "@/app/dashboard/agencies/data/get-agencies-by-range";
-import AgencyView from "@/app/dashboard/agencies/ui/AgencyView";
+import AgenciesLayout from "@/ui/dashboard/agencies/AgenciesLayout";
+import { deleteAgency } from "./data/delete-agency";
 
 export default async function Page({
     searchParams
@@ -16,6 +17,10 @@ export default async function Page({
     const agencies = await getAgenciesByRange(query, currentPage)
 
     return (
-        <AgencyView agencies={agencies} totalPages={totalAgenciesCount}/>
+        <AgenciesLayout 
+        agencies={agencies} 
+        totalPages={totalAgenciesCount}
+        onDeleteAgency={deleteAgency}
+        />
     )
 }

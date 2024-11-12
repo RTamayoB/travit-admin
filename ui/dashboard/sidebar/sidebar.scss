@@ -1,0 +1,41 @@
+@import "../../styles/variables.scss";
+
+.sidebar {
+  width: 80px;
+  height: 100vh;
+  position: relative;
+  transition: all 0.8s ease;
+  border-bottom: 1px solid #eff0f2;
+  @include flex($dir: column, $gap: 24px, $align: stretch);
+  box-shadow: 0px 4px 4px 0px #00000040;
+
+  &__toggleButton {
+    position: absolute;
+    top: 16px; // Adjusted for top-left placement
+    left: 16px;
+    cursor: pointer;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  &__section {
+    &--header {
+      @include flex;
+      height: 128px;
+      padding: 30px;
+    }
+
+    &--content {
+      flex: 1;
+      height: 128px;
+      padding: 16px;
+    }
+
+    &--footer {
+      padding: 16px;
+      border-top: 1px solid var(--Color-Border-Neutral-Light, #c7c7c7);
+    }
+  }
+  &--open {
+    width: 253px;
+  }
+}

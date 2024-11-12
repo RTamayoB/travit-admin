@@ -1,0 +1,31 @@
+.form {
+  display: flex;
+  justify-content: center;
+  height: fit-content;
+  width: fit-content; /* Center the form horizontally and vertically */
+  z-index: 1; /* Bring the form to the front */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.8
+  ); /* Example background color with opacity */
+  padding: 48px 32px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Example box shadow */
+
+  &--logo {
+    width: 100%;
+  }
+
+  &--link {
+    text-align: center;
+  }
+}
+
+.field {
+  width: 60%;
+}

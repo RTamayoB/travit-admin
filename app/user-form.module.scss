@@ -3,74 +3,30 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: -1;
-    }
-    
-    .logo-container {
-        position: absolute;
-        top: 20px; /* Adjust as needed */
-        left: 20px; /* Adjust as needed */
-        z-index: 1;
-    }
-
-    form {
+    &--form {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%); /* Center the form horizontally and vertically */
         z-index: 1; /* Bring the form to the front */
         background-color: rgba(255, 255, 255, 0.8); /* Example background color with opacity */
-        padding: 20px 50px;
+        padding: 48px 32px;
         border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Example box shadow */
 
-        label, input, .forgot, .title {
-            display: block;
+        &--logo {
             width: 100%;
-            margin-bottom: 10px;
         }
-        
-        .link, .title, .forgot {
+
+        &--link {
             text-align: center;
         }
-
-        .button {
-            display: block;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            .button, .link {
-                flex: 1;
-                margin: 0 5px; /* Adjust spacing between buttons */
-            }
-        }
-
-        .logo {
-            display: flex;
-            justify-content: center; /* Center the logo horizontally */
-            width: 100%; /* Ensure the logo container takes full width */
-            margin-bottom: 20px; /* Add some space below the logo */
-        }
     }
-}
-
-.background {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
 }

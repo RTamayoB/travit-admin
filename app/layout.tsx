@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
-import '../shared/styles/global.scss'
+import '../ui/styles/global.scss'
 import React from "react";
 
 const Satoshi = localFont({ src: '../public/fonts/satoshi/Satoshi-Medium.otf' })

@@ -1,0 +1,36 @@
+.breadcrumbs {
+  .ol {
+    display: flex;
+    list-style: none; // Remove the default list styling (bullets/numbers)
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: flex;
+      align-items: center; // Vertically aligns the text and separators
+      //margin-right: 8px; // Space between items
+
+      &:last-child {
+        margin-right: 0; // No right margin for the last item
+      }
+
+      a {
+        color: lightgray; // Default (inactive) breadcrumb color
+        transition: color 0.3s
+          ease; // Smooth color transition when switching states
+      }
+
+      &.active {
+        // Class for active breadcrumb
+        a {
+          text-decoration: none;
+          color: black; // Active breadcrumb color
+        }
+      }
+
+      .separator {
+        margin: 0 8px; // Space around the separator
+      }
+    }
+  }
+}
