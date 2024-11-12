@@ -2,8 +2,8 @@ import styles from "./table.module.scss";
 
 interface TableProps {
   data: any[];
-  keysToIgnore: string[] | undefined;
-  actions?: React.ReactNode;
+  keysToIgnore?: string[] | undefined;
+  actions?: (item: any) => React.ReactNode;
 }
 
 function Table({
@@ -35,7 +35,7 @@ function Table({
             ))}
             {actions && (
               <td>
-                {actions}
+                {actions(item)}
               </td>
             )}
           </tr>

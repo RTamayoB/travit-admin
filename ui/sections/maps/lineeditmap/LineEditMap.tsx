@@ -11,20 +11,20 @@ import Map from "../base/map";
 
 const routeIcon = new Icon({
   iconUrl: "/images/circle-dot.svg",
-  iconSize: [30, 30],
-  iconAnchor: [12, 12],
+  iconSize: [12, 12],
+  iconAnchor: [6, 6],
 });
 
 const stopIcon = new Icon({
   iconUrl: "/images/stop-circle-dot.svg",
-  iconSize: [30, 30],
-  iconAnchor: [12, 12],
+  iconSize: [20, 20],
+  iconAnchor: [9, 9],
 });
 
 const dotIcon = new Icon({
   iconUrl: "/images/bus-stop.svg",
-  iconSize: [24, 24],
-  iconAnchor: [12, 12],
+  iconSize: [15, 15],
+  iconAnchor: [6, 6],
 });
 
 interface LineEditMapProps {

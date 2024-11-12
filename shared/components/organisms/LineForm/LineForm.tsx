@@ -3,13 +3,12 @@
 import Map from "@/app/dashboard/components/Map";
 import { Agency, Line, RoutePoint, Stop } from "@/app/lib/definitions";
 import { Button, TextField } from "@/shared/components/atoms";
-import { Dropdown, Option } from "@/shared";
 import { useState } from "react";
 import MapComponent from "@/app/dashboard/lines/[id]/edit/ui/MapComponent";
 import Link from "next/link";
-import { Combobox } from "@/ui/components/combobox/Combobox";
 import Typography from "@/ui/components/typography";
 import LineEditMap from "@/ui/sections/maps/lineeditmap";
+import { DropdownOption } from "@/ui/components/dropdown";
 
 interface LineFormProps {
   stops: Stop[];
@@ -32,30 +31,11 @@ export default function LineForm({
     setRoutePoints(updatedRoutePoints);
   };
 
-  const agencyOptions: Option[] = agencies.map((agency) => ({
-    label: agency.name,
-    value: agency.id.toString(),
-  }));
-
-  const lineOptions: Option[] = [
-    { label: 'Troncal', value: 'troncal' },
-    { label: 'Complementaria', value: 'complementaria' },
-    { label: 'Alimentadora', value: 'alimentadora' },
-    { label: 'Linea', value: 'linea' },
-  ];
-
   return (
     <form action={onSubmit}>
       <TextField id="line_number" label="Numero de Linea" defaultValue={line.line_number} />
       <TextField id="legacy_line_number" label="Numero anterior de Linea" defaultValue={line.legacy_line_number} />
       <TextField id="units" label="Numero de Unidades" defaultValue={line.units} />
-      <Dropdown data={lineOptions} onSelected={() => 1} name="line_type" label="Tipo de Linea" />
-      <Combobox
-        data={agencyOptions}
-        name="agency_id"
-        label="Concesionaria"
-        onSelected={() => line.agency_id}
-      />
       <input type="hidden" name="transport_type" value="bus" />
       <input type="hidden" name="routePoints" value={JSON.stringify(routePoints)} />
       <LineEditMap

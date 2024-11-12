@@ -21,6 +21,7 @@ function AgencyForm({
       <div className={styles.fieldsContainer}>
         <TextField
           id="name"
+          name="name"
           label="Nombre de la concesionaria"
           value={agency.name}
           className={styles["fieldsContainer--field"]}

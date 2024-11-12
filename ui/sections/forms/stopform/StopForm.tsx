@@ -36,12 +36,14 @@ function StopForm({
       <div className={styles.fieldsContainer}>
         <TextField
           id="name"
+          name="name"
           label="Nombre de la parada"
           value={stop.name}
           className={styles["fieldsContainer--fields"]}
         />
         <TextField
           id="description"
+          name="description"
           label="Descripcion de la parada"
           value={stop.description}
           className={styles["fieldsContainer--fields"]}

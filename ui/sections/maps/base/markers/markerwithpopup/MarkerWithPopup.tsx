@@ -1,3 +1,5 @@
+"use client";
+
 import { Icon, LatLngExpression } from "leaflet";
 import { useEffect, useState } from "react";
 import { Marker, Popup } from "react-leaflet";

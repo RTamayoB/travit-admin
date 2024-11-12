@@ -56,18 +56,21 @@ function LineForm({
       <div className={styles.fieldsContainer}>
         <TextField
           id="line_number"
+          name="line_number"
           label="Numero de Linea"
           value={line.line_number}
           className={styles["fieldsContainer--field"]}
         />
         <TextField
           id="legacy_line_number"
+          name="legacy_line_number"
           label="Numero anterior de Linea"
           value={line.legacy_line_number}
           className={styles["fieldsContainer--field"]}
         />
         <TextField
           id="units"
+          name="units"
           label="Numero de Unidades"
           value={line.units.toString()}
           className={styles["fieldsContainer--field"]}

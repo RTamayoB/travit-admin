@@ -4,10 +4,12 @@ import { useDebouncedCallback } from "use-debounce";
 
 interface SearchBarProps {
   searchPlaceholder: string;
+  className: string;
 }
 
 function SearchBar({
   searchPlaceholder,
+  className,
 }: SearchBarProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -29,6 +31,7 @@ function SearchBar({
       placeholder={searchPlaceholder}
       leadIconUrl="/icons/search.svg"
       onValueChange={(e) => handleSearch(e)}
+      className={className}
     />
   );
 }

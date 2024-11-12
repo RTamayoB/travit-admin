@@ -28,20 +28,10 @@ function LinesMap({
     <Map>
       <>
         {lines.map((line) => (
-          <>
-            {line.route_points.map((point) => (
-              <React.Fragment key={point.order}>
-                <MarkerWithPopup
-                  key={point.order}
-                  initialPosition={point.position}
-                  icon={point.isStop ? stopIcon : routeIcon}
-                />
-              </React.Fragment>
-            ))}
-            <Polyline
-              positions={line.route_points.map((point) => point.position)}
-            />
-          </>
+          <Polyline
+            positions={line.route_points.map((point) => point.position)}
+            color="#d04116"
+          />
         ))}
       </>
     </Map>

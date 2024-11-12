@@ -8,7 +8,7 @@ import EditIconButton from '../../components/EditIconButton';
 import DeleteIconButton from '../../components/DeleteIconButton';
 import { useState } from 'react';
 import {Stop} from "@/app/lib/definitions";
-import ConfirmationDialog from '@/shared/components/molecules/ConfirmationDialog/ConfirmationDialog';
+import ConfirmationDialog from '@/ui/sections/dialogs/confirmationdialog/ConfirmationDialog';
 
 export default function StopsTable({
     stops,

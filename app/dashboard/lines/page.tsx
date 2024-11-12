@@ -1,6 +1,7 @@
-import LineView from "@/app/dashboard/lines/ui/LineView";
 import {getLinesPageCount} from "@/app/dashboard/lines/data/get-lines-page-count";
 import {getLinesByRange} from "@/app/dashboard/lines/data/get-lines-by-range";
+import LinesLayout from "@/ui/dashboard/lines/LinesLayout";
+import { deleteLine } from "./[id]/edit/data/delete-line";
 
 export default async function Page({
   searchParams,
@@ -16,6 +17,10 @@ export default async function Page({
   const lines = await getLinesByRange(query, currentPage)
 
   return (
-    <LineView lines={lines} totalPages={totalPages}/>
+    <LinesLayout
+      lines={lines}
+      totalPages={totalPages}
+      onDeleteLine={deleteLine}
+    />
   )
 }

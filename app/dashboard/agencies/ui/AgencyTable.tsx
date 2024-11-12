@@ -5,7 +5,7 @@ import { deleteAgency } from '../data/delete-agency';
 import EditIconButton from '../../components/EditIconButton';
 import DeleteIconButton from '../../components/DeleteIconButton';
 import React, { useState } from 'react';
-import ConfirmationDialog from '@/shared/components/molecules/ConfirmationDialog/ConfirmationDialog';
+import ConfirmationDialog from '@/ui/sections/dialogs/confirmationdialog/ConfirmationDialog';
 
 export default function AgencyTable({
     agencies,

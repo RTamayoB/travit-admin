@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import LinesLayout from "./LinesLayout";
-import { mockupLines } from "@/ui/mockups";
+import CreateLineLayout from "./CreateLineLayout";
+import { mockupAgencies, mockupStops } from "@/ui/mockups";
 
-const meta: Meta<typeof LinesLayout> = {
-  title: "Design System/Dashboard/Lines/LinesLayout",
-  component: LinesLayout,
+const meta: Meta<typeof CreateLineLayout> = {
+  title: "Design System/Dashboard/Lines/CreateLineLayout",
+  component: CreateLineLayout,
   tags: ["autodocs"],
   parameters: {
     design: {
@@ -17,11 +17,11 @@ const meta: Meta<typeof LinesLayout> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof LinesLayout>;
+type Story = StoryObj<typeof CreateLineLayout>;
 
 export const Layout: Story = {
   args: {
-    lines: mockupLines,
-    totalPages: 1,
+    stops: mockupStops,
+    agencies: mockupAgencies,
   },
 };

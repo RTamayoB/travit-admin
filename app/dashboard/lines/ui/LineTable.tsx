@@ -6,7 +6,7 @@ import styles from '@/app/dashboard/lines/ui/line-table.module.scss';
 import EditIconButton from "@/app/dashboard/components/EditIconButton";
 import DeleteIconButton from "@/app/dashboard/components/DeleteIconButton";
 import React, {useState} from "react";
-import ConfirmationDialog from "@/shared/components/molecules/ConfirmationDialog/ConfirmationDialog";
+import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog/ConfirmationDialog";
 
 export default function LineTable({
     lines,

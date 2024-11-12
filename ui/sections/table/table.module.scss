@@ -3,17 +3,21 @@
 .table {
   width: 100%;
   border-collapse: collapse;
+  border: 1px solid #d1d3d8;
+  border-radius: 8px;
 
   tr:nth-child(even) {
     background-color: #ededed;
   }
 
   th {
-    background-color: $primary;
-    color: white;
+    background-color: $grey-light;
+    color: black;
+    height: 32px;
   }
 
   td {
     text-align: center;
+    height: 40px;
   }
 }
