@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import "./confirmationdialog.scss";
-import { Button } from "@/shared";
-import { Typography } from "@/ui/components";
+import { Button, Typography } from "@/ui/components";
 
 // Define the props type
 interface ConfirmationDialogProps {
@@ -36,8 +35,8 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (
       </Typography>
       <hr />
       <div className="dialog__dialog_actions">
-        <button onClick={onClose}>Cancelar</button>
-        <Button onClick={onConfirm}>Aceptar</Button>
+        <Button onClick={onConfirm} label="Cancelar" primary={false}/>
+        <Button onClick={onConfirm} label="Confirmar"/>
       </div>
     </dialog>
   );

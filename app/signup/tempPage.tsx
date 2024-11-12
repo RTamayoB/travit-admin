@@ -1,8 +1,8 @@
 import { signup } from './data/signup';
-import { Button, Typography } from "@/shared/components";
 import styles from '../user-form.module.scss';
 import Image from "next/image";
 import Link from "next/link";
+import { Button, Typography } from '@/ui/components';
 
 export default function SignUpPage({
         searchParams
@@ -25,7 +25,7 @@ export default function SignUpPage({
                 <label htmlFor="password">Password:</label>
                 <input id="password" name="password" type="password" required/>
                 <div className={styles.buttonContainer}>
-                    <Button formAction={signup} className={styles.button}>Sign Up</Button>
+                    <Button formAction={signup} className={styles.button} label='Sign up'/>
                     <Typography variant="bodySmall">Already have an account? <Link href={"/login"} className={styles.link}>Login</Link></Typography>
                 </div>
             </form>

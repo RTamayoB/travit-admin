@@ -29,6 +29,7 @@ function LoginForm({
         leadIconUrl="/icons/mail.svg"
         size="large"
         required
+        className={styles.field}
       />
       <TextField
         id="password"
@@ -38,6 +39,7 @@ function LoginForm({
         leadIconUrl="/icons/lock.svg"
         size="large"
         required
+        className={styles.field}
       />
       <Link href={""} className={styles["form--link"]}>
         Olvidaste la contraseña?
