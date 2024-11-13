@@ -1,9 +1,12 @@
 "use client";
 
 import "leaflet/dist/leaflet.css";
+import "react-leaflet-fullscreen/styles.css";
 import { LatLngExpression } from "leaflet";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import styles from "./map.module.scss";
+import { useEffect } from "react";
+import { FullscreenControl } from "react-leaflet-fullscreen";
 
 interface MapProps {
   position?: LatLngExpression;
@@ -29,6 +32,7 @@ function Map({
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <FullscreenControl/>
     </MapContainer>
   );
 }
