@@ -1,13 +1,15 @@
+"use client";
+
 import Header from "@/ui/sections/header";
 import { StopForm } from "@/ui/sections/forms";
+import { StopState } from "@/app/lib/definitions";
+import { useActionState } from "react";
+import { createStop } from "@/app/dashboard/stops/create/data/create-stop";
 
-interface CreateStopLayoutProps {
-  onSubmit: (formData: FormData) => Promise<void>;
-}
+function CreateStopLayout() {
+  const initialState: StopState = { message: null, errors: {} };
+  const [state, formAction] = useActionState(createStop, initialState);
 
-function CreateStopLayout({
-  onSubmit,
-}: CreateStopLayoutProps) {
   return (
     <div>
       <Header
@@ -25,7 +27,8 @@ function CreateStopLayout({
         ]}
       />
       <StopForm
-        onSubmit={onSubmit}
+        onSubmit={formAction}
+        state={state}
         submitButtonText="Crear Parada"
       />
     </div>

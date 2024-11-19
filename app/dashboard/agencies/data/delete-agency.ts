@@ -1,24 +1,20 @@
-'use server';
+"use server";
 
 import { createClient } from "@/utils/supabase/server";
-import {revalidatePath} from "next/cache";
-import {redirect} from "next/navigation";
+import { revalidatePath } from "next/cache";
 
-export async function deleteAgency(id: String) {
-    const supabase = createClient();
+export async function deleteAgency(id: string) {
+  const supabase = await createClient();
 
-    try {
+  try {
+    await supabase
+      .from("agencies")
+      .delete()
+      .eq("id", id);
 
-        await supabase
-        .from('agencies')
-        .delete()
-        .eq('id', id)
-
-    } catch (error) {
-        console.error('Database Error:', error)
-        throw new Error('Failed to delete agency')
-    }
-
-    revalidatePath('/dashboard/agencies')
-    redirect('/dashboard/agencies/')
+    revalidatePath("/dashboard/agencies");
+    return { message: "Agencia eliminada." };
+  } catch (error) {
+    return { message: "Dabatase Error: Failed to delete agency." };
+  }
 }

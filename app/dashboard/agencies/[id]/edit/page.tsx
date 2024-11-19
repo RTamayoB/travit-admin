@@ -1,18 +1,20 @@
-'use server';
+"use server";
 
 import { getAgencyById } from "./data/get-agency-by-id";
-import { editAgencyById } from "./data/edit-agency";
 import EditAgencyLayout from "@/ui/dashboard/agencies/edit/EditAgencyLayout";
+import { notFound } from "next/navigation";
 
-export default async function Page({ params }: { params: { id: string } }) {
-    const agency = await getAgencyById(params.id)
+export default async function Page(props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
+  const agency = await getAgencyById(params.id);
 
-    const editAgency = editAgencyById.bind(null, agency.id.toString())
+  if (!agency) {
+    notFound();
+  }
 
-    return (
-        <EditAgencyLayout
-            agency={agency}
-            onSubmit={editAgency}
-        />
-    )
+  return (
+    <EditAgencyLayout
+      agency={agency}
+    />
+  );
 }

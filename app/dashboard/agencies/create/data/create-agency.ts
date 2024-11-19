@@ -1,40 +1,41 @@
-'use server';
+"use server";
 
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import {z} from "zod";
+import { AgencyState } from "@/app/lib/definitions";
+import { AgencySchema } from "@/app/lib/schemas";
 
+const CreateAgency = AgencySchema.omit({ id: true, created_at: true });
 
-const CreateAgencyFormSchema = z.object({
-    id: z.number(),
-    name: z.string()
-});
+export async function createAgency(prevState: AgencyState, formData: FormData) {
+  const supabase = await createClient();
 
-const CreateAgency = CreateAgencyFormSchema.omit({ id: true, created_at: true });
+  const parsedData = CreateAgency.safeParse({
+    name: formData.get("name"),
+  });
 
-export async function createAgency(formData: FormData) {
+  if (!parsedData.success) {
+    return {
+      errors: parsedData.error.flatten().fieldErrors,
+      message: "Campos faltantes. No se puede crear la Concesionaria.",
+    };
+  }
 
-    const supabase = createClient();
+  try {
+    await supabase
+      .from("agencies")
+      .insert([
+        {
+          name: parsedData.data.name,
+        },
+      ]);
+  } catch (error) {
+    return {
+      message: "Database Error: Failed to create Agency.",
+    };
+  }
 
-    console.log("FormData", formData)
-    const { name } = CreateAgency.parse({
-        name: formData.get('name')
-    });
-
-    try {
-        await supabase
-        .from('agencies')
-        .insert([
-            {
-                name: name
-            }
-        ])
-    } catch (error) {
-        console.error('Database Error:', error)
-        throw new Error('Failed to insert agency')
-    }
-
-    revalidatePath('/dashboard/agencies')
-    redirect('/dashboard/agencies/')
+  revalidatePath("/dashboard/agencies");
+  redirect("/dashboard/agencies/");
 }

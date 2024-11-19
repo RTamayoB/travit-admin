@@ -1,7 +1,6 @@
 import { Line } from "@/app/lib/definitions";
 import { Icon } from "leaflet";
 import React from "react";
-import MarkerWithPopup from "../base/markers/markerwithpopup";
 import { Polyline } from "react-leaflet";
 import Map from "../base/map";
 
@@ -29,6 +28,7 @@ function LinesMap({
       <>
         {lines.map((line) => (
           <Polyline
+            key={line.id}
             positions={line.route_points.map((point) => point.position)}
             color="#d04116"
           />

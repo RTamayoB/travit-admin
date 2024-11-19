@@ -1,23 +1,19 @@
-'use server';
+"use server";
 
 import { createClient } from "../../../../../../utils/supabase/server";
-import {revalidatePath} from "next/cache";
-import {redirect} from "next/navigation";
+import { revalidatePath } from "next/cache";
 
-export async function deleteLine(id: String) {
-    const supabase = createClient();
+export async function deleteLine(id: string) {
+  const supabase = await createClient();
 
-    try {
-        await supabase
-        .from('lines')
-        .delete()
-        .eq('id', id)
-        
-    } catch (error) {
-        console.error('Database Error:', error)
-        throw new Error('Failed to delete line')
-    }
-
-    revalidatePath('/dashboard/lines')
-    redirect('/dashboard/lines/')
+  try {
+    await supabase
+      .from("lines")
+      .delete()
+      .eq("id", id);
+    revalidatePath("/dashboard/lines");
+    return { message: "Linea eliminada." };
+  } catch (error) {
+    return { message: "Database Error: Failed to delete Line." };
+  }
 }

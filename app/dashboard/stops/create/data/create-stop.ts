@@ -1,48 +1,46 @@
-'use server';
+"use server";
 
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import {z} from "zod";
+import { StopSchema } from "@/app/lib/schemas";
+import { StopState } from "@/app/lib/definitions";
 
+const CreateLine = StopSchema.omit({ id: true, created_at: true });
 
-const CreateStopFormSchema = z.object({
-    id: z.number(),
-    name: z.string(),
-    description: z.string(),
-    lat: z.string(),
-    lng: z.string()
-});
+export async function createStop(prevState: StopState, formData: FormData) {
+  const supabase = await createClient();
 
-const CreateLine = CreateStopFormSchema.omit({ id: true, created_at: true });
+  const parsedData = CreateLine.safeParse({
+    name: formData.get("name"),
+    description: formData.get("description"),
+    lat: formData.get("lat"),
+    lng: formData.get("lng"),
+  });
 
-export async function createStop(formData: FormData) {
+  if (!parsedData.success) {
+    return {
+      errors: parsedData.error.flatten().fieldErrors,
+      message: "Campos faltantes. No se puede crear la Parada.",
+    };
+  }
 
-    const supabase = createClient();
-    
-    console.log("FormData", formData)
-    const { name, description, lat, lng } = CreateLine.parse({
-        name: formData.get('name'),
-        description: formData.get('description'),
-        lat: formData.get('lat'),
-        lng: formData.get('lng'),
-    });
+  try {
+    await supabase
+      .from("stops")
+      .insert([
+        {
+          name: parsedData.data.name,
+          description: parsedData.data.description,
+          position: `POINT(${parsedData.data.lat} ${parsedData.data.lng})`,
+        },
+      ]);
+  } catch (error) {
+    return {
+      message: "Database Error: Failed to create Stop.",
+    };
+  }
 
-    try {
-        await supabase
-        .from('stops')
-        .insert([
-            {
-                name: name,
-                description: description,
-                position: `POINT(${lat} ${lng})`,
-            }
-        ])
-    } catch (error) {
-        console.error('Database Error:', error)
-        throw new Error('Failed to insert line')
-    }
-
-    revalidatePath('/dashboard/stops')
-    redirect('/dashboard/stops/')
+  revalidatePath("/dashboard/stops");
+  redirect("/dashboard/stops/");
 }

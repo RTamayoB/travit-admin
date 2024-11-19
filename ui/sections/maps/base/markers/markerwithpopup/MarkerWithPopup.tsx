@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 import { Marker, Popup } from "react-leaflet";
 
 interface MarkerWithPopupProps {
-  key?: number;
+  index?: number;
   initialPosition: LatLngExpression;
   label?: string;
   icon: Icon;
 }
 
 function MarkerWithPopup({
-  key,
+  index,
   initialPosition,
   label,
   icon,
@@ -26,7 +26,7 @@ function MarkerWithPopup({
   return (
     <>
       <Marker
-        key={key}
+        key={index}
         icon={icon}
         position={position}
       >

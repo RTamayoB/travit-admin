@@ -1,16 +1,22 @@
+"use client";
+
 import Header from "@/ui/sections/header";
-import { Stop } from "@/app/lib/definitions";
+import { Stop, StopState } from "@/app/lib/definitions";
 import { StopForm } from "@/ui/sections/forms";
+import { editStopById } from "@/app/dashboard/stops/[id]/edit/data/edit-stop";
+import { useActionState } from "react";
 
 interface EditStopLayoutProps {
   stop: Stop;
-  onSubmit: (formData: FormData) => Promise<void>;
 }
 
 function EditStopLayout({
   stop,
-  onSubmit,
 }: EditStopLayoutProps) {
+  const initialState: StopState = { message: null, errors: {} };
+  const editStop = editStopById.bind(null, stop.id.toString());
+  const [state, formAction] = useActionState(editStop, initialState);
+
   return (
     <div>
       <Header
@@ -29,7 +35,8 @@ function EditStopLayout({
       />
       <StopForm
         stop={stop}
-        onSubmit={onSubmit}
+        onSubmit={formAction}
+        state={state}
         submitButtonText="Editar Parada"
       />
     </div>

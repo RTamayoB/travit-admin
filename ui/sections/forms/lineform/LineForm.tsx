@@ -1,6 +1,12 @@
 "use client";
 
-import { Agency, Line, RoutePoint, Stop } from "@/app/lib/definitions";
+import {
+  Agency,
+  Line,
+  LineState,
+  RoutePoint,
+  Stop,
+} from "@/app/lib/definitions";
 import { Button, LinkButton, TextField, Typography } from "@/ui/components";
 import { useState } from "react";
 import LineEditMap from "../../maps/lineeditmap";
@@ -11,7 +17,8 @@ interface LineFormProps {
   stops: Stop[];
   agencies: Agency[];
   line?: Line;
-  onSubmit: (formData: FormData) => Promise<void>;
+  onSubmit: (formData: FormData) => void;
+  state: LineState;
   submitButtonText: string;
 }
 
@@ -29,6 +36,7 @@ function LineForm({
     route_points: [],
   },
   onSubmit,
+  state,
   submitButtonText,
 }: LineFormProps) {
   const [routePoints, setRoutePoints] = useState(line.route_points);
@@ -61,6 +69,14 @@ function LineForm({
           value={line.line_number}
           className={styles["fieldsContainer--field"]}
         />
+        <div id="line_number" aria-live="polite" aria-atomic="true">
+          {state.errors?.line_number &&
+            state.errors.line_number.map((error: string) => (
+              <Typography variant="bodySmall" color="red" key={error}>
+                {error}
+              </Typography>
+            ))}
+        </div>
         <TextField
           id="legacy_line_number"
           name="legacy_line_number"
@@ -68,6 +84,14 @@ function LineForm({
           value={line.legacy_line_number}
           className={styles["fieldsContainer--field"]}
         />
+        <div id="legacy_line_number" aria-live="polite" aria-atomic="true">
+          {state.errors?.legacy_line_number &&
+            state.errors.legacy_line_number.map((error: string) => (
+              <Typography variant="bodySmall" color="red" key={error}>
+                {error}
+              </Typography>
+            ))}
+        </div>
         <TextField
           id="units"
           name="units"
@@ -75,6 +99,14 @@ function LineForm({
           value={line.units.toString()}
           className={styles["fieldsContainer--field"]}
         />
+        <div id="units" aria-live="polite" aria-atomic="true">
+          {state.errors?.units &&
+            state.errors.units.map((error: string) => (
+              <Typography variant="bodySmall" color="red" key={error}>
+                {error}
+              </Typography>
+            ))}
+        </div>
         <Dropdown
           options={lineTypeOptions}
           defaultOption={lineTypeOptions.find((option) =>
@@ -84,19 +116,36 @@ function LineForm({
           label="Tipo de Linea"
           className={styles["fieldsContainer--field"]}
         />
+        <div id="line_type" aria-live="polite" aria-atomic="true">
+          {state.errors?.line_type &&
+            state.errors.line_type.map((error: string) => (
+              <Typography variant="bodySmall" color="red" key={error}>
+                {error}
+              </Typography>
+            ))}
+        </div>
         <Dropdown
           options={agencyOptions}
           defaultOption={agencyOptions.find((option) => option.key == agencyId)}
           onOptionSelected={(value) => setAgencyId(value)}
           label="Concesionaria"
           className={styles["fieldsContainer--field"]}
+          aria-describedby="agency-error"
         />
+        <div id="customer-error" aria-live="polite" aria-atomic="true">
+          {state.errors?.agency_id &&
+            state.errors.agency_id.map((error: string) => (
+              <Typography variant="bodySmall" color="red" key={error}>
+                {error}
+              </Typography>
+            ))}
+        </div>
         <input type="hidden" name="line_type" value={lineType} />
         <input type="hidden" name="agency_id" value={agencyId} />
         <input type="hidden" name="transport_type" value="bus" />
         <input
           type="hidden"
-          name="routePoints"
+          name="route_points"
           value={JSON.stringify(routePoints)}
         />
         <LineEditMap
@@ -122,6 +171,15 @@ function LineForm({
         <Typography variant={"note"}>
           Para eliminar el ultimo punto de la ruta, has Shift+D
         </Typography>
+      </div>
+      <div aria-live="polite" aria-atomic="true">
+        {state.message
+          ? (
+            <Typography variant="bodyMedium" color="red">
+              {state.message}
+            </Typography>
+          )
+          : null}
       </div>
       <div className={styles.actions}>
         <LinkButton

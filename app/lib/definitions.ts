@@ -39,3 +39,30 @@ export interface Line {
     line_type: string;
     route_points: RoutePoint[] | [];
 }
+
+export type LineState = {
+    errors?: {
+      line_number?: string[];
+      legacy_line_number?: string[];
+      units?: string[];
+      agency_id?: string[];
+      transport_type?: string[];
+      line_type?: string[];
+    };
+    message?: string | null;
+};
+
+export type AgencyState = {
+    errors?: {
+        name?: string[]
+    };
+    message?: string | null;
+}
+
+export type StopState = {
+    errors?: {
+        name?: string[]
+        description?: string[]
+    };
+    message?: string | null;
+}

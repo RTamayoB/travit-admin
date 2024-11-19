@@ -11,7 +11,7 @@ import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog";
 interface LinesLayoutProps {
   lines: Line[];
   totalPages: number;
-  onDeleteLine: (lineId: String) => Promise<void>;
+  onDeleteLine: (lineId: string) => Promise<{ message: string }>;
 }
 
 function LinesLayout({

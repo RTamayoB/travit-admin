@@ -1,20 +1,26 @@
+"use client";
+
 import Header from "@/ui/sections/header";
 import LineForm from "@/ui/sections/forms/lineform";
-import { Agency, Line, Stop } from "@/app/lib/definitions";
+import { Agency, Line, LineState, Stop } from "@/app/lib/definitions";
+import { editLine } from "@/app/dashboard/lines/[id]/edit/data/edit-line";
+import { useActionState } from "react";
 
 interface EditLineLayoutProps {
   agencies: Agency[];
   stops: Stop[];
   line: Line;
-  onSubmit: (formData: FormData) => Promise<void>;
 }
 
 function EditLineLayout({
   agencies,
   stops,
   line,
-  onSubmit,
 }: EditLineLayoutProps) {
+  const initialState: LineState = { message: null, errors: {} };
+  const editCurrentLine = editLine.bind(null, line.id.toString());
+  const [state, formAction] = useActionState(editCurrentLine, initialState);
+
   return (
     <div>
       <Header
@@ -35,7 +41,8 @@ function EditLineLayout({
         stops={stops}
         agencies={agencies}
         line={line}
-        onSubmit={onSubmit}
+        onSubmit={formAction}
+        state={state}
         submitButtonText="Editar Linea"
       />
     </div>

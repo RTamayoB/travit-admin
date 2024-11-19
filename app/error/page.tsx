@@ -1,10 +1,11 @@
-export default function ErrorPage({
-        searchParams,
-}: {
-        searchParams?: {
-            message?: string
-        };
-}) {
+export default async function ErrorPage(
+    props: {
+            searchParams?: Promise<{
+                message?: string
+            }>;
+    }
+) {
+    const searchParams = await props.searchParams;
     return (
         <>
             <p>Sorry, something went wrong</p>
