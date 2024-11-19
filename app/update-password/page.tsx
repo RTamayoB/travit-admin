@@ -2,11 +2,12 @@ import { updatePassword } from './data/update-password'
 import styles from '../user-form.module.scss'
 import { Button, Logo } from '@/ui/components'
 
-export default function Page({
-        searchParams,
-}: {
-    searchParams: { code: string}
-})  {
+export default async function Page(
+    props: {
+        searchParams: Promise<{ code: string}>
+    }
+) {
+    const searchParams = await props.searchParams;
     return (
         <div className={styles.container}>
             <form className={styles.form}>

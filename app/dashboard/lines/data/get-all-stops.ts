@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { Position, Stop } from "@/app/lib/definitions";
 
 export async function getAllStops() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const queryBuilder = supabase

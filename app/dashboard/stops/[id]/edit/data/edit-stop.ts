@@ -20,7 +20,7 @@ export async function editStopById(id: string, formData: FormData) {
     
     console.log("PARADA", id)
     
-    const supabase = createClient();
+    const supabase = await createClient();
     
     const { name, description, lat, lng } = CreateLine.parse({
         name: formData.get('name'),

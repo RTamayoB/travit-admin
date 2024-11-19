@@ -15,7 +15,7 @@ const EditAgency = EditAgencyFormSchema.omit({ id: true, created_at: true });
 
 export async function editAgencyById(id: string, formData: FormData) {
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { name } = EditAgency.parse({
         name: formData.get('name')

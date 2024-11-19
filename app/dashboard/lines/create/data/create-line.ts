@@ -13,7 +13,7 @@ const CreateLine = LineSchema.omit({
 });
 
 export async function createLine(prevState: LineState, formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Parse and validate form data
   const parsedData = CreateLine.safeParse({

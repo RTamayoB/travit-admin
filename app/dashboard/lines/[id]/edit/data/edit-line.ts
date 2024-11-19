@@ -13,7 +13,7 @@ const EditLine = LineSchema.omit({
 });
 
 export async function editLine(id: string, formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   console.log("ID", id);
   console.log("FORMDATA", formData);

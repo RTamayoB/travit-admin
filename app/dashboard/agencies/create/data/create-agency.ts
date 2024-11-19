@@ -15,7 +15,7 @@ const CreateAgency = CreateAgencyFormSchema.omit({ id: true, created_at: true })
 
 export async function createAgency(formData: FormData) {
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     console.log("FormData", formData)
     const { name } = CreateAgency.parse({

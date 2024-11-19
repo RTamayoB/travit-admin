@@ -5,7 +5,6 @@ import "react-leaflet-fullscreen/styles.css";
 import { LatLngExpression } from "leaflet";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import styles from "./map.module.scss";
-import { useEffect } from "react";
 import { FullscreenControl } from "react-leaflet-fullscreen";
 
 interface MapProps {

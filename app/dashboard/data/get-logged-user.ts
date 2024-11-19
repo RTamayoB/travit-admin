@@ -4,7 +4,7 @@ import { UserInfo } from "@/app/lib/definitions";
 
 export async function getLoggedUser(): Promise<UserInfo> {
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     noStore();
     

@@ -5,7 +5,7 @@ import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
 
 export async function deleteStop(id: String) {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     try {
         await supabase

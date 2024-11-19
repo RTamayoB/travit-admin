@@ -5,7 +5,7 @@ import {createClient} from '@/utils/supabase/server';
 
 export async function getStopById(id: string) {
 
-    const supabase = createClient();
+    const supabase = await createClient();
     
     try {
         let queryBuilder = supabase

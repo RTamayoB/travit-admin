@@ -3,14 +3,15 @@ import {getAgenciesByRange} from "@/app/dashboard/agencies/data/get-agencies-by-
 import AgenciesLayout from "@/ui/dashboard/agencies/AgenciesLayout";
 import { deleteAgency } from "./data/delete-agency";
 
-export default async function Page({
-    searchParams
-} : {
-    searchParams?: {
-        query?: string;
-        page?: string;
-    };
-}) {
+export default async function Page(
+    props: {
+        searchParams?: Promise<{
+            query?: string;
+            page?: string;
+        }>;
+    }
+) {
+    const searchParams = await props.searchParams;
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
     const totalAgenciesCount = await getAgenciesPageCount(query)

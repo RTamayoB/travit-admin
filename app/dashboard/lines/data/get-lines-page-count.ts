@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { ITEMS_PER_PAGE } from "@/app/lib/utils";
 
 export async function getLinesPageCount(query: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   noStore();
 

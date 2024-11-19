@@ -11,9 +11,9 @@ const signUpSchema = z.object({
 })
 
 export async function signup(formData: FormData) {
-    const supabase = createClient();
+    const supabase = await createClient();
 
-    const origin = headers().get("origin");
+    const origin = (await headers()).get("origin");
 
     const data = {
         email: formData.get('email') as string,

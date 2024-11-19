@@ -2,7 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { Line } from "@/app/lib/definitions";
 
 export async function getLineById(routeId: string): Promise<Line | null> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("lines")

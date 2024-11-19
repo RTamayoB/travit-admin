@@ -8,7 +8,7 @@ export async function getAgenciesByRange(
     query: string,
     currentPage: number,
 ) {
-    const supabase = createClient()
+    const supabase = await createClient()
 
     const from = (currentPage - 1) * ITEMS_PER_PAGE
     const to = from + ITEMS_PER_PAGE

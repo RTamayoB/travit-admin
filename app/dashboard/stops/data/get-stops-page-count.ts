@@ -7,7 +7,7 @@ import { ITEMS_PER_PAGE } from "@/app/lib/utils";
 export async function getStopsPageCount(query: string) {
     noStore();
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     try {
         let queryBuilder = supabase

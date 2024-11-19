@@ -18,7 +18,7 @@ const CreateLine = CreateStopFormSchema.omit({ id: true, created_at: true });
 
 export async function createStop(formData: FormData) {
 
-    const supabase = createClient();
+    const supabase = await createClient();
     
     console.log("FormData", formData)
     const { name, description, lat, lng } = CreateLine.parse({

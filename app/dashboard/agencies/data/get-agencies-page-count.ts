@@ -6,7 +6,7 @@ import { ITEMS_PER_PAGE } from "@/app/lib/utils";
 
 export async function getAgenciesPageCount(query: string) {
 
-    const supabase = createClient();
+    const supabase = await createClient();
 
     noStore();
 

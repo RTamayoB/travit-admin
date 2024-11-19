@@ -7,7 +7,7 @@ import { Agency } from "@/app/lib/definitions";
 export async function getAgenciesById(): Promise<Agency[]> {
   noStore();
 
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const queryBuilder = supabase
