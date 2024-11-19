@@ -32,7 +32,7 @@ export async function createLine(prevState: LineState, formData: FormData) {
     };
   }
 
-  const routePointsString = formData.get("routePoints")?.toString();
+  const routePointsString = formData.get("route_points")?.toString();
   let routePoints: RoutePoint[] = [];
   if (routePointsString != null) {
     routePoints = JSON.parse(routePointsString);

@@ -5,13 +5,11 @@ import { Agency, Stop } from "@/app/lib/definitions";
 interface CreateLineLayoutProps {
   agencies: Agency[];
   stops: Stop[];
-  onSubmit: (formData: FormData) => Promise<void>;
 }
 
 function CreateLineLayout({
   agencies,
   stops,
-  onSubmit,
 }: CreateLineLayoutProps) {
   return (
     <div>
@@ -32,7 +30,6 @@ function CreateLineLayout({
       <LineForm
         stops={stops}
         agencies={agencies}
-        onSubmit={onSubmit}
         submitButtonText="Crear Linea"
       />
     </div>
