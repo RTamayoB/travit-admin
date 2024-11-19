@@ -1,6 +1,6 @@
 "use client";
 
-import { Stop } from "@/app/lib/definitions";
+import { Stop, StopState } from "@/app/lib/definitions";
 import { Button, LinkButton, TextField, Typography } from "@/ui/components";
 import StopEditMap from "../../maps/stopeditmap";
 import { useState } from "react";
@@ -9,7 +9,8 @@ import styles from "../form.module.scss";
 
 interface StopFormProps {
   stop?: Stop;
-  onSubmit: (formData: FormData) => Promise<void>;
+  onSubmit: (formData: FormData) => void;
+  state: StopState;
   submitButtonText: string;
 }
 
@@ -21,6 +22,7 @@ function StopForm({
     position: { lat: 0, lng: 0 },
   },
   onSubmit,
+  state,
   submitButtonText,
 }: StopFormProps) {
   const [marker, setMarker] = useState<LatLng | null>(
@@ -41,6 +43,14 @@ function StopForm({
           value={stop.name}
           className={styles["fieldsContainer--fields"]}
         />
+        <div id="name" aria-live="polite" aria-atomic="true">
+          {state.errors?.name &&
+            state.errors.name.map((error: string) => (
+              <Typography variant="bodySmall" color="red" key={error}>
+                {error}
+              </Typography>
+            ))}
+        </div>
         <TextField
           id="description"
           name="description"
@@ -48,6 +58,14 @@ function StopForm({
           value={stop.description}
           className={styles["fieldsContainer--fields"]}
         />
+        <div id="description" aria-live="polite" aria-atomic="true">
+          {state.errors?.description &&
+            state.errors.description.map((error: string) => (
+              <Typography variant="bodySmall" color="red" key={error}>
+                {error}
+              </Typography>
+            ))}
+        </div>
         <input type="hidden" name="lat" value={marker?.lat} />
         <input type="hidden" name="lng" value={marker?.lng} />
         <StopEditMap
@@ -62,6 +80,15 @@ function StopForm({
           Para moverlo, arrastralo o haz click derecho de nuevo para cambiar su
           posición.
         </Typography>
+      </div>
+      <div aria-live="polite" aria-atomic="true">
+        {state.message
+          ? (
+            <Typography variant="bodyMedium" color="red">
+              {state.message}
+            </Typography>
+          )
+          : null}
       </div>
       <div className={styles.actions}>
         <LinkButton

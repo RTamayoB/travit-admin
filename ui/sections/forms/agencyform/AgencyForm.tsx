@@ -34,13 +34,17 @@ function AgencyForm({
               <Typography variant="bodySmall" color="red" key={error}>
                 {error}
               </Typography>
-          ))}
+            ))}
         </div>
       </div>
       <div aria-live="polite" aria-atomic="true">
-          {state.message ? (
-            <Typography variant="bodyMedium" color="red">{state.message}</Typography>
-          ) : null}
+        {state.message
+          ? (
+            <Typography variant="bodyMedium" color="red">
+              {state.message}
+            </Typography>
+          )
+          : null}
       </div>
       <div className={styles.actions}>
         <LinkButton

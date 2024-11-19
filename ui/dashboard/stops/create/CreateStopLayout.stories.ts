@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import CreateStopLayout from "./CreateStopLayout";
-import { mockupAgencies, mockupStops } from "@/ui/mockups";
 
 const meta: Meta<typeof CreateStopLayout> = {
   title: "Design System/Dashboard/Stops/CreateStopLayout",

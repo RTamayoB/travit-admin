@@ -1,8 +1,14 @@
 "use client";
 
-import { Agency, Line, LineState, RoutePoint, Stop } from "@/app/lib/definitions";
+import {
+  Agency,
+  Line,
+  LineState,
+  RoutePoint,
+  Stop,
+} from "@/app/lib/definitions";
 import { Button, LinkButton, TextField, Typography } from "@/ui/components";
-import { useState} from "react";
+import { useState } from "react";
 import LineEditMap from "../../maps/lineeditmap";
 import styles from "../form.module.scss";
 import Dropdown, { DropdownOption } from "@/ui/components/dropdown";
@@ -11,8 +17,8 @@ interface LineFormProps {
   stops: Stop[];
   agencies: Agency[];
   line?: Line;
-  onSubmit: (formData: FormData) => void,
-  state: LineState,
+  onSubmit: (formData: FormData) => void;
+  state: LineState;
   submitButtonText: string;
 }
 
@@ -69,7 +75,7 @@ function LineForm({
               <Typography variant="bodySmall" color="red" key={error}>
                 {error}
               </Typography>
-          ))}
+            ))}
         </div>
         <TextField
           id="legacy_line_number"
@@ -84,7 +90,7 @@ function LineForm({
               <Typography variant="bodySmall" color="red" key={error}>
                 {error}
               </Typography>
-          ))}
+            ))}
         </div>
         <TextField
           id="units"
@@ -99,7 +105,7 @@ function LineForm({
               <Typography variant="bodySmall" color="red" key={error}>
                 {error}
               </Typography>
-          ))}
+            ))}
         </div>
         <Dropdown
           options={lineTypeOptions}
@@ -116,7 +122,7 @@ function LineForm({
               <Typography variant="bodySmall" color="red" key={error}>
                 {error}
               </Typography>
-          ))}
+            ))}
         </div>
         <Dropdown
           options={agencyOptions}
@@ -132,7 +138,7 @@ function LineForm({
               <Typography variant="bodySmall" color="red" key={error}>
                 {error}
               </Typography>
-          ))}
+            ))}
         </div>
         <input type="hidden" name="line_type" value={lineType} />
         <input type="hidden" name="agency_id" value={agencyId} />
@@ -167,9 +173,13 @@ function LineForm({
         </Typography>
       </div>
       <div aria-live="polite" aria-atomic="true">
-          {state.message ? (
-            <Typography variant="bodyMedium" color="red">{state.message}</Typography>
-          ) : null}
+        {state.message
+          ? (
+            <Typography variant="bodyMedium" color="red">
+              {state.message}
+            </Typography>
+          )
+          : null}
       </div>
       <div className={styles.actions}>
         <LinkButton

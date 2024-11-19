@@ -58,3 +58,11 @@ export type AgencyState = {
     };
     message?: string | null;
 }
+
+export type StopState = {
+    errors?: {
+        name?: string[]
+        description?: string[]
+    };
+    message?: string | null;
+}
