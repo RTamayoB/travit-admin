@@ -10,7 +10,7 @@ import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog";
 interface AgenciesLayoutProps {
   agencies: Agency[];
   totalPages: number;
-  onDeleteAgency: (agencyId: String) => Promise<void>;
+  onDeleteAgency: (agencyId: string) => Promise<void>;
 }
 
 function AgenciesLayout({

@@ -11,7 +11,7 @@ import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog";
 interface StopsLayoutProps {
   stops: Stop[];
   totalPages: number;
-  onDeleteStop: (stopId: String) => Promise<void>;
+  onDeleteStop: (stopId: string) => Promise<void>;
 }
 
 function StopsLayout({
