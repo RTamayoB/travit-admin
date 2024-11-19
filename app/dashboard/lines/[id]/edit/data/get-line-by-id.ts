@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { Line } from "@/app/lib/definitions";
 
-export async function getLineById(routeId: string): Promise<Line> {
+export async function getLineById(routeId: string): Promise<Line | null> {
   const supabase = createClient();
 
   const { data, error } = await supabase
@@ -18,6 +18,10 @@ export async function getLineById(routeId: string): Promise<Line> {
         `)
     .eq("id", routeId)
     .single();
+
+  if (!data) {
+    return null;
+  }
 
   if (error) {
     throw error;

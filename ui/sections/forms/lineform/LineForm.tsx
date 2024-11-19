@@ -1,11 +1,12 @@
 "use client";
 
-import { Agency, Line, RoutePoint, Stop } from "@/app/lib/definitions";
+import { Agency, Line, LineState, RoutePoint, Stop } from "@/app/lib/definitions";
 import { Button, LinkButton, TextField, Typography } from "@/ui/components";
-import { useState } from "react";
+import { useActionState, useState} from "react";
 import LineEditMap from "../../maps/lineeditmap";
 import styles from "../form.module.scss";
 import Dropdown, { DropdownOption } from "@/ui/components/dropdown";
+import { createLine } from "@/app/dashboard/lines/create/data/create-line";
 
 interface LineFormProps {
   stops: Stop[];
@@ -31,6 +32,8 @@ function LineForm({
   onSubmit,
   submitButtonText,
 }: LineFormProps) {
+  const initialState: LineState = { message: null, errors: {} };
+  const [state, formAction] = useActionState(createLine, initialState)
   const [routePoints, setRoutePoints] = useState(line.route_points);
   const [lineType, setLineType] = useState(line.line_type);
   const [agencyId, setAgencyId] = useState(line.agency_id);
@@ -52,7 +55,7 @@ function LineForm({
   }));
 
   return (
-    <form action={onSubmit}>
+    <form action={formAction}>
       <div className={styles.fieldsContainer}>
         <TextField
           id="line_number"
@@ -90,7 +93,16 @@ function LineForm({
           onOptionSelected={(value) => setAgencyId(value)}
           label="Concesionaria"
           className={styles["fieldsContainer--field"]}
+          aria-describedby="agency-error"
         />
+        <div id="customer-error" aria-live="polite" aria-atomic="true">
+          {state.errors?.agency_id &&
+            state.errors.agency_id.map((error: string) => (
+              <p key={error}>
+                {error}
+              </p>
+          ))}
+        </div>
         <input type="hidden" name="line_type" value={lineType} />
         <input type="hidden" name="agency_id" value={agencyId} />
         <input type="hidden" name="transport_type" value="bus" />

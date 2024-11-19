@@ -18,10 +18,10 @@ export async function getAllStops() {
       return [];
     }
 
-    const stops: Stop[] = data.map((stop: Stop) => {
+    const stops: Stop[] = data.map((stop: any) => {
       const position: Position = {
-        lat: stop.position.lat,
-        lng: stop.position.lng,
+        lat: stop.position.coordinates[0],
+        lng: stop.position.coordinates[1],
       };
 
       return {

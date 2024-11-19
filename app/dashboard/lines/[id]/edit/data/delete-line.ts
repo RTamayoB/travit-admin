@@ -2,7 +2,6 @@
 
 import { createClient } from "../../../../../../utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export async function deleteLine(id: string) {
   const supabase = createClient();
@@ -12,11 +11,9 @@ export async function deleteLine(id: string) {
       .from("lines")
       .delete()
       .eq("id", id);
+    revalidatePath("/dashboard/lines");
+    return { message: 'Linea eliminada.' };
   } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to delete line");
+    return { message: 'Database Error: Failed to delete Line.' };
   }
-
-  revalidatePath("/dashboard/lines");
-  redirect("/dashboard/lines/");
 }

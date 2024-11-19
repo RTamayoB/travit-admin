@@ -48,8 +48,7 @@ export async function editLine(id: string, formData: FormData) {
       }])
       .eq("id", id);
   } catch (error) {
-    console.error("Database Error:", error);
-    throw new Error("Failed to edit line");
+    return { message: 'Database Error: Failed to update Line.' };
   }
 
   revalidatePath("/dashboard/lines");
