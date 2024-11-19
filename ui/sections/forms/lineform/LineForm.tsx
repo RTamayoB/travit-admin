@@ -2,16 +2,17 @@
 
 import { Agency, Line, LineState, RoutePoint, Stop } from "@/app/lib/definitions";
 import { Button, LinkButton, TextField, Typography } from "@/ui/components";
-import { useActionState, useState} from "react";
+import { useState} from "react";
 import LineEditMap from "../../maps/lineeditmap";
 import styles from "../form.module.scss";
 import Dropdown, { DropdownOption } from "@/ui/components/dropdown";
-import { createLine } from "@/app/dashboard/lines/create/data/create-line";
 
 interface LineFormProps {
   stops: Stop[];
   agencies: Agency[];
   line?: Line;
+  onSubmit: (formData: FormData) => void,
+  state: LineState,
   submitButtonText: string;
 }
 
@@ -28,10 +29,10 @@ function LineForm({
     line_type: "",
     route_points: [],
   },
+  onSubmit,
+  state,
   submitButtonText,
 }: LineFormProps) {
-  const initialState: LineState = { message: null, errors: {} };
-  const [state, formAction] = useActionState(createLine, initialState)
   const [routePoints, setRoutePoints] = useState(line.route_points);
   const [lineType, setLineType] = useState(line.line_type);
   const [agencyId, setAgencyId] = useState(line.agency_id);
@@ -53,7 +54,7 @@ function LineForm({
   }));
 
   return (
-    <form action={formAction}>
+    <form action={onSubmit}>
       <div className={styles.fieldsContainer}>
         <TextField
           id="line_number"

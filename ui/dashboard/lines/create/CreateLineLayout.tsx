@@ -1,6 +1,10 @@
+'use client';
+
 import Header from "@/ui/sections/header";
 import LineForm from "@/ui/sections/forms/lineform";
-import { Agency, Stop } from "@/app/lib/definitions";
+import { Agency, LineState, Stop } from "@/app/lib/definitions";
+import { useActionState } from "react";
+import { createLine } from "@/app/dashboard/lines/create/data/create-line";
 
 interface CreateLineLayoutProps {
   agencies: Agency[];
@@ -11,6 +15,9 @@ function CreateLineLayout({
   agencies,
   stops,
 }: CreateLineLayoutProps) {
+  const initialState: LineState = { message: null, errors: {} };
+  const [state, formAction] = useActionState(createLine, initialState)
+
   return (
     <div>
       <Header
@@ -30,6 +37,8 @@ function CreateLineLayout({
       <LineForm
         stops={stops}
         agencies={agencies}
+        onSubmit={formAction}
+        state={state}
         submitButtonText="Crear Linea"
       />
     </div>

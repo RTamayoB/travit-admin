@@ -15,7 +15,6 @@ export async function getAgenciesById(): Promise<Agency[]> {
       .select("id, name")
       .order("id", { ascending: true });
     const { data } = await queryBuilder;
-    console.log("Agencies", data);
     return data as Agency[];
   } catch (error) {
     console.error("Database Error:", error);

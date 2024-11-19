@@ -8,7 +8,7 @@ export const LineSchema = z.object({
   legacy_line_number: z.string({
     required_error: "Numero Anterior de Linea es requerido.",
   }).min(1, "Numero Anterior de Linea es requerido."),
-  units: z.coerce.number().min(1, "Numero de unidades debe ser al menos 0"),
+  units: z.coerce.number().min(1, "Numero de unidades debe ser al menos 1"),
   agency_id: z.coerce.number({
     invalid_type_error: "Por favor escoja una concesionaria.",
   }).gt(0, "Por favor escoja una concesionaria."),

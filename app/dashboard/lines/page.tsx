@@ -9,7 +9,7 @@ export default async function Page(
       query?: string;
       page?: string;
     }>;
-  }
+  },
 ) {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";

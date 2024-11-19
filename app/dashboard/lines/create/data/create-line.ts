@@ -28,7 +28,7 @@ export async function createLine(prevState: LineState, formData: FormData) {
   if (!parsedData.success) {
     return {
       errors: parsedData.error.flatten().fieldErrors,
-      message: 'Campos faltantes. No se puede crear la Linea.',
+      message: "Campos faltantes. No se puede crear la Linea.",
     };
   }
 
@@ -55,8 +55,8 @@ export async function createLine(prevState: LineState, formData: FormData) {
       .single();
   } catch (error) {
     return {
-        message: 'Database Error: Failed to create Line.'
-    }
+      message: "Database Error: Failed to create Line.",
+    };
   }
 
   revalidatePath("/dashboard/lines");
