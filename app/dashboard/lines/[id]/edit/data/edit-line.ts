@@ -12,7 +12,11 @@ const EditLine = LineSchema.omit({
   updated_at: true,
 });
 
-export async function editLine(id: string, prevState: LineState, formData: FormData) {
+export async function editLine(
+  id: string,
+  prevState: LineState,
+  formData: FormData,
+) {
   const supabase = await createClient();
 
   // Parse and validate form data
@@ -28,7 +32,7 @@ export async function editLine(id: string, prevState: LineState, formData: FormD
   if (!parsedData.success) {
     return {
       errors: parsedData.error.flatten().fieldErrors,
-      message: 'Campos faltantes. No se pudo actualizar la Linea',
+      message: "Campos faltantes. No se pudo actualizar la Linea",
     };
   }
 

@@ -15,3 +15,10 @@ export const LineSchema = z.object({
   transport_type: z.string(),
   line_type: z.enum(["troncal", "complementaria", "alimentadora", "linea"])
 });
+
+export const AgencySchema = z.object({
+  id: z.number(),
+  name: z.string({
+    required_error: "Nombre de Concesionaria es requerido.",
+  }).min(1, "Nombre de Concesionaria es requerido.")
+});

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Header from "@/ui/sections/header";
 import LineForm from "@/ui/sections/forms/lineform";
@@ -16,7 +16,7 @@ function CreateLineLayout({
   stops,
 }: CreateLineLayoutProps) {
   const initialState: LineState = { message: null, errors: {} };
-  const [state, formAction] = useActionState(createLine, initialState)
+  const [state, formAction] = useActionState(createLine, initialState);
 
   return (
     <div>

@@ -1,40 +1,44 @@
-'use server';
+"use server";
 
-import {revalidatePath} from "next/cache";
-import {createClient} from '@/utils/supabase/server';
-import {z} from "zod";
-import {redirect} from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
+import { AgencySchema } from "@/app/lib/schemas";
+import { AgencyState } from "@/app/lib/definitions";
 
-const EditAgencyFormSchema = z.object({
-    id: z.number(),
-    name: z.string()
-});
+const EditAgency = AgencySchema.omit({ id: true, created_at: true });
 
-const EditAgency = EditAgencyFormSchema.omit({ id: true, created_at: true });
+export async function editAgencyById(
+  id: string,
+  prevState: AgencyState,
+  formData: FormData,
+) {
+  const supabase = await createClient();
 
+  const parsedData = EditAgency.safeParse({
+    name: formData.get("name"),
+  });
 
-export async function editAgencyById(id: string, formData: FormData) {
+  if (!parsedData.success) {
+    return {
+      errors: parsedData.error.flatten().fieldErrors,
+      message: "Campos faltantes. No se pudo actualizar la Linea",
+    };
+  }
 
-    const supabase = await createClient();
+  try {
+    await supabase
+      .from("agencies")
+      .update([
+        {
+          name: parsedData.data.name,
+        },
+      ])
+      .eq("id", id);
+  } catch (error) {
+    return { message: "Database Error: Failed to update Agency." };
+  }
 
-    const { name } = EditAgency.parse({
-        name: formData.get('name')
-    });
-
-    try {
-        await supabase
-        .from('agencies')
-        .update([
-            {
-                name: name
-            }
-        ])
-        .eq('id', id)
-    } catch (error) {
-        console.error('Database Error:', error)
-        throw new Error('Failed to insert agency')
-    }
-
-    revalidatePath('/dashboard/agencies')
-    redirect('/dashboard/agencies/')
+  revalidatePath("/dashboard/agencies");
+  redirect("/dashboard/agencies/");
 }

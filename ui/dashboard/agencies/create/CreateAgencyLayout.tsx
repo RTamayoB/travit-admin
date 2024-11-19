@@ -1,14 +1,15 @@
+"use client";
+
 import Header from "@/ui/sections/header";
-import { Agency, Stop } from "@/app/lib/definitions";
+import { AgencyState } from "@/app/lib/definitions";
 import { AgencyForm } from "@/ui/sections/forms";
+import { useActionState } from "react";
+import { createAgency } from "@/app/dashboard/agencies/create/data/create-agency";
 
-interface CreateAgencyLayoutProps {
-  onSubmit: (formData: FormData) => Promise<void>;
-}
+function CreateAgencyLayout() {
+  const initialState: AgencyState = { message: null, errors: {} };
+  const [state, formAction] = useActionState(createAgency, initialState);
 
-function CreateAgencyLayout({
-  onSubmit,
-}: CreateAgencyLayoutProps) {
   return (
     <div>
       <Header
@@ -26,7 +27,8 @@ function CreateAgencyLayout({
         ]}
       />
       <AgencyForm
-        onSubmit={onSubmit}
+        onSubmit={formAction}
+        state={state}
         submitButtonText="Crear Concesionaria"
       />
     </div>

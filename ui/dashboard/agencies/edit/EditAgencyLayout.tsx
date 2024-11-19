@@ -1,16 +1,22 @@
+"use client";
+
 import Header from "@/ui/sections/header";
-import { Agency } from "@/app/lib/definitions";
+import { Agency, AgencyState } from "@/app/lib/definitions";
 import { AgencyForm } from "@/ui/sections/forms";
+import { editAgencyById } from "@/app/dashboard/agencies/[id]/edit/data/edit-agency";
+import { useActionState } from "react";
 
 interface EditAgencyLayoutProps {
   agency: Agency;
-  onSubmit: (formData: FormData) => Promise<void>;
 }
 
 function EditAgencyLayout({
   agency,
-  onSubmit,
 }: EditAgencyLayoutProps) {
+  const initialState: AgencyState = { message: null, errors: {} };
+  const editAgency = editAgencyById.bind(null, agency.id.toString());
+  const [state, formAction] = useActionState(editAgency, initialState);
+
   return (
     <div>
       <Header
@@ -29,7 +35,8 @@ function EditAgencyLayout({
       />
       <AgencyForm
         agency={agency}
-        onSubmit={onSubmit}
+        onSubmit={formAction}
+        state={state}
         submitButtonText="Editar Concesionaria"
       />
     </div>

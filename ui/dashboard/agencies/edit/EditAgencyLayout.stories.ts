@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import EditAgencyLayout from "./EditAgencyLayout";
-import { mockupAgencies, mockupLines, mockupStops } from "@/ui/mockups";
+import { mockupAgencies } from "@/ui/mockups";
 
 const meta: Meta<typeof EditAgencyLayout> = {
   title: "Design System/Dashboard/Agencies/EditAgencyLayout",

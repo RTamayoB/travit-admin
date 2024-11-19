@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Header from "@/ui/sections/header";
 import LineForm from "@/ui/sections/forms/lineform";
@@ -19,7 +19,7 @@ function EditLineLayout({
 }: EditLineLayoutProps) {
   const initialState: LineState = { message: null, errors: {} };
   const editCurrentLine = editLine.bind(null, line.id.toString());
-  const [state, formAction] = useActionState(editCurrentLine, initialState)
+  const [state, formAction] = useActionState(editCurrentLine, initialState);
 
   return (
     <div>

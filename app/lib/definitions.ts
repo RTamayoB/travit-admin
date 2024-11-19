@@ -51,3 +51,10 @@ export type LineState = {
     };
     message?: string | null;
 };
+
+export type AgencyState = {
+    errors?: {
+        name?: string[]
+    };
+    message?: string | null;
+}
