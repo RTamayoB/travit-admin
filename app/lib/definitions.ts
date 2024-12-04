@@ -40,6 +40,16 @@ export interface Line {
     route_points: RoutePoint[] | [];
 }
 
+export interface LineRequest {
+    id: number;
+    line_id: number;
+    data: string;
+    requester_name: string;
+    action: string;
+    status: string;
+    notes: string
+}
+
 export type LineState = {
     errors?: {
       line_number?: string[];

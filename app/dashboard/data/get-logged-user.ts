@@ -18,9 +18,7 @@ export async function getLoggedUser(): Promise<UserInfo> {
                 id,
                 full_name,
                 username,
-                admins (
-                    role
-                )
+                user_roles ( role )
             `)
             .eq("id", user?.id)
             .single();
@@ -31,7 +29,7 @@ export async function getLoggedUser(): Promise<UserInfo> {
             id: data?.id,
             full_name: data?.full_name,
             username: data?.username,
-            role: data?.admins?.[0]?.role
+            role: data?.user_roles?.[0]?.role
         }
         
         return userInfo

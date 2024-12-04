@@ -3,7 +3,7 @@ import {
   createServerClient,
 } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
-import process from "node:process";
+import process from "process";
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({

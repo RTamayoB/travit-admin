@@ -19,6 +19,7 @@
     "@supabase/supabase-js": "^2.46.2",
     "chromatic": "^11.3.0",
     "clsx": "^2.1.0",
+    "jwt-decode": "^4.0.0",
     "leaflet": "^1.9.4",
     "next": "^15.0.3",
     "react": "^18.3.1",

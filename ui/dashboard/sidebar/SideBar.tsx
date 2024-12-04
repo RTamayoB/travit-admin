@@ -1,26 +1,29 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./sidebar.scss";
-import { UserInfo } from "@/app/lib/definitions";
 import { Button, Logo } from "@/ui/components";
 import SideBarItem, { Destination } from "./sidebaritem/SideBarItem";
 import LogoutButton from "./sidebaritem/LogoutButton";
+import { useUser } from "@/app/lib/UserContextProvider";
+import { User } from "@supabase/supabase-js";
 
 type SidebarViewMode = "collapsable" | "expanded";
 
-export interface SideBarProps {
-  userInfo: UserInfo;
-}
-
-function SideBar({
-  userInfo,
-}: SideBarProps) {
+function SideBar() {
   const [sideBarViewMode, setSideBarViewMode] = useState<SidebarViewMode>(
     "expanded",
   );
+  const userData = useUser();
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
+  const [userInfo, setUser] = useState<User | null>(null);
+  const [role, setRole] = useState<string | null>(null);
   const sidebarState = isSideBarOpen ? "open" : "close";
+
+  useEffect(() => {
+    setUser(userData.user)
+    setRole(userData.role)
+  }, [userData])
 
   const destinations: Destination[] = [
     {
@@ -46,8 +49,8 @@ function SideBar({
   ];
 
   const user: Destination = {
-    "label": userInfo.username,
-    "subtitle": userInfo.role,
+    "label": userInfo?.email!!,
+    "subtitle": role!!,
     "icon": "/images/user.svg",
     "route": "/account",
   };
@@ -99,11 +102,11 @@ function SideBar({
             variant={sidebarState}
           />
         ))}
-        {userInfo.role == "manager" && (
+        {role == "admin" && (
           <SideBarItem
             label={"Cuentas"}
             icon={"/images/users-group.svg"}
-            route={"/dashboard/profiles/"}
+            route={""}
             variant={sidebarState}
           />
         )}
