@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import '../ui/styles/global.scss'
-import React from "react";
+import React, { useState } from "react";
 import { UserContextProvider } from './lib/UserContextProvider';
 
 const Satoshi = localFont({ src: '../public/fonts/satoshi/Satoshi-Medium.otf' })
@@ -22,7 +22,7 @@ export default function RootLayout({
         <UserContextProvider>
           {children}
         </UserContextProvider>
-        </body>
+      </body>
     </html>
   )
 }

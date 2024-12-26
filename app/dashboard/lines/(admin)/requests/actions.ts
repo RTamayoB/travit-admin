@@ -6,7 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import { ITEMS_PER_PAGE } from "@/app/lib/utils";
 import { revalidatePath } from "next/cache";
 
-export async function getLinesRequestsByRange(
+export async function getAllLineRequestsByRange(
   query: string,
   currentPage: number,
 ) {
@@ -14,8 +14,6 @@ export async function getLinesRequestsByRange(
 
   const from = (currentPage - 1) * ITEMS_PER_PAGE;
   const to = from + ITEMS_PER_PAGE;
-
-  const userId = (await supabase.auth.getUser()).data.user?.id
 
   const queryBuilder = supabase
     .from("lines_change_requests")
@@ -26,11 +24,9 @@ export async function getLinesRequestsByRange(
             data,
             action,
             status,
-            created_by,
             requester_name,
             notes
         `)
-    .eq("created_by", userId)
     .range(from, to)
     .limit(ITEMS_PER_PAGE);
 
@@ -87,18 +83,15 @@ export async function getLinesRequestsByRange(
   return requests;
 }
 
-export async function getLineRequestsPageCount(query: string) {
+export async function getAllLineRequestsPageCount(query: string) {
   const supabase = await createClient();
 
   noStore();
 
-  const userId = (await supabase.auth.getUser()).data.user?.id
-
   try {
     const queryBuilder = supabase
       .from("lines_change_requests")
-      .select("*", { count: "exact" })
-      .eq("created_by", userId);
+      .select("*", { count: "exact" });
 
     const { count } = await queryBuilder;
     console.log("Pure count", count);

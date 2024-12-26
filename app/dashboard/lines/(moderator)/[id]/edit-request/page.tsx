@@ -1,10 +1,10 @@
 "use server";
 
-import { getLineById } from "@/app/dashboard/lines/[id]/edit/data/get-line-by-id";
 import { getAllStops } from "@/app/dashboard/lines/data/get-all-stops";
-import { getAgenciesById } from "@/app/dashboard/lines/create/data/get-agencies-by-id";
-import EditLineLayout from "@/ui/dashboard/lines/edit/EditLineLayout";
 import { notFound } from "next/navigation";
+import { getLineById } from "../../../(admin)/[id]/edit/data/get-line-by-id";
+import { getAgenciesById } from "../../../(admin)/create/data/get-agencies-by-id";
+import EditRequestLineLayout from "@/ui/dashboard/lines/moderator/edit-request/EditRequestLineLayout";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -19,7 +19,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   }
 
   return (
-    <EditLineLayout
+    <EditRequestLineLayout
       stops={stops}
       agencies={agencies}
       line={line}

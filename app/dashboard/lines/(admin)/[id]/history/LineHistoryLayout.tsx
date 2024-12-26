@@ -1,22 +1,20 @@
 "use client";
 
-import { Line } from "@/app/lib/definitions";
+import { Line, LineHistory } from "@/app/lib/definitions";
 import { Button, LinkButton } from "@/ui/components";
-import styles from "./lineslayout.module.scss";
+import styles from "../../../../../../ui/dashboard/lines/lineslayout.module.scss";
 import { useEffect, useState } from "react";
 import { Header, Pagination, SearchBar, Table } from "@/ui/sections";
-import { LinesMap } from "@/ui/sections/maps";
 import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog";
-import { UserContext, useUserContext } from "@/app/lib/UserContextProvider";
-import { createContext } from "vm";
+import { useUserContext } from "@/app/lib/UserContextProvider";
 
 interface LinesLayoutProps {
-  lines: Line[];
+  lines: LineHistory[];
   totalPages: number;
   onDeleteLine: (lineId: string) => Promise<{ message: string }>;
 }
 
-function LinesLayout({
+function LineHistoryLayout({
   lines,
   totalPages,
   onDeleteLine,
@@ -114,7 +112,6 @@ function LinesLayout({
             </div>
           )}
         />
-        <LinesMap lines={focusedLine ? [focusedLine] : lines} />
         <Pagination totalPages={totalPages} />
       </div>
 
@@ -131,4 +128,4 @@ function LinesLayout({
   );
 }
 
-export default LinesLayout;
+export default LineHistoryLayout;

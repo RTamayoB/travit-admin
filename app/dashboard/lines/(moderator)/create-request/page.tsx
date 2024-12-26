@@ -1,13 +1,13 @@
 import { getAllStops } from "@/app/dashboard/lines/data/get-all-stops";
-import { getAgenciesById } from "@/app/dashboard/lines/create/data/get-agencies-by-id";
-import CreateLineLayout from "@/ui/dashboard/lines/create/CreateLineLayout";
+import { getAgenciesById } from "../../(admin)/create/data/get-agencies-by-id";
+import CreateRequestLineLayout from "@/ui/dashboard/lines/moderator/create-request/CreateRequestLineLayout";
 
 export default async function Page() {
   const agencies = await getAgenciesById();
   const stops = await getAllStops();
 
   return (
-    <CreateLineLayout
+    <CreateRequestLineLayout
       stops={stops}
       agencies={agencies}
     />

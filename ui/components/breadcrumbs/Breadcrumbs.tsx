@@ -4,8 +4,9 @@ import styles from "./breadcrumbs.module.scss";
 import Typography from "@/ui/components/typography";
 
 export interface BreadcrumbItem {
+  id: number;
   label: string;
-  href: string;
+  href?: string;
   active?: boolean;
 }
 
@@ -19,7 +20,7 @@ function Breadcrumbs({
       <ol className={styles.ol}>
         {breadcrumbs.map((breadcrumb, index) => (
           <li
-            key={breadcrumb.href}
+            key={breadcrumb.id}
             className={clsx(
               { [styles.active]: breadcrumb.active },
             )}
@@ -31,7 +32,7 @@ function Breadcrumbs({
                 </Typography>
               )
               : (
-                <Link href={breadcrumb.href}>
+                <Link href={breadcrumb.href || ""}>
                   <Typography variant="h5" bold>
                     {breadcrumb.label}
                   </Typography>

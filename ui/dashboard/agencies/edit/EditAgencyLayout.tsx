@@ -22,11 +22,13 @@ function EditAgencyLayout({
       <Header
         breadcrumbList={[
           {
+            id: 1,
             label: "Concesionarias",
             href: "/dashboard/agencies",
             active: false,
           },
           {
+            id: 2,
             label: "Editar Concesionaria",
             href: `/dashboard/agencies/${agency.id}/edit`,
             active: true,

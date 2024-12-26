@@ -2,7 +2,7 @@
 
 import { LineRequest } from "@/app/lib/definitions";
 import { Button, LinkButton } from "@/ui/components";
-import styles from "./linerequestslayout.module.scss";
+import styles from "../my-requests/linerequestslayout.module.scss";
 import { useEffect, useState } from "react";
 import { Header, Pagination, SearchBar, Table } from "@/ui/sections";
 import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog";
@@ -14,7 +14,7 @@ interface LinesLayoutProps {
   onDeleteLineRequest: (lineRequestId: string) => Promise<{ message: string }>;
 }
 
-function MyLinesRequestsLayout({
+function AllLinesRequestsLayout({
   lineRequests,
   totalPages,
   onDeleteLineRequest,
@@ -59,7 +59,7 @@ function MyLinesRequestsLayout({
           {
             id: 2,
             label: "Mis Solicitudes",
-            href: "/dashboard/lines/my-requests",
+            href: "/dashboard/lines/requests",
             active: true,
           },
         ]}
@@ -71,13 +71,18 @@ function MyLinesRequestsLayout({
       <div className={styles.content}>
         <Table
           data={lineRequests}
-          keysToIgnore={["data", "requester_name"]}
+          keysToIgnore={["data"]}
           actions={(line) => (
             <div className={styles.actions}>
               <LinkButton
-                href={`/dashboard/lines/my-requests/${line.id}`}
+                href={`/dashboard/lines/requests/${line.id}`}
                 primary={false}
                 leadIconUrl="/icons/edit.svg"
+              />
+              <Button
+                primary={false}
+                onClick={() => handleDeleteClick(line)}
+                leadIconUrl="/icons/delete.svg"
               />
             </div>
           )}
@@ -98,4 +103,4 @@ function MyLinesRequestsLayout({
   );
 }
 
-export default MyLinesRequestsLayout;
+export default AllLinesRequestsLayout;

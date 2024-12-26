@@ -40,8 +40,18 @@ export interface Line {
     route_points: RoutePoint[] | [];
 }
 
+export interface LineHistory {
+    id: number;
+    created_at: string;
+    line_id: number;
+    action: string;
+    old_data: string;
+    new_data: string;
+}
+
 export interface LineRequest {
     id: number;
+    created_at: string;
     line_id: number;
     data: string;
     requester_name: string;

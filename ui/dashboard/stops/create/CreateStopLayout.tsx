@@ -15,11 +15,13 @@ function CreateStopLayout() {
       <Header
         breadcrumbList={[
           {
+            id: 1,
             label: "Paradas",
             href: "/dashboard/stops",
             active: false,
           },
           {
+            id: 2,
             label: "Crear Parada",
             href: "/dashboard/stops/create",
             active: true,

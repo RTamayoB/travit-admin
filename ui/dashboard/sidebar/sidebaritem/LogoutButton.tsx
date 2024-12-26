@@ -12,7 +12,7 @@ function LogoutButton({
 }: LogoutButtonProps) {
   return (
     <form
-      action="auth/signout"
+      action="/auth/signout"
       method="post"
     >
       <button

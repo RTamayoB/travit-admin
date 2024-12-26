@@ -22,11 +22,13 @@ function EditStopLayout({
       <Header
         breadcrumbList={[
           {
+            id: 1,
             label: "Paradas",
             href: "/dashboard/stops",
             active: false,
           },
           {
+            id: 2,
             label: "Editar Parada",
             href: `/dashboard/stops/${stop.id}/edit`,
             active: true,

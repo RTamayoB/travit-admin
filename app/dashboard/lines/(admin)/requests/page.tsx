@@ -1,4 +1,5 @@
-import { getLineRequestsPageCount, getLinesRequestsByRange } from "../../(moderator)/my-requests/actions";
+import { deleteLineRequest, getAllLineRequestsByRange, getAllLineRequestsPageCount } from "./actions";
+import AllLinesRequestsLayout from "@/ui/dashboard/lines/requests/AllLineRequestsLayout";
 
 export default async function Page(
   props: {
@@ -6,17 +7,19 @@ export default async function Page(
       query?: string;
       page?: string;
     }>;
-  },
+  }
 ) {
 
   const searchParams = await props.searchParams;
-  const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = await getLineRequestsPageCount(query);
-  const lines = await getLinesRequestsByRange(query, currentPage);
-
-
+    const query = searchParams?.query || "";
+    const currentPage = Number(searchParams?.page) || 1;
+    const totalPages = await getAllLineRequestsPageCount(query);
+    const lineRequests = await getAllLineRequestsByRange(query, currentPage);
   return (
-    <p>Ver solicitudes.</p>
-  );
+    <AllLinesRequestsLayout 
+      lineRequests={lineRequests}
+      totalPages={totalPages}
+      onDeleteLineRequest={deleteLineRequest}
+    />
+  )
 }

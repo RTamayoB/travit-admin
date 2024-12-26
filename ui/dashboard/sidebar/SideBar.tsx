@@ -5,7 +5,7 @@ import "./sidebar.scss";
 import { Button, Logo } from "@/ui/components";
 import SideBarItem, { Destination } from "./sidebaritem/SideBarItem";
 import LogoutButton from "./sidebaritem/LogoutButton";
-import { useUser } from "@/app/lib/UserContextProvider";
+import { useUserContext } from "@/app/lib/UserContextProvider";
 import { User } from "@supabase/supabase-js";
 
 type SidebarViewMode = "collapsable" | "expanded";
@@ -14,7 +14,7 @@ function SideBar() {
   const [sideBarViewMode, setSideBarViewMode] = useState<SidebarViewMode>(
     "expanded",
   );
-  const userData = useUser();
+  const userData = useUserContext();
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
   const [userInfo, setUser] = useState<User | null>(null);
   const [role, setRole] = useState<string | null>(null);

@@ -1,10 +1,10 @@
 "use server";
 
-import { createClient } from "../../../../../../utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { Line, LineState, RoutePoint } from "@/app/lib/definitions";
+import { LineState, RoutePoint } from "@/app/lib/definitions";
 import { LineSchema } from "@/app/lib/schemas";
+import { createClient } from "@/utils/supabase/server";
 
 const EditLine = LineSchema.omit({
   id: true,
@@ -12,14 +12,12 @@ const EditLine = LineSchema.omit({
   updated_at: true,
 });
 
-export async function editLineRequest(
+export async function editLine(
   id: string,
   prevState: LineState,
   formData: FormData,
 ) {
   const supabase = await createClient();
-
-  const userName = (await supabase.auth.getUser()).data.user?.email
 
   // Parse and validate form data
   const parsedData = EditLine.safeParse({
@@ -38,35 +36,25 @@ export async function editLineRequest(
     };
   }
 
-  const routePointsString = formData.get("routePoints")?.toString();
+  const routePointsString = formData.get("route_points")?.toString();
   let routePoints: RoutePoint[] = [];
   if (routePointsString != null) {
     routePoints = JSON.parse(routePointsString);
   }
 
-  // Create line object to parsed as data
-  var line: Line = {
-    id: parseInt(id),
-    line_number: parsedData.data.line_number,
-    legacy_line_number: parsedData.data.legacy_line_number,
-    units: parsedData.data.units,
-    agency_id: parsedData.data.agency_id,
-    transport_type: parsedData.data.transport_type,
-    line_type: parsedData.data.line_type,
-    route_points: routePoints
-  }
-
-  const lineData = JSON.stringify(line)
-
   try {
     await supabase
-      .from("lines_change_requests")
-      .insert([{
-        line_id: id,
-        data: lineData,
-        action: "U",
-        requester_name: userName
-      }]);
+      .from("lines")
+      .update([{
+        line_number: parsedData.data.line_number,
+        legacy_line_number: parsedData.data.legacy_line_number,
+        units: parsedData.data.units,
+        agency_id: parsedData.data.agency_id,
+        transport_type: parsedData.data.transport_type,
+        line_type: parsedData.data.line_type,
+        route_points: routePoints,
+      }])
+      .eq("id", id);
   } catch (error) {
     return { message: "Database Error: Failed to update Line." };
   }
