@@ -1,12 +1,13 @@
 "use client";
 
 import { LineChangeRequest } from "@/app/lib/definitions";
-import { Button, LinkButton } from "@/ui/components";
+import { LinkButton } from "@/ui/components";
 import styles from "./linerequestslayout.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Header, Pagination, SearchBar, Table } from "@/ui/sections";
 import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog";
 import { useUserContext } from "@/app/lib/UserContextProvider";
+import { redirect } from "next/navigation";
 
 interface LinesLayoutProps {
   lineRequests: LineChangeRequest[];
@@ -19,16 +20,16 @@ function MyLinesRequestsLayout({
   totalPages,
   onDeleteLineRequest,
 }: LinesLayoutProps) {
-  const userContext = useUserContext();
-  const [role, setRole] = useState<string | null>(null);
+  const { role } = useUserContext();
+  
+  if (role != "moderator") {
+    redirect("/dashboard/lines");
+  }
+
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [lineRequestToDelete, setLineRequestToDelete] = useState<
     LineChangeRequest | null
   >(null);
-
-  useEffect(() => {
-    setRole(userContext.role);
-  }, [userContext]);
 
   const handleDeleteClick = (line: LineChangeRequest) => {
     setLineRequestToDelete(line);
