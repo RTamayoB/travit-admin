@@ -18,14 +18,13 @@ interface EditLineLayoutProps {
 function EditLineLayout({
   agencies,
   stops,
-  line
+  line,
 }: EditLineLayoutProps) {
   const { role } = useUserContext();
-  
-  if(role != "admin") {
-    redirect("/dashboard/lines")
-  }
 
+  if (role != "admin") {
+    redirect("/dashboard/lines");
+  }
 
   const initialState: LineState = { message: null, errors: {} };
   const editCurrentLine = editLine.bind(null, line.id.toString());
@@ -48,21 +47,28 @@ function EditLineLayout({
           },
         ]}
         actions={
-          <>{role == "admin" && (<LinkButton href={`/dashboard/lines/${line.id}/history`} label="Ver historial" />)}</>
+          <>
+            {role == "admin" && (
+              <LinkButton
+                href={`/dashboard/lines/${line.id}/history`}
+                label="Ver historial"
+              />
+            )}
+          </>
         }
       />
-      {role ? (
-        <LineForm
-          stops={stops}
-          agencies={agencies}
-          line={line}
-          onSubmit={formAction}
-          state={state}
-          submitButtonText={"Editar Linea"}
-        />
-      ): (
-        <p>Loading...</p>
-      )}
+      {role
+        ? (
+          <LineForm
+            stops={stops}
+            agencies={agencies}
+            line={line}
+            onSubmit={formAction}
+            state={state}
+            submitButtonText={"Editar Linea"}
+          />
+        )
+        : <p>Loading...</p>}
     </div>
   );
 }

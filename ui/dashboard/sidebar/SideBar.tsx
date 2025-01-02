@@ -32,7 +32,7 @@ function SideBar() {
       "route": "/dashboard",
     },
     {
-      "label": "Rutas",
+      "label": "Lineas",
       "icon": "/images/lines.svg",
       "route": "/dashboard/lines",
     },

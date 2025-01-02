@@ -1,13 +1,16 @@
 "use server";
 
-import { LineRequest } from "@/app/lib/definitions";
+import {
+  Action,
+  LineChangeRequest,
+  RequestStatus,
+} from "@/app/lib/definitions";
 import { unstable_noStore as noStore } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
 import { ITEMS_PER_PAGE } from "@/app/lib/utils";
 import { revalidatePath } from "next/cache";
 
 export async function getLinesRequestsByRange(
-  query: string,
   currentPage: number,
 ) {
   const supabase = await createClient();
@@ -15,7 +18,7 @@ export async function getLinesRequestsByRange(
   const from = (currentPage - 1) * ITEMS_PER_PAGE;
   const to = from + ITEMS_PER_PAGE;
 
-  const userId = (await supabase.auth.getUser()).data.user?.id
+  const userId = (await supabase.auth.getUser()).data.user?.id;
 
   const queryBuilder = supabase
     .from("lines_change_requests")
@@ -40,59 +43,32 @@ export async function getLinesRequestsByRange(
     return [];
   }
 
-  const requests: LineRequest[] = data.map((request: LineRequest) => {
-    const date = new Date(request.created_at)
+  const requests: LineChangeRequest[] = data.map(
+    (request: LineChangeRequest) => {
+      const date = new Date(request.created_at);
 
-    let actionLabel: string;
-      switch (request.action) {
-        case "I":
-          actionLabel = "Crear";
-        break;
-        case "U":
-          actionLabel = "Editar";
-        break;
-        default:
-          actionLabel = "Crear";
-        break;
-      }
-
-    let statusLabel: string;
-      switch (request.status) {
-        case "pending":
-          statusLabel = "Pendiente";
-        break;
-        case "rejected":
-          statusLabel = "Rechazado";
-        break;
-        case "approved":
-          statusLabel = "Aprovado";
-        break;
-        default:
-          statusLabel = "Pendiente";
-        break;
-      }
-
-    return {
-      id: request.id,
-      created_at: date.toLocaleString(),
-      line_id: request.line_id ? request.line_id : 0,
-      data: request.data,
-      requester_name: request.requester_name,
-      action: actionLabel,
-      status: statusLabel,
-      notes: request.notes
-    };
-  });
+      return {
+        id: request.id,
+        created_at: date.toLocaleString(),
+        line_id: request.line_id ? request.line_id : 0,
+        data: request.data,
+        requester_name: request.requester_name,
+        action: request.action as Action,
+        status: request.status as RequestStatus,
+        notes: request.notes,
+      };
+    },
+  );
 
   return requests;
 }
 
-export async function getLineRequestsPageCount(query: string) {
+export async function getLineRequestsPageCount() {
   const supabase = await createClient();
 
   noStore();
 
-  const userId = (await supabase.auth.getUser()).data.user?.id
+  const userId = (await supabase.auth.getUser()).data.user?.id;
 
   try {
     const queryBuilder = supabase

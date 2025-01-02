@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { createClient } from "@/utils/supabase/client"
+import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { jwtDecode } from "jwt-decode";
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react";
 
 const supabase = createClient();
 
 interface UserContextProps {
-  userLoaded: boolean,
-  user: User | null,
-  role: string | null
+  userLoaded: boolean;
+  user: User | null;
+  role: string | null;
   refreshUser: () => Promise<void>;
 }
 
@@ -18,7 +18,7 @@ export const UserContext = createContext<UserContextProps>({
   userLoaded: false,
   user: null,
   role: null,
-  refreshUser: async () => {}
+  refreshUser: async () => {},
 });
 
 export const UserContextProvider = (props: any) => {
@@ -46,7 +46,6 @@ export const UserContextProvider = (props: any) => {
   };
 
   useEffect(() => {
-
     refreshUser();
 
     const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
@@ -54,9 +53,9 @@ export const UserContextProvider = (props: any) => {
         const jwt: { user_role: string } = jwtDecode(session.access_token);
         const userRole = jwt.user_role;
         setRole(userRole);
-        setUserLoaded(!!userRole)
+        setUserLoaded(!!userRole);
       }
-    })
+    });
 
     return () => {
       data.subscription.unsubscribe();
@@ -67,15 +66,15 @@ export const UserContextProvider = (props: any) => {
     userLoaded,
     user,
     role,
-    refreshUser
-  }
-  return <UserContext.Provider value={value} {...props} />
-}
+    refreshUser,
+  };
+  return <UserContext.Provider value={value} {...props} />;
+};
 
 export const useUserContext = () => {
   const context = useContext(UserContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserContextProvider.');
+    throw new Error("useUser must be used within a UserContextProvider.");
   }
   return context;
-}
+};

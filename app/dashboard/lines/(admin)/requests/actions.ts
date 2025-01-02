@@ -37,36 +37,36 @@ export async function getAllLineRequestsByRange(
   }
 
   const requests: LineRequest[] = data.map((request: LineRequest) => {
-    const date = new Date(request.created_at)
+    const date = new Date(request.created_at);
 
     let actionLabel: string;
-      switch (request.action) {
-        case "I":
-          actionLabel = "Crear";
+    switch (request.action) {
+      case "I":
+        actionLabel = "Crear";
         break;
-        case "U":
-          actionLabel = "Editar";
+      case "U":
+        actionLabel = "Editar";
         break;
-        default:
-          actionLabel = "Crear";
+      default:
+        actionLabel = "Crear";
         break;
-      }
+    }
 
     let statusLabel: string;
-      switch (request.status) {
-        case "pending":
-          statusLabel = "Pendiente";
+    switch (request.status) {
+      case "pending":
+        statusLabel = "Pendiente";
         break;
-        case "rejected":
-          statusLabel = "Rechazado";
+      case "rejected":
+        statusLabel = "Rechazado";
         break;
-        case "approved":
-          statusLabel = "Aprovado";
+      case "approved":
+        statusLabel = "Aprovado";
         break;
-        default:
-          statusLabel = "Pendiente";
+      default:
+        statusLabel = "Pendiente";
         break;
-      }
+    }
 
     return {
       id: request.id,
@@ -76,7 +76,7 @@ export async function getAllLineRequestsByRange(
       requester_name: request.requester_name,
       action: actionLabel,
       status: statusLabel,
-      notes: request.notes
+      notes: request.notes,
     };
   });
 

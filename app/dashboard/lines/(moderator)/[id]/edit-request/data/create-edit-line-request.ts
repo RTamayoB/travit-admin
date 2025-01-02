@@ -12,14 +12,30 @@ const EditLine = LineSchema.omit({
   updated_at: true,
 });
 
-export async function editLineRequest(
+export async function createEditLineRequest(
   id: string,
   prevState: LineState,
   formData: FormData,
 ) {
   const supabase = await createClient();
 
-  const userName = (await supabase.auth.getUser()).data.user?.email
+  const userName = (await supabase.auth.getUser()).data.user?.email;
+
+  const queryBuilder = supabase
+    .from("lines_change_requests")
+    .select("*", { count: "exact" })
+    .eq("line_id", id);
+
+  const { count } = await queryBuilder;
+  console.log("Pure count", count);
+  if (count) {
+    if (count != 0) {
+      return {
+        message:
+          "Ya tienes una solicitud activa para esta linea. Edita la solicitud actual o espera una resolucion a tu solicitud actual.",
+      };
+    }
+  }
 
   // Parse and validate form data
   const parsedData = EditLine.safeParse({
@@ -53,10 +69,10 @@ export async function editLineRequest(
     agency_id: parsedData.data.agency_id,
     transport_type: parsedData.data.transport_type,
     line_type: parsedData.data.line_type,
-    route_points: routePoints
-  }
+    route_points: routePoints,
+  };
 
-  const lineData = JSON.stringify(line)
+  const lineData = JSON.stringify(line);
 
   try {
     await supabase
@@ -65,7 +81,7 @@ export async function editLineRequest(
         line_id: id,
         data: lineData,
         action: "U",
-        requester_name: userName
+        requester_name: userName,
       }]);
   } catch (error) {
     return { message: "Database Error: Failed to update Line." };

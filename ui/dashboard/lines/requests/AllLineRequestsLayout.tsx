@@ -22,11 +22,13 @@ function AllLinesRequestsLayout({
   const userContext = useUserContext();
   const [role, setRole] = useState<string | null>(null);
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [lineRequestToDelete, setLineRequestToDelete] = useState<LineRequest | null>(null);
+  const [lineRequestToDelete, setLineRequestToDelete] = useState<
+    LineRequest | null
+  >(null);
 
   useEffect(() => {
-    setRole(userContext.role)
-  }, [userContext])
+    setRole(userContext.role);
+  }, [userContext]);
 
   const handleDeleteClick = (line: LineRequest) => {
     setLineRequestToDelete(line);

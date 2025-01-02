@@ -22,6 +22,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     <LineRequestLayout
       stops={stops}
       agencies={agencies}
+      requestId={params.id}
       line={JSON.parse(line.data)}
     />
   );

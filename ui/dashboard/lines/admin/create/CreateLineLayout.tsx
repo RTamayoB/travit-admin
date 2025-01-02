@@ -18,9 +18,9 @@ function CreateLineLayout({
   stops,
 }: CreateLineLayoutProps) {
   const { role } = useUserContext();
-    
-  if(role != "admin") {
-    redirect("/dashboard/lines")
+
+  if (role != "admin") {
+    redirect("/dashboard/lines");
   }
   const initialState: LineState = { message: null, errors: {} };
   const [state, formAction] = useActionState(createLine, initialState);

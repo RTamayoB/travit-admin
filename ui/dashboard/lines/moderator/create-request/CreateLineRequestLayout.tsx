@@ -13,14 +13,14 @@ interface CreateLineLayoutProps {
   stops: Stop[];
 }
 
-function CreateRequestLineLayout({
+function CreateLineRequestLayout({
   agencies,
   stops,
 }: CreateLineLayoutProps) {
   const { role } = useUserContext();
-  
-  if(role != "moderator") {
-    redirect("/dashboard/lines")
+
+  if (role != "moderator") {
+    redirect("/dashboard/lines");
   }
   const initialState: LineState = { message: null, errors: {} };
   const [state, formAction] = useActionState(createLineRequest, initialState);
@@ -37,7 +37,7 @@ function CreateRequestLineLayout({
           },
           {
             id: 2,
-            label: "Nueva Linea",
+            label: "Solicitar Nueva Linea",
             href: "/dashboard/lines/create",
             active: true,
           },
@@ -54,4 +54,4 @@ function CreateRequestLineLayout({
   );
 }
 
-export default CreateRequestLineLayout;
+export default CreateLineRequestLayout;

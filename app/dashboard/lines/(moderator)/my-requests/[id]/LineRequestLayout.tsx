@@ -5,29 +5,38 @@ import LineForm from "@/ui/sections/forms/lineform";
 import { Agency, Line, LineState, Stop } from "@/app/lib/definitions";
 import { useActionState } from "react";
 import { useUserContext } from "@/app/lib/UserContextProvider";
-import { editLineRequest } from "@/app/dashboard/lines/(moderator)/[id]/edit-request/data/edit-line-request";
 import { redirect } from "next/navigation";
+import { editLineRequest } from "./data/actions";
 
 interface LineRequestLayoutProps {
   agencies: Agency[];
   stops: Stop[];
+  requestId: string;
   line: Line;
 }
 
 function LineRequestLayout({
   agencies,
   stops,
-  line
+  requestId,
+  line,
 }: LineRequestLayoutProps) {
   const { role } = useUserContext();
 
-  if(role != "moderator") {
-    redirect("/dashboard/lines")
+  if (role != "moderator") {
+    redirect("/dashboard/lines");
   }
 
   const initialState: LineState = { message: null, errors: {} };
-  const editCurrentLineRequest = editLineRequest.bind(null, line.id.toString());
-  const [state, formAction] = useActionState(editCurrentLineRequest, initialState)
+  const editCurrentLineRequest = editLineRequest.bind(
+    null,
+    line.id.toString(),
+    requestId,
+  );
+  const [state, formAction] = useActionState(
+    editCurrentLineRequest,
+    initialState,
+  );
 
   return (
     <div>
@@ -41,23 +50,30 @@ function LineRequestLayout({
           },
           {
             id: 2,
-            label: "Solicitar Edicion a Linea",
+            label: "Mis Solicitudes",
+            href: "/dashboard/lines/my-requests",
+            active: false,
+          },
+          {
+            id: 3,
+            label: "Editar Solicitud",
+            href: `/dashboard/lines/my-requests/${line.id}`,
             active: true,
           },
         ]}
       />
-      {role ? (
-        <LineForm
-          stops={stops}
-          agencies={agencies}
-          line={line}
-          onSubmit={formAction}
-          state={state}
-          submitButtonText={"Solicitar edicion a Linea"}
-        />
-      ): (
-        <p>Loading...</p>
-      )}
+      {role
+        ? (
+          <LineForm
+            stops={stops}
+            agencies={agencies}
+            line={line}
+            onSubmit={formAction}
+            state={state}
+            submitButtonText={"Solicitar edicion a Linea"}
+          />
+        )
+        : <p>Loading...</p>}
     </div>
   );
 }

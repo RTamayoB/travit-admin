@@ -12,10 +12,13 @@ const CreateLine = LineSchema.omit({
   updated_at: true,
 });
 
-export async function createLineRequest(prevState: LineState, formData: FormData) {
+export async function createLineRequest(
+  prevState: LineState,
+  formData: FormData,
+) {
   const supabase = await createClient();
 
-  const userName = (await supabase.auth.getUser()).data.user?.email
+  const userName = (await supabase.auth.getUser()).data.user?.email;
 
   // Parse and validate form data
   const parsedData = CreateLine.safeParse({
@@ -41,7 +44,7 @@ export async function createLineRequest(prevState: LineState, formData: FormData
   }
 
   // Create line object to parsed as data
-  var line: Line = {
+  const line: Line = {
     id: 0,
     line_number: parsedData.data.line_number,
     legacy_line_number: parsedData.data.legacy_line_number,
@@ -49,10 +52,10 @@ export async function createLineRequest(prevState: LineState, formData: FormData
     agency_id: parsedData.data.agency_id,
     transport_type: parsedData.data.transport_type,
     line_type: parsedData.data.line_type,
-    route_points: routePoints
-  }
+    route_points: routePoints,
+  };
 
-  const lineData = JSON.stringify(line)
+  const lineData = JSON.stringify(line);
 
   try {
     // Create line
@@ -62,12 +65,12 @@ export async function createLineRequest(prevState: LineState, formData: FormData
         line_id: null,
         data: lineData,
         action: "I",
-        requester_name: userName
+        requester_name: userName,
       }])
       .select()
       .single();
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return {
       message: "Database Error: Failed to create Line Request.",
     };
