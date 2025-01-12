@@ -7,8 +7,7 @@ import { useEffect, useState } from "react";
 import { Header, Pagination, SearchBar, Table } from "@/ui/sections";
 import { LinesMap } from "@/ui/sections/maps";
 import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog";
-import { UserContext, useUserContext } from "@/app/lib/UserContextProvider";
-import { createContext } from "vm";
+import { useUserContext } from "@/app/lib/UserContextProvider";
 
 interface LinesLayoutProps {
   lines: Line[];

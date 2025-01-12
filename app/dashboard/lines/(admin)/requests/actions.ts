@@ -1,6 +1,6 @@
 "use server";
 
-import { LineRequest } from "@/app/lib/definitions";
+import { Action, LineChangeRequest, RequestStatus } from "@/app/lib/definitions";
 import { unstable_noStore as noStore } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
 import { ITEMS_PER_PAGE } from "@/app/lib/utils";
@@ -28,6 +28,7 @@ export async function getAllLineRequestsByRange(
             notes
         `)
     .range(from, to)
+    .order("created_at")
     .limit(ITEMS_PER_PAGE);
 
   const { data } = await queryBuilder;
@@ -36,37 +37,8 @@ export async function getAllLineRequestsByRange(
     return [];
   }
 
-  const requests: LineRequest[] = data.map((request: LineRequest) => {
+  const requests: LineChangeRequest[] = data.map((request: LineChangeRequest) => {
     const date = new Date(request.created_at);
-
-    let actionLabel: string;
-    switch (request.action) {
-      case "I":
-        actionLabel = "Crear";
-        break;
-      case "U":
-        actionLabel = "Editar";
-        break;
-      default:
-        actionLabel = "Crear";
-        break;
-    }
-
-    let statusLabel: string;
-    switch (request.status) {
-      case "pending":
-        statusLabel = "Pendiente";
-        break;
-      case "rejected":
-        statusLabel = "Rechazado";
-        break;
-      case "approved":
-        statusLabel = "Aprovado";
-        break;
-      default:
-        statusLabel = "Pendiente";
-        break;
-    }
 
     return {
       id: request.id,
@@ -74,8 +46,8 @@ export async function getAllLineRequestsByRange(
       line_id: request.line_id ? request.line_id : 0,
       data: request.data,
       requester_name: request.requester_name,
-      action: actionLabel,
-      status: statusLabel,
+      action: request.action as Action,
+      status: request.status as RequestStatus,
       notes: request.notes,
     };
   });

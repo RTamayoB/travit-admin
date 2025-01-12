@@ -1,6 +1,6 @@
 "use client";
 
-import { LineRequest } from "@/app/lib/definitions";
+import { LineChangeRequest } from "@/app/lib/definitions";
 import { Button, LinkButton } from "@/ui/components";
 import styles from "../my-requests/linerequestslayout.module.scss";
 import { useEffect, useState } from "react";
@@ -9,7 +9,7 @@ import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog";
 import { useUserContext } from "@/app/lib/UserContextProvider";
 
 interface LinesLayoutProps {
-  lineRequests: LineRequest[];
+  lineRequests: LineChangeRequest[];
   totalPages: number;
   onDeleteLineRequest: (lineRequestId: string) => Promise<{ message: string }>;
 }
@@ -23,14 +23,14 @@ function AllLinesRequestsLayout({
   const [role, setRole] = useState<string | null>(null);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [lineRequestToDelete, setLineRequestToDelete] = useState<
-    LineRequest | null
+    LineChangeRequest | null
   >(null);
 
   useEffect(() => {
     setRole(userContext.role);
   }, [userContext]);
 
-  const handleDeleteClick = (line: LineRequest) => {
+  const handleDeleteClick = (line: LineChangeRequest) => {
     setLineRequestToDelete(line);
     setDialogOpen(true);
   };
@@ -60,7 +60,7 @@ function AllLinesRequestsLayout({
           },
           {
             id: 2,
-            label: "Mis Solicitudes",
+            label: "Solicitudes",
             href: "/dashboard/lines/requests",
             active: true,
           },
@@ -79,7 +79,7 @@ function AllLinesRequestsLayout({
               <LinkButton
                 href={`/dashboard/lines/requests/${line.id}`}
                 primary={false}
-                leadIconUrl="/icons/edit.svg"
+                leadIconUrl="/icons/clipboard-check.svg"
               />
               <Button
                 primary={false}

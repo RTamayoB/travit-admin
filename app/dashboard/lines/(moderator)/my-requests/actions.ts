@@ -34,6 +34,7 @@ export async function getLinesRequestsByRange(
             notes
         `)
     .eq("created_by", userId)
+    .order("created_at")
     .range(from, to)
     .limit(ITEMS_PER_PAGE);
 
