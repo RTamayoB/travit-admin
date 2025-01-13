@@ -45,8 +45,8 @@ export interface LineHistory {
   created_at: string;
   line_id: number;
   action: string;
-  old_data: string;
-  new_data: string;
+  old_data: Line;
+  new_data: Line;
 }
 
 export enum Action {

@@ -1,7 +1,7 @@
 "use server";
 
 import { notFound } from "next/navigation";
-import ReviewRequestLayout from "./ReviewRequestLayout";
+import ReviewRequestLayout from "./ui/ReviewRequestLayout";
 import { getLineRequestById } from "../../../(moderator)/my-requests/[id]/data/actions";
 import { getAgencyById } from "./data/get-agency-by-id";
 import { Line } from "@/app/lib/definitions";

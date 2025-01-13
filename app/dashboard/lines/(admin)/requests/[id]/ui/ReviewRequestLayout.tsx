@@ -1,13 +1,14 @@
 "use client";
 
 import Header from "@/ui/sections/header";
-import { Agency, Line, LineChangeRequest, LineState, Stop } from "@/app/lib/definitions";
+import { Agency, Line, LineChangeRequest } from "@/app/lib/definitions";
 import { useState } from "react";
 import { useUserContext } from "@/app/lib/UserContextProvider";
 import { redirect } from "next/navigation";
 import { Button, TextField, Typography } from "@/ui/components";
-import styles from '../requestslayout.module.scss';
-import LineReviewMap from "@/ui/sections/maps/linereviewmap";
+import styles from '../../requestslayout.module.scss';
+import RequestDetails from "./RequestDetails";
+import SimpleLineView from "@/ui/dashboard/lines/simplelineview/SimpleLineView";
 
 interface ReviewRequestLayoutProps {
   agency: Agency;
@@ -72,9 +73,9 @@ function ReviewRequestLayout({
         <Typography variant="h6" className={styles.subtitle}>Detalles de Solicitud</Typography>
         <RequestDetails request={request}/>
         <Typography variant="h6" className={styles.subtitle}>Detalles de Linea</Typography>
-        <RequestView
-          line={line}
-          agency={agency}
+        <SimpleLineView
+          line={JSON.parse(request.data) as Line}
+          agency={agency.name}
         />
         <TextField
           id="notes"
@@ -99,87 +100,6 @@ function ReviewRequestLayout({
           />
         </div>
       </div>
-    </div>
-  );
-}
-
-function LabelValuePair({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
-  return (
-    <div className={styles.item}>
-      <Typography className={styles.label} variant="bodyLarge">
-        {label}
-      </Typography>
-      <Typography className={styles.value} variant="bodyMedium">
-        {value}
-      </Typography>
-    </div>
-  );
-}
-
-function RequestDetails({
-  request
-}: {
-  request: LineChangeRequest
-}) {
-
-  const date = new Date(request.created_at)
-
-  const details = [
-    { label: "Fecha de Solicitud", value: date.toLocaleString() },
-    { label: "Creador de la Solicitud", value: request.requester_name },
-    { label: "Accion", value: request.action },
-    { label: "Estado", value: request.status },
-  ];
-
-  return(
-    <div>
-      {details.map((detail, index) => (
-        <LabelValuePair
-          key={index}
-          label={detail.label}
-          value={detail.value}
-        />
-      ))}
-    </div>
-  )
-}
-
-interface RequestViewProps {
-  line: Line;
-  agency: Agency
-}
-
-function RequestView({
-  line,
-  agency
-}: RequestViewProps) {
-
-  const lineDetails = [
-    { label: "Numero de Linea", value: line.line_number },
-    { label: "Numero de anterior de Linea", value: line.legacy_line_number },
-    { label: "Numero de Unidades", value: line.units.toString() },
-    { label: "Tipo de Linea", value: line.line_type },
-    { label: "Concesionaria", value: agency.name },
-  ];
-  return (
-    <div>
-      {lineDetails.map((detail, index) => (
-        <LabelValuePair
-          key={index}
-          label={detail.label}
-          value={detail.value}
-        />
-      ))}
-      {/*Here, check if action is I or U. If I, show only one view, if U show the same two views as if comparing*/}
-      <LineReviewMap
-        line={line}
-      />
     </div>
   );
 }

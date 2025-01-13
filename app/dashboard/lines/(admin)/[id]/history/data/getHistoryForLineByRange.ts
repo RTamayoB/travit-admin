@@ -32,6 +32,7 @@ export async function getHistoryForLineByRange(
             new_data
         `)
     .eq("line_id", id)
+    .order("created_at")
     .range(from, to)
     .limit(ITEMS_PER_PAGE);
 
@@ -42,9 +43,11 @@ export async function getHistoryForLineByRange(
   }
 
   const lines: LineHistory[] = data.map((line: LineHistory) => {
+    const date = new Date(line.created_at);
+
     return {
       id: line.id,
-      created_at: line.created_at,
+      created_at: date.toLocaleString(),
       line_id: line.line_id,
       action: line.action,
       old_data: line.old_data,
