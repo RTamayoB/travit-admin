@@ -1,0 +1,15 @@
+.content {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 16px; /* Add space between each label-value pair */
+}
+
+.subtitle {
+  padding: 16px 10px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row; /* Stack items vertically */
+  gap: 8px;
+}

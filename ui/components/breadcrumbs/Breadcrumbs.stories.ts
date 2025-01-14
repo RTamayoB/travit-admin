@@ -21,10 +21,12 @@ type Story = StoryObj<typeof Breadcrumbs>;
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
+    id: 1,
     label: "Inicio",
     href: "www.example.com/home",
   },
   {
+    id: 2,
     label: "Sub-pagina",
     href: "www.example.com/home/sub-page",
     active: true,

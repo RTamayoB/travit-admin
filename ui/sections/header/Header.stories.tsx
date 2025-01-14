@@ -21,13 +21,14 @@ type Story = StoryObj<typeof Header>;
 
 export const MainHeader: Story = {
   args: {
-    breadcrumbList: [{ label: "Pagina", href: "/page", active: true }],
+    breadcrumbList: [{ id: 1, label: "Pagina", href: "/page", active: true }],
   },
 };
 
 export const SubHeader: Story = {
   args: {
-    breadcrumbList: [{ label: "Pagina", href: "/page" }, {
+    breadcrumbList: [{ id: 1, label: "Pagina", href: "/page" }, {
+      id: 2,
       label: "SubPagina",
       href: "/page/sub-page",
       active: true,
@@ -37,7 +38,8 @@ export const SubHeader: Story = {
 
 export const WithActions: Story = {
   args: {
-    breadcrumbList: [{ label: "Pagina", href: "/page" }, {
+    breadcrumbList: [{ id: 1, label: "Pagina", href: "/page" }, {
+      id: 2,
       label: "SubPagina",
       href: "/page/sub-page",
       active: true,

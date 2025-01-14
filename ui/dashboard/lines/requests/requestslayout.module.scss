@@ -1,0 +1,30 @@
+.content {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  gap: 16px; /* Add space between each label-value pair */
+}
+
+.subtitle {
+  padding: 16px 10px;
+}
+
+.item {
+  display: flex; /* Align label and value horizontally */
+  justify-content: space-between; /* Push label and value to opposite sides */
+  align-items: center; /* Center items vertically */
+}
+
+.label {
+  flex: 1; /* Allow the label to take up necessary space */
+  font-weight: bold; /* Optional: make labels stand out */
+}
+
+.value {
+  flex: 3; /* Allow the value to take more space if needed */
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row; /* Stack items vertically */
+  gap: 8px;
+}

@@ -2,10 +2,12 @@
 
 import { Stop, StopState } from "@/app/lib/definitions";
 import { Button, LinkButton, TextField, Typography } from "@/ui/components";
-import StopEditMap from "../../maps/stopeditmap";
 import { useState } from "react";
 import { LatLng } from "leaflet";
 import styles from "../form.module.scss";
+import dynamic from "next/dynamic";
+
+const StopEditMap = dynamic(() => import('@/ui/sections/maps/stopeditmap/StopEditMap'), { ssr: false })
 
 interface StopFormProps {
   stop?: Stop;

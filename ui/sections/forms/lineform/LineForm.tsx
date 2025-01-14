@@ -9,9 +9,11 @@ import {
 } from "@/app/lib/definitions";
 import { Button, LinkButton, TextField, Typography } from "@/ui/components";
 import { useState } from "react";
-import LineEditMap from "../../maps/lineeditmap";
 import styles from "../form.module.scss";
 import Dropdown, { DropdownOption } from "@/ui/components/dropdown";
+import dynamic from "next/dynamic";
+
+const LineEditMap = dynamic(() => import('@/ui/sections/maps/lineeditmap/LineEditMap'), { ssr: false });
 
 interface LineFormProps {
   stops: Stop[];
