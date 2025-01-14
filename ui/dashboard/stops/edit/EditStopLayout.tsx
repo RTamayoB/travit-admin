@@ -2,9 +2,9 @@
 
 import Header from "@/ui/sections/header";
 import { Stop, StopState } from "@/app/lib/definitions";
-import { StopForm } from "@/ui/sections/forms";
 import { editStopById } from "@/app/dashboard/stops/[id]/edit/data/edit-stop";
 import { useActionState } from "react";
+import StopForm from "@/ui/sections/forms/stopform";
 
 interface EditStopLayoutProps {
   stop: Stop;
