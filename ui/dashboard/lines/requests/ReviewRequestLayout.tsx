@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useUserContext } from "@/app/lib/UserContextProvider";
 import { redirect } from "next/navigation";
 import { Button, TextField, Typography } from "@/ui/components";
-import styles from '../../requestslayout.module.scss';
+import styles from './requestslayout.module.scss';
 import RequestDetails from "./RequestDetails";
 import SimpleLineView from "@/ui/dashboard/lines/simplelineview/SimpleLineView";
 

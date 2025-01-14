@@ -5,7 +5,7 @@ import { Agency, Line, LineState, Stop } from "@/app/lib/definitions";
 import { useActionState } from "react";
 import { useUserContext } from "@/app/lib/UserContextProvider";
 import { redirect } from "next/navigation";
-import { editLineRequest } from "./data/actions";
+import { editLineRequest } from "../../../../app/dashboard/lines/(moderator)/my-requests/[id]/data/actions";
 import LineForm from "@/ui/sections/forms/lineform";
 
 interface LineRequestLayoutProps {

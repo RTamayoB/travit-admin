@@ -3,7 +3,7 @@
 import { notFound } from "next/navigation";
 
 import { getHistoryRecordById, restorePreviousState } from "./actions";
-import HistoryRecordLayout from "./ui/HistoryRecordLayout";
+import HistoryRecordLayout from "@/ui/dashboard/lines/history/HistoryRecordLayout";
 
 export default async function Page(props: { params: Promise<{ id: string, recordId: string }> }) {
   const params = await props.params;

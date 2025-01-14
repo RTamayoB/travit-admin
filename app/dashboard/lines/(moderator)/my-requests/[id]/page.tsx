@@ -4,7 +4,7 @@ import { getAllStops } from "@/app/dashboard/lines/data/get-all-stops";
 import { notFound } from "next/navigation";
 import { getAgenciesById } from "../../../(admin)/create/data/get-agencies-by-id";
 import { getLineRequestById } from "./data/actions";
-import LineRequestLayout from "./LineRequestLayout";
+import LineRequestLayout from "../../../../../../ui/dashboard/lines/my-requests/LineRequestLayout";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;

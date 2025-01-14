@@ -2,7 +2,7 @@
 
 import { LineHistory } from "@/app/lib/definitions";
 import { LinkButton } from "@/ui/components";
-import styles from "../../../../../../ui/dashboard/lines/lineslayout.module.scss";
+import styles from "../lineslayout.module.scss";
 import { Header, Pagination, SearchBar, Table } from "@/ui/sections";
 import { useUserContext } from "@/app/lib/UserContextProvider";
 import { redirect } from "next/navigation";

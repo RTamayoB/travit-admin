@@ -1,4 +1,4 @@
-import LineHistoryLayout from "./LineHistoryLayout";
+import LineHistoryLayout from "../../../../../../ui/dashboard/lines/history/LineHistoryLayout";
 import { getHistoryForLinesPageCount } from "./data/getHistoryForLineById";
 import { getHistoryForLineByRange } from "./data/getHistoryForLineByRange";
 
