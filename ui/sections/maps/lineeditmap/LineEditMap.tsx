@@ -7,7 +7,9 @@ import MarkerWithPopup from "../base/markers/markerwithpopup";
 import { Position, RoutePoint, Stop } from "@/app/lib/definitions";
 import { Polyline, useMap } from "react-leaflet";
 import { Icon, LatLng, LeafletMouseEvent } from "leaflet";
-import Map from "../base/map";
+import dynamic from "next/dynamic";
+
+const DynamicMap = dynamic(() => import("@/ui/sections/maps/base/map"), { ssr: false });
 
 const routeIcon = new Icon({
   iconUrl: "/images/circle-dot.svg",
@@ -122,7 +124,7 @@ function LineEditMap({
   };
 
   return (
-    <Map>
+    <DynamicMap>
       <MarkerClusterGroup
         chunkedLoading
       >
@@ -161,7 +163,7 @@ function LineEditMap({
         onRightClick={handleRightClick}
         onDeleteLastPoint={handleDeleteLastPoint}
       />
-    </Map>
+    </DynamicMap>
   );
 }
 
