@@ -4,7 +4,9 @@ import Header from "@/ui/sections/header";
 import { StopState } from "@/app/lib/definitions";
 import { useActionState } from "react";
 import { createStop } from "@/app/dashboard/stops/create/data/create-stop";
-import StopForm from "@/ui/sections/forms/stopform";
+import dynamic from "next/dynamic";
+
+const StopForm = dynamic(() => import('@/ui/sections/forms/stopform/StopForm'), { ssr: false });
 
 function CreateStopLayout() {
   const initialState: StopState = { message: null, errors: {} };
