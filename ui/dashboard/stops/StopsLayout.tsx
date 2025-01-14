@@ -5,8 +5,10 @@ import { Button, LinkButton } from "@/ui/components";
 import styles from "./stopslayout.module.scss";
 import { useState } from "react";
 import { Header, Pagination, SearchBar, Table } from "@/ui/sections";
-import { StopsMap } from "@/ui/sections/maps";
 import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog";
+import dynamic from "next/dynamic";
+
+const StopsMap = dynamic(() => import('@/ui/sections/maps/stopsmap'), { ssr: false });
 
 interface StopsLayoutProps {
   stops: Stop[];

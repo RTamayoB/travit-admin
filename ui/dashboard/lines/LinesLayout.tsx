@@ -5,9 +5,12 @@ import { Button, LinkButton } from "@/ui/components";
 import styles from "./lineslayout.module.scss";
 import { useEffect, useState } from "react";
 import { Header, Pagination, SearchBar, Table } from "@/ui/sections";
-import { LinesMap } from "@/ui/sections/maps";
 import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog";
 import { useUserContext } from "@/app/lib/UserContextProvider";
+import dynamic from "next/dynamic";
+
+const LinesMap = dynamic(() => import('@/ui/sections/maps/linesmap'), { ssr: false });
+
 
 interface LinesLayoutProps {
   lines: Line[];
