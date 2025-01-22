@@ -13,6 +13,25 @@ function Table({
 }: TableProps) {
   let keys: string[] = [];
 
+  const columnTranslations: Record<string, string> = {
+    id: "ID",
+    name: "Nombre",
+    description: "Descripción",
+    created_at: "Fecha de creación",
+    line_id: "ID de línea",
+    action: "Tipo de acción",
+    status: "Estado",
+    notes: "Notas",
+    requester_name: "Nombre del solicitante",
+    line_number: "Numero de línea",
+    legacy_line_number: "Numero de línea anterior",
+    units: "Unidades",
+    transport_type: "Tipo de transporte",
+    line_type: "Tipo de línea"
+  }
+
+  const translateColumn = (key: string) => columnTranslations[key] || key
+
   if (data && data.length > 0) {
     keys = Object.keys(data[0]).filter((key) => !keysToIgnore.includes(key));
   }
@@ -21,7 +40,7 @@ function Table({
     <table className={styles.table}>
       <thead>
         <tr>
-          {keys.map((key) => <th key={key}>{key.replace("_", " ")}</th>)}
+          {keys.map((key) => <th key={key}>{translateColumn(key)}</th>)}
           {actions && <th>Acciones</th>}
         </tr>
       </thead>
