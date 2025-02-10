@@ -1,51 +1,28 @@
 "use client";
 
-import { Stop } from "@/app/lib/definitions";
+import { Position, Stop } from "@/app/lib/definitions";
 import { Button, LinkButton } from "@/ui/components";
 import styles from "./stopslayout.module.scss";
 import { useState } from "react";
-import { Header, Pagination, SearchBar, Table } from "@/ui/sections";
-import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog";
+import { Header, SearchBar, Table } from "@/ui/sections";
 import dynamic from "next/dynamic";
 
-const StopsMap = dynamic(() => import('@/ui/sections/maps/stopsmap'), { ssr: false });
+const StopsMap = dynamic(() => import("@/ui/sections/maps/stopsmap"), {
+  ssr: false,
+});
 
 interface StopsLayoutProps {
   stops: Stop[];
-  totalPages: number;
-  onDeleteStop: (stopId: string) => Promise<{ message: string }>;
 }
 
 function StopsLayout({
   stops,
-  totalPages,
-  onDeleteStop,
 }: StopsLayoutProps) {
-  const [isDialogOpen, setDialogOpen] = useState(false);
-  const [stopToDelete, setStopToDelete] = useState<Stop | null>(null);
-
-  const [selectedStop, setSelectedStop] = useState<Stop | null>(null);
+  //VIEW
+  const [selectedStop, setSelectedStop] = useState<Position | null>(null);
 
   const handleSelectStop = (stop: Stop) => {
-    setSelectedStop(stop);
-  };
-
-  const handleDeleteClick = (stop: Stop) => {
-    setStopToDelete(stop);
-    setDialogOpen(true);
-  };
-
-  const handleConfirmDelete = async () => {
-    if (stopToDelete) {
-      await onDeleteStop(stopToDelete.id.toString());
-      setDialogOpen(false);
-      setStopToDelete(null);
-    }
-  };
-
-  const handleCancelDelete = () => {
-    setDialogOpen(false); // Just close the dialog
-    setStopToDelete(null);
+    setSelectedStop(stop.position);
   };
 
   return (
@@ -57,9 +34,6 @@ function StopsLayout({
           href: "/dashboard/stops",
           active: true,
         }]}
-        actions={
-          <LinkButton href={"/dashboard/stops/create"} label="Crear Parada +" />
-        }
       />
       <SearchBar
         searchPlaceholder="Buscar Paradas..."
@@ -83,25 +57,16 @@ function StopsLayout({
               />
               <Button
                 primary={false}
-                onClick={() => handleDeleteClick(stop)}
                 leadIconUrl="/icons/delete.svg"
               />
             </div>
           )}
         />
-        <StopsMap initialStops={stops} selectedStop={selectedStop} />
-        <Pagination totalPages={totalPages} />
-      </div>
-
-      {stopToDelete && (
-        <ConfirmationDialog
-          isOpen={isDialogOpen}
-          onClose={handleCancelDelete}
-          onConfirm={handleConfirmDelete}
-          title="¿Eliminar Parada?"
-          message={`¿Desea eliminar la parada ${stopToDelete.name}? Esta acción no se podrá deshacer y su información se perderá.`}
+        <StopsMap
+          initialStops={stops}
+          selectedStop={selectedStop}
         />
-      )}
+      </div>
     </div>
   );
 }

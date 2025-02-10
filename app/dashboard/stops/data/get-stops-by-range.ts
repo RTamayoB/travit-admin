@@ -6,22 +6,17 @@ import { ITEMS_PER_PAGE } from "@/app/lib/utils";
 
 export async function getStopsByRange(
   query: string,
-  currentPage: number,
 ) {
   const supabase = await createClient();
-  const from = (currentPage - 1) * ITEMS_PER_PAGE;
-  const to = from + ITEMS_PER_PAGE;
   try {
     const queryBuilder = supabase
       .from("stops")
       .select("id, name, description, position")
-      .range(from, to)
-      .order("id", { ascending: true })
-      .limit(ITEMS_PER_PAGE);
+      .order("id", { ascending: true });
 
     if (query) {
       queryBuilder
-        .or(`name.ilike.%${query}%, name.ilike.%${query}%`);
+        .or(`name.ilike.%${query}%`);
     }
 
     const { data } = await queryBuilder;

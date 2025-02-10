@@ -43,6 +43,7 @@ function DraggableMarker({
       opacity={opacity}
       position={position}
       ref={markerRef}
+      autoPan={true}
     />
   );
 }

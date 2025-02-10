@@ -1,19 +1,18 @@
 "use client";
 
 import { Stop, StopState } from "@/app/lib/definitions";
-import { Button, LinkButton, TextField, Typography } from "@/ui/components";
-import { useState } from "react";
+import { Button, TextField, Typography } from "@/ui/components";
 import { LatLng } from "leaflet";
-import styles from "../form.module.scss";
-import dynamic from "next/dynamic";
-
-const StopEditMap = dynamic(() => import('@/ui/sections/maps/stopeditmap/StopEditMap'), { ssr: false })
+import styles from "./stopform.module.scss";
 
 interface StopFormProps {
   stop?: Stop;
-  onSubmit: (formData: FormData) => void;
+  position: LatLng;
   state: StopState;
   submitButtonText: string;
+  onSubmit: (formData: FormData) => void;
+  onCancel: () => void;
+  onLocateStop: () => void;
 }
 
 function StopForm({
@@ -23,21 +22,18 @@ function StopForm({
     description: "",
     position: { lat: 0, lng: 0 },
   },
-  onSubmit,
+  position,
   state,
   submitButtonText,
+  onSubmit,
+  onCancel,
+  onLocateStop,
 }: StopFormProps) {
-  const [marker, setMarker] = useState<LatLng | null>(
-    new LatLng(stop.position.lat, stop.position.lng),
-  );
-
-  const handleSetMarker = (marker: LatLng) => {
-    setMarker(marker);
-  };
-
   return (
     <form action={onSubmit}>
       <div className={styles.fieldsContainer}>
+        <p>{position.lat.toString()}</p>
+        <p>{position.lng.toString()}</p>
         <TextField
           id="name"
           name="name"
@@ -68,20 +64,8 @@ function StopForm({
               </Typography>
             ))}
         </div>
-        <input type="hidden" name="lat" value={marker?.lat} />
-        <input type="hidden" name="lng" value={marker?.lng} />
-        <StopEditMap
-          marker={marker}
-          onSetMarker={handleSetMarker}
-        />
-        <Typography variant={"note"}>
-          Haz click derecho en cualquier lugar del mapa para colocar un
-          marcador.
-        </Typography>
-        <Typography variant={"note"}>
-          Para moverlo, arrastralo o haz click derecho de nuevo para cambiar su
-          posición.
-        </Typography>
+        <input type="hidden" name="lat" value={position.lat} />
+        <input type="hidden" name="lng" value={position.lng} />
       </div>
       <div aria-live="polite" aria-atomic="true">
         {state.message
@@ -93,10 +77,17 @@ function StopForm({
           : null}
       </div>
       <div className={styles.actions}>
-        <LinkButton
-          href={"/dashboard/stops"}
+        <Button
+          primary={false}
+          label="Localizar"
+          onClick={onLocateStop}
+          type="button"
+        />
+        <Button
           primary={false}
           label="Cancelar"
+          onClick={onCancel}
+          type="button"
         />
         <Button
           label={submitButtonText}
