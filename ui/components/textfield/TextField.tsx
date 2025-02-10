@@ -9,6 +9,7 @@ interface TextFieldProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
   value?: string;
   onValueChange?: (value: string) => void;
+  onFocusChange?: (value: boolean) => void;
   label?: string;
   placeholder?: string;
   className?: string;
@@ -22,6 +23,7 @@ interface TextFieldProps
 function TextField({
   value,
   onValueChange,
+  onFocusChange,
   label,
   placeholder,
   className,
@@ -51,11 +53,17 @@ function TextField({
   }
 
   function handleFocus() {
+    if(onFocusChange) {
+      onFocusChange(true)
+    } 
     setFocus(true);
   }
 
   function handleBlur() {
     if (!inputValue) {
+      if(onFocusChange) {
+        onFocusChange(false)
+      }
       setFocus(false);
     }
   }

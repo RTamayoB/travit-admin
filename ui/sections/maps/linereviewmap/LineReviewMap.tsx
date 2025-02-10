@@ -10,7 +10,6 @@ interface LineReviewMapProps {
 function LineReviewMap({
   line,
 }: LineReviewMapProps) {
-
   return (
     <Map>
       <Polyline

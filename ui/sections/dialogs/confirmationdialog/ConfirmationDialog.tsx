@@ -7,12 +7,22 @@ interface ConfirmationDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  onCloseText?: string;
+  onConfirmText?: string;
   title: string;
   message?: string;
 }
 
 const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (
-  { isOpen, onClose, onConfirm, message, title },
+  {
+    isOpen,
+    onClose,
+    onConfirm,
+    onCloseText = "Cancelar",
+    onConfirmText = "Confirmar",
+    message,
+    title,
+  },
 ) => {
   const modalRef = useRef<HTMLDialogElement>(null);
 
@@ -35,8 +45,8 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (
       </Typography>
       <hr />
       <div className="dialog__dialog_actions">
-        <Button onClick={onConfirm} label="Cancelar" primary={false}/>
-        <Button onClick={onConfirm} label="Confirmar"/>
+        <Button onClick={onClose} label={onCloseText} primary={false} />
+        <Button onClick={onConfirm} label={onConfirmText} />
       </div>
     </dialog>
   );

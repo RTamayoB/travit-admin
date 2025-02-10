@@ -14,6 +14,6 @@ export async function deleteStop(id: string) {
     revalidatePath("/dashboard/stops");
     return { message: "Parada eliminada." };
   } catch (error) {
-    return { message: "Database Error: Failed to delete Stop." };
+    return { message: "Error al eliminar parada." };
   }
 }

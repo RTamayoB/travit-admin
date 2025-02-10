@@ -1,0 +1,12 @@
+.mapContainer {
+  position: relative;
+}
+
+.dialogContainer {
+  position: absolute;
+  width: 30vw;
+  top: 20px; /* Adjust as needed */
+  right: 20px; /* Align it to the right */
+  background: white;
+  z-index: 1000; /* Ensure it appears above the map */
+}

@@ -1,29 +1,26 @@
-import { getStopsPageCount } from "@/app/dashboard/stops/data/get-stops-page-count";
-import { getStopsByRange } from "@/app/dashboard/stops/data/get-stops-by-range";
+import {
+  getAllStops,
+  getStopsByQuery,
+} from "@/app/dashboard/stops/data/get-stops";
 import StopsLayout from "@/ui/dashboard/stops/StopsLayout";
-import { deleteStop } from "./data/delete-stop";
 
 export default async function Page(
   props: {
     searchParams?: Promise<{
       query?: string;
-      page?: string;
     }>;
   },
 ) {
   const searchParams = await props.searchParams;
 
   const query = searchParams?.query || "";
-  const currentPage = Number(searchParams?.page) || 1;
-
-  const totalPages = await getStopsPageCount(query);
-  const stops = await getStopsByRange(query, currentPage);
+  const stops = await getAllStops();
+  const searchedStops = await getStopsByQuery(query);
 
   return (
     <StopsLayout
       stops={stops}
-      totalPages={totalPages}
-      onDeleteStop={deleteStop}
+      searchedStops={searchedStops}
     />
   );
 }

@@ -22,6 +22,6 @@ type Story = StoryObj<typeof StopsLayout>;
 export const Layout: Story = {
   args: {
     stops: mockupStops,
-    totalPages: 1,
+    searchedStops: mockupStops,
   },
 };
