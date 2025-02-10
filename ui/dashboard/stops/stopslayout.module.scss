@@ -17,3 +17,17 @@
   justify-content: center;
   align-items: center;
 }
+
+.searchResults {
+  position: absolute;
+  background: white;
+  justify-content: space-between;
+  width: 45vw;
+  z-index: 2000; /* Ensure it appears above the map */
+  border-radius: 8px;
+}
+
+.searchOption {
+  width: 45vw;
+  margin: 4px 0px;
+}

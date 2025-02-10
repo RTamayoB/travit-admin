@@ -25,19 +25,19 @@ const dotIcon = new Icon({
 interface StopsMapProps {
   initialStops: Stop[];
   selectedStop: Position | null;
+  locationRequested: boolean;
+  onStopSelected: (position: Position | null) => void;
 }
 
 function StopsMap({
   initialStops,
   selectedStop,
+  locationRequested,
+  onStopSelected
 }: StopsMapProps) {
   const [newStopPosition, setNewStopPosition] = useState<LatLng | null>(null);
   const [stopToEdit, setStopToEdit] = useState<Stop | null>(null);
   const [stopToDelete, setStopToDelete] = useState<Stop | null>(null);
-  const [selectedStopPosition, setSelectedStopPosition] = useState<
-    Position | null
-  >(selectedStop);
-  const [locationRequested, setLocationRequested] = useState(false);
 
   const initialState: StopState = { message: null, errors: {} };
   const [createState, createFormAction] = useActionState(
@@ -60,9 +60,7 @@ function StopsMap({
 
   const handleOnLocateNewStop = () => {
     if (newStopPosition) {
-      setSelectedStopPosition(null);
-      setSelectedStopPosition(newStopPosition);
-      setLocationRequested((prev) => !prev);
+      onStopSelected(newStopPosition);
     }
   };
 
@@ -91,9 +89,7 @@ function StopsMap({
 
   const handleOnLocateEditedStop = () => {
     if (stopToEdit) {
-      setSelectedStopPosition(null);
-      setSelectedStopPosition(stopToEdit?.position);
-      setLocationRequested((prev) => !prev);
+      onStopSelected(stopToEdit?.position);
     }
   };
 
@@ -177,7 +173,7 @@ function StopsMap({
           />
         )}
         <MapEvents
-          selectedStopPosition={selectedStopPosition}
+          selectedStopPosition={selectedStop}
           locationRequested={locationRequested}
           onCreateStop={handleOnCreateStop}
         />
