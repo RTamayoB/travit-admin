@@ -7,8 +7,8 @@ interface ConfirmationDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  onCloseText: string;
-  onConfirmText: string;
+  onCloseText?: string;
+  onConfirmText?: string;
   title: string;
   message?: string;
 }
