@@ -52,7 +52,8 @@ function StopsMap({
 
   //CREATE
 
-  const handleOnCreateStop = (newStopPosition: LatLng) => {
+  const handleOnCreateStop = async (newStopPosition: LatLng) => {
+    await cancelStopEdit();
     setNewStopPosition(newStopPosition);
     setStopToEdit(null);
     setStopToDelete(null);
