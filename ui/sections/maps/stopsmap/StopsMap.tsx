@@ -16,7 +16,7 @@ import {
 import { deleteStop } from "@/app/dashboard/stops/data/delete-stop";
 import styles from "./stopsmap.module.scss";
 
-const dotIcon = new Icon({
+const stopIcon = new Icon({
   iconUrl: "/images/bus-stop.svg",
   iconSize: [24, 24],
   iconAnchor: [12, 12],
@@ -169,7 +169,8 @@ function StopsMap({
             key={0}
             initialPosition={newStopPosition}
             onDragEnd={handleOnCreateStop}
-            icon={dotIcon}
+            icon={stopIcon}
+            opacity={0.5}
           />
         )}
         <MapEvents

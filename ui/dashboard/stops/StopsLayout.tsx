@@ -1,10 +1,10 @@
 "use client";
 
 import { Position, Stop } from "@/app/lib/definitions";
-import { Button, LinkButton } from "@/ui/components";
+import { Typography } from "@/ui/components";
 import styles from "./stopslayout.module.scss";
 import { useState } from "react";
-import { Header, SearchBar, Table } from "@/ui/sections";
+import { Header, SearchBar } from "@/ui/sections";
 import dynamic from "next/dynamic";
 
 const StopsMap = dynamic(() => import("@/ui/sections/maps/stopsmap"), {
@@ -56,6 +56,7 @@ function StopsLayout({
           onItemSelected={handleSelectStop}
         />
       )}
+      <Typography variant="note">De click derecho en la pantalla para crear una nueva parada</Typography>
       <div className={styles.content}>
         <StopsMap
           initialStops={stops}

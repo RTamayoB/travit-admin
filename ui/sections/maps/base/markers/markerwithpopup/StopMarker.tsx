@@ -28,14 +28,9 @@ function StopMarker({
   onMarkerMoved,
   onDeleteStop,
 }: StopMarkerProps) {
+
   const stopIcon = new Icon({
     iconUrl: "/images/bus-stop.svg",
-    iconSize: [24, 24],
-    iconAnchor: [12, 12],
-  });
-
-  const movableIcon = new Icon({
-    iconUrl: "/images/map-pin.svg",
     iconSize: [24, 24],
     iconAnchor: [12, 12],
   });
@@ -68,7 +63,8 @@ function StopMarker({
         eventHandlers={eventHandlers}
         key={index}
         ref={markerRef}
-        icon={draggable ? stopIcon : movableIcon}
+        icon={stopIcon}
+        opacity={draggable ? 0.5 : 1 }
         position={position}
         autoPan={true}
       >

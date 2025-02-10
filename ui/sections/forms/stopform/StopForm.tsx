@@ -32,8 +32,6 @@ function StopForm({
   return (
     <form action={onSubmit}>
       <div className={styles.fieldsContainer}>
-        <p>{position.lat.toString()}</p>
-        <p>{position.lng.toString()}</p>
         <TextField
           id="name"
           name="name"
