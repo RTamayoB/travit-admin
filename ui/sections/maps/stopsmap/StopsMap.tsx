@@ -151,7 +151,10 @@ function StopsMap({
   return (
     <div className={styles.mapContainer}>
       <Map>
-        <MarkerClusterGroup chunkedLoading>
+        <MarkerClusterGroup
+          disableClusteringAtZoom={18}
+          chunkedLoading
+        >
           {initialStops.map((stop) => (
             <StopMarker
               stop={stop}

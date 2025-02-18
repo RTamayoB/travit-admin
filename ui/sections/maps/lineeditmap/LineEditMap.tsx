@@ -124,6 +124,7 @@ function LineEditMap({
   return (
     <Map>
       <MarkerClusterGroup
+        disableClusteringAtZoom={18}
         chunkedLoading
       >
         {stops.map((stop) => (

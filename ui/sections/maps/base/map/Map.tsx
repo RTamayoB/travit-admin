@@ -3,7 +3,7 @@
 import "leaflet/dist/leaflet.css";
 import "react-leaflet-fullscreen/styles.css";
 import { LatLngExpression } from "leaflet";
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import styles from "./map.module.scss";
 import { FullscreenControl } from "react-leaflet-fullscreen";
 
