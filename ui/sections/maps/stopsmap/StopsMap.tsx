@@ -17,9 +17,9 @@ import { deleteStop } from "@/app/dashboard/stops/data/delete-stop";
 import styles from "./stopsmap.module.scss";
 
 const stopIcon = new Icon({
-  iconUrl: "/images/bus-stop.svg",
-  iconSize: [24, 24],
-  iconAnchor: [12, 12],
+  iconUrl: "/icons/bus-stop.svg",
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
 });
 
 interface StopsMapProps {

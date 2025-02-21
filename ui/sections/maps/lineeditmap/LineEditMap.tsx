@@ -10,21 +10,18 @@ import { Icon, LatLng, LeafletMouseEvent } from "leaflet";
 import Map from "../base/map";
 
 const routeIcon = new Icon({
-  iconUrl: "/images/circle-dot.svg",
+  iconUrl: "/icons/dot.svg",
   iconSize: [12, 12],
-  iconAnchor: [6, 6],
 });
 
 const stopIcon = new Icon({
-  iconUrl: "/images/stop-circle-dot.svg",
-  iconSize: [20, 20],
-  iconAnchor: [9, 9],
+  iconUrl: "/icons/stop-dot.svg",
+  iconSize: [12, 12]
 });
 
 const dotIcon = new Icon({
-  iconUrl: "/images/bus-stop.svg",
+  iconUrl: "/icons/bus-stop.svg",
   iconSize: [15, 15],
-  iconAnchor: [6, 6],
 });
 
 interface LineEditMapProps {
