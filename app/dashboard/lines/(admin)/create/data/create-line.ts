@@ -14,6 +14,9 @@ const CreateLine = LineSchema.omit({
 });
 
 export async function createLine(prevState: LineState, formData: FormData) {
+
+  console.log("Line to create", formData.get("route"))
+
   const supabase = await createClient();
 
   // Parse and validate form data

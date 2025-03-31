@@ -27,13 +27,13 @@ type HoverMarker = {
 
 interface NewLineEditMapProps {
   stops: Stop[];
-  initialFeatureCollection: FeatureCollection<LineString, LineSection>;
-  onFeatureCollectionUpdate: (featureCollection: FeatureCollection<LineString, LineSection>) => void;
+  featureCollection: FeatureCollection<LineString, LineSection>;
+  onFeatureCollectionUpdate: (updateFn: (prevCollection: FeatureCollection<LineString, LineSection>) => FeatureCollection<LineString, LineSection>) => void;
 }
 
 function NewLineEditMap({
   stops,
-  initialFeatureCollection,
+  featureCollection,
   onFeatureCollectionUpdate
 }: NewLineEditMapProps) {
 
@@ -42,18 +42,19 @@ function NewLineEditMap({
   const mapMatchingService = mapMatching(baseClient);
 
   const initialRouteSections = useMemo(() => {
-    return initialFeatureCollection.features.map((feature) => ({
+    console.log("Memo feature", featureCollection)
+    return featureCollection.features.map((feature) => ({
       ...feature.properties
     }))
-  }, [initialFeatureCollection]);
+  }, [featureCollection]);
 
-  const [featureCollection, setFeatureCollection] = useState<FeatureCollection<LineString, LineSection>>(initialFeatureCollection);
   const [lineSections, setLineSections] = useState<LineSection[]>(initialRouteSections);
   const [hoverMarker, setHoverMarker] = useState<HoverMarker | null>(null);
   const [lastAnchorPlaced, setLastAnchorPlaced] = useState<Position | null>(null);
   const [isHoverMarkerDragged, setIsHoverMarkerDragged] = useState(false);
 
   const mapRef = useRef(null);
+  const isFirstRender = useRef(true);
   const prevLineSectionsRef = useRef<LineSection[]>([])
 
   const stopMarkers = useMemo(
@@ -78,32 +79,36 @@ function NewLineEditMap({
   /** In charge of rendering the bus line whenever the lineSections changes  */
   useEffect(() => {
 
-    const prevLineSectionsMap = new Map<number, LineSection>(
-      prevLineSectionsRef.current.map((section, index) => [index, section])
-    );
-
-    let lineChange: LineChange | null = null;
-
-    lineSections.forEach((section, index) => {
-      const prevSection = prevLineSectionsMap.get(index);
-
-      if (!prevSection) {
-        if (section.startStop && section.endStop) {
-          lineChange = { index, section, isAddition: true };
+    if(isFirstRender.current) {
+      isFirstRender.current = false;
+    } else {
+      const prevLineSectionsMap = new Map<number, LineSection>(
+        prevLineSectionsRef.current.map((section, index) => [index, section])
+      );
+  
+      let lineChange: LineChange | null = null;
+  
+      lineSections.forEach((section, index) => {
+        const prevSection = prevLineSectionsMap.get(index);
+  
+        if (!prevSection) {
+          
+          if (section.startStop && section.endStop) {
+            lineChange = { index, section, isAddition: true };
+          }
+        } else if (JSON.stringify(prevSection) !== JSON.stringify(section)) {
+          if (prevSection.startStop && !prevSection.endStop) {
+            lineChange = { index, section, isAddition: true };
+          } else if (section.startStop && section.endStop) {
+            lineChange = { index, section, isAddition: false };
+          }
         }
-      } else if (JSON.stringify(prevSection) !== JSON.stringify(section)) {
-        if (prevSection.startStop && !prevSection.endStop) {
-          lineChange = { index, section, isAddition: true };
-        } else if (section.startStop && section.endStop) {
-          lineChange = { index, section, isAddition: false };
-        }
+      })
+      
+      if (lineChange) {
+        updateCollection(lineChange);
       }
-    })
-    
-    if (lineChange) {
-      updateCollection(lineChange);
     }
-
     prevLineSectionsRef.current = lineSections;
   }, [lineSections])
 
@@ -125,8 +130,6 @@ function NewLineEditMap({
 
     const geometry = response?.body.matchings[0]?.geometry as unknown as LineString;
 
-    console.log(geometry)
-
     if (response?.body.code !== "Ok") {
       if (!lineChange?.isAddition) {
         setLineSections((prevSections) => {
@@ -145,13 +148,8 @@ function NewLineEditMap({
       return;
     }
 
-    console.log("Checking valididty:")
-    console.log("Start:", JSON.stringify(geometry.coordinates[0]) + " - " + JSON.stringify(positionToCoordinates(startStop?.position)))
-    console.log("End:", JSON.stringify(geometry.coordinates[geometry.coordinates.length - 1]) + " - " + JSON.stringify(positionToCoordinates(endStop?.position)))
-
     const areCoordinatesClose = (coord1: Position | undefined, coord2: Position | undefined, tolerance = 0.01): boolean => {
       if (!coord1 || !coord2) return false;
-      console.log("Valid?: ",  Math.abs(coord1[0] - coord2[0]) <= tolerance && Math.abs(coord1[1] - coord2[1]) <= tolerance);
       return Math.abs(coord1[0] - coord2[0]) <= tolerance && Math.abs(coord1[1] - coord2[1]) <= tolerance;
     };
 
@@ -177,34 +175,30 @@ function NewLineEditMap({
     }
 
     if (lineChange?.isAddition) {
-      setFeatureCollection((prevCollection) => {
-        return {
-          ...prevCollection,
-          features: [
-            ...prevCollection.features,
-            {
-              type: "Feature",
-              id: lineChange?.index,
-              properties: lineChange?.section!!,
-              geometry: geometry
-            }
-          ]
-        }
-      })
+      onFeatureCollectionUpdate((prevCollection) => ({
+        ...prevCollection,
+        features: [
+          ...prevCollection.features,
+          {
+            type: "Feature",
+            id: lineChange?.index,
+            properties: lineChange?.section!!,
+            geometry: geometry
+          }
+        ]
+      }));
     } else {
-      setFeatureCollection((prevCollection) => {
-        return {
-          ...prevCollection,
-          features: prevCollection.features.map((feature) => 
-            lineChange?.index === feature.id ? 
-            {
-              ...feature, 
-              properties: lineChange?.section!!, 
-              geometry: geometry
-            } : feature
-          )
-        }
-      })
+      onFeatureCollectionUpdate((prevCollection) => ({
+        ...prevCollection,
+        features: prevCollection.features.map((feature) => 
+          lineChange?.index === feature.id ? 
+          {
+            ...feature, 
+            properties: lineChange?.section!!, 
+            geometry: geometry
+          } : feature
+        )
+      }));
     }
   }
 
@@ -313,7 +307,10 @@ function NewLineEditMap({
     const nearestPoint = nearestPointOnLine(line, newPoint);
     const nearestIndex = nearestPoint.properties.index;
 
-    const newAnchor: Position = [newPoint.geometry.coordinates[0], newPoint.geometry.coordinates[1]]
+    const newAnchor: Position = [
+      parseFloat(newPoint.geometry.coordinates[0].toFixed(6)), 
+      parseFloat(newPoint.geometry.coordinates[1].toFixed(6))
+    ]
 
     setLastAnchorPlaced(newAnchor)
 
@@ -349,13 +346,14 @@ function NewLineEditMap({
 
   /** Whenever a existing anchor is deleted */
   const handleAnchorDeleted = (featureIndex: number, anchorIndex: number) => {
-
     setLineSections((prevSection) => {
       return prevSection.map((section, index) => {
         if (index !== featureIndex) return section; // Keep other features unchanged
     
         if (!section.anchors) return section;
-    
+
+        console.log("Changing index", index)
+  
         // Remove the anchor at the specific index
         const updatedAnchors = section.anchors.filter((_, aIndex) => aIndex !== anchorIndex);
     
@@ -397,13 +395,13 @@ function NewLineEditMap({
         </Source>
       }
 
-      {featureCollection.features.map((feature, featureIndex) => 
+      {featureCollection.features.map((feature) => 
         feature.properties?.anchors?.map((anchor, anchorIndex) => (
           <AnchorMarker
-            key={`${featureIndex}-${anchorIndex}`}
+            key={`${feature.id}-${anchorIndex}`}
             position={anchor}
-            onDragEnd={e => handleAnchorMarkerPlaced(featureIndex, anchorIndex, [e.lngLat.lng, e.lngLat.lat])}
-            onDbClick={e => handleAnchorDeleted(featureIndex, anchorIndex)}
+            onDragEnd={e => handleAnchorMarkerPlaced(feature.id, anchorIndex, [e.lngLat.lng, e.lngLat.lat])}
+            onDbClick={e => handleAnchorDeleted(feature.id, anchorIndex)}
           />
         ))
       )}

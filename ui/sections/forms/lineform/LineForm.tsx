@@ -57,8 +57,13 @@ function LineForm({
     setRoutePoints(updatedRoutePoints);
   };
 
-  const handleFeatureCollectionUpdate = (updatedRoute: FeatureCollection<LineString, LineSection>) => {
-    setRoute(updatedRoute);
+  const handleFeatureCollectionUpdate = (updateFn: (prevCollection: FeatureCollection<LineString, LineSection>) => FeatureCollection<LineString, LineSection>) => {
+    setRoute((prevRoute) => {
+      console.log("Previous route", prevRoute)
+      const updatedRoute = updateFn(prevRoute);
+      console.log("Updating route", updatedRoute);
+      return updatedRoute;
+    });
   };
 
   const lineTypeOptions: DropdownOption<string>[] = [
@@ -178,7 +183,7 @@ function LineForm({
           (
             <NewLineEditMap
               stops={stops}
-              initialFeatureCollection={route}
+              featureCollection={route}
               onFeatureCollectionUpdate={handleFeatureCollectionUpdate}
             />
           )
