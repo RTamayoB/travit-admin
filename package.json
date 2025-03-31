@@ -50,6 +50,7 @@
     "@storybook/react": "^8.4.4",
     "@storybook/test": "^8.4.4",
     "@types/leaflet": "^1.9.8",
+    "@types/mapbox__mapbox-sdk": "^0.16.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
