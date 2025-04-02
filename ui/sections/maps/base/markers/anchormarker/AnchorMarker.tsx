@@ -1,11 +1,12 @@
 'use client';
 
 import { Position } from "geojson"
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { Marker, MarkerDragEvent, MarkerEvent } from "react-map-gl/mapbox"
 
 interface AnchorMarkerProps {
   position: Position;
+  icon?: ReactNode
   onClick?: (e: MarkerEvent<MouseEvent>) => void;
   onDbClick?: (e: MarkerEvent<MouseEvent>) => void;
   onDrag?: (e: MarkerDragEvent) => void;
@@ -14,6 +15,7 @@ interface AnchorMarkerProps {
 
 function AnchorMarker({
   position,
+  icon,
   onClick,
   onDbClick,
   onDrag,
@@ -51,7 +53,9 @@ function AnchorMarker({
       onDrag={onDrag}
       onDragEnd={onDragEnd}
       onClick={handleAnchorClick}
-    />
+    >
+      {icon}
+    </Marker>
   )
 }
 

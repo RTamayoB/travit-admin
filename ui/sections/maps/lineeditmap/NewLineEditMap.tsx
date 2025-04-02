@@ -11,6 +11,7 @@ import AnchorMarker from "../base/markers/anchormarker";
 import { geoJsonPositionToCoordinates, positionToCoordinates } from "@/app/lib/utils";
 import { lineString, nearestPointOnLine, point } from "@turf/turf";
 import { MapMouseEvent } from "mapbox-gl";
+import Image from "next/image";
 
 type LineChange = {
   index: number,
@@ -72,7 +73,9 @@ function NewLineEditMap({
             position: stop.position
           })
         }}
-      />
+      >
+        <Image src={"/icons/bus-stop.svg"} alt="Nothing" width={15} height={15}/>
+      </Marker>
     )), []
   );
 
@@ -400,6 +403,14 @@ function NewLineEditMap({
           <AnchorMarker
             key={`${feature.id}-${anchorIndex}`}
             position={anchor}
+            icon={
+              <Image 
+                src={"/icons/dot.svg"} 
+                alt="Nothing" 
+                width={18} 
+                height={18}
+              />
+            }
             onDragEnd={e => handleAnchorMarkerPlaced(feature.id, anchorIndex, [e.lngLat.lng, e.lngLat.lat])}
             onDbClick={e => handleAnchorDeleted(feature.id, anchorIndex)}
           />
@@ -409,6 +420,15 @@ function NewLineEditMap({
       {hoverMarker && (
         <AnchorMarker
           position={hoverMarker.position}
+          icon={
+            <Image 
+              src={"/icons/dot.svg"} 
+              alt="Nothing" 
+              width={18} 
+              height={18}
+              style={{ opacity: 0.5 }}
+            />
+          }
           onDrag={handleHoverMarkerDrag}
           onDragEnd={e => handleHoverMarkerPlaced(e, hoverMarker)}
         />
