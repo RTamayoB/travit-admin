@@ -67,3 +67,11 @@ export const positionToCoordinates = (pos?: Position): Coordinates => {
   const lat = parseFloat(pos.lat.toFixed(6));
   return [lng, lat];
 };
+
+export const positionToGeoPosition = (pos?: Position): GeoJsonPosition => {
+  if (!pos) return [0, 0];
+
+  const lng = parseFloat(normalizeLongitude(pos.lng).toFixed(6));
+  const lat = parseFloat(pos.lat.toFixed(6));
+  return [lng, lat];
+}

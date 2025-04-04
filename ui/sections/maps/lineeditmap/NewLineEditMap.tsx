@@ -4,13 +4,13 @@ import { LineSection, Stop } from "@/app/lib/definitions";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import client from '@mapbox/mapbox-sdk';
 import mapMatching, { MapMatchingPoint } from '@mapbox/mapbox-sdk/services/map-matching';
-import { FeatureCollection, LineString, Position } from "geojson";
-import { useEffect, useMemo, useRef, useState } from "react";
-import MapComponent, { Layer, Marker, MarkerDragEvent, Source } from "react-map-gl/mapbox";
+import { FeatureCollection, LineString, Point, Position } from "geojson";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import MapComponent, { Layer, MapRef, MarkerDragEvent, Source } from "react-map-gl/mapbox";
 import AnchorMarker from "../base/markers/anchormarker";
-import { geoJsonPositionToCoordinates, positionToCoordinates } from "@/app/lib/utils";
+import { geoJsonPositionToCoordinates, positionToCoordinates, positionToGeoPosition } from "@/app/lib/utils";
 import { lineString, nearestPointOnLine, point } from "@turf/turf";
-import { MapMouseEvent } from "mapbox-gl";
+import { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import Image from "next/image";
 
 type LineChange = {
@@ -49,35 +49,60 @@ function NewLineEditMap({
     }))
   }, [featureCollection]);
 
+  const stopCollection: FeatureCollection<Point> = {
+    type: "FeatureCollection",
+    features: stops.map((stop) => ({
+      type: "Feature",
+        geometry: { type: "Point", coordinates: positionToGeoPosition(stop.position) },
+        properties: {
+          id: stop.id,
+          name: stop.name,
+          description: stop.description,
+          position: stop.position
+        },
+    })),
+  }
+
   const [lineSections, setLineSections] = useState<LineSection[]>(initialRouteSections);
   const [hoverMarker, setHoverMarker] = useState<HoverMarker | null>(null);
   const [lastAnchorPlaced, setLastAnchorPlaced] = useState<Position | null>(null);
   const [isHoverMarkerDragged, setIsHoverMarkerDragged] = useState(false);
 
-  const mapRef = useRef(null);
+  const mapRef = useRef<MapRef | null>(null);
   const isFirstRender = useRef(true);
   const prevLineSectionsRef = useRef<LineSection[]>([])
 
-  const stopMarkers = useMemo(
-    () => stops.map((stop) => (
-      <Marker
-        key={stop.id}
-        latitude={stop.position.lat}
-        longitude={stop.position.lng}
-        onClick={e => {
-          e.originalEvent.stopPropagation();
-          handleStopSelected({
-            id: stop.id,
-            name: stop.name,
-            description: stop.description,
-            position: stop.position
-          })
-        }}
-      >
-        <Image src={"/icons/bus-stop.svg"} alt="Nothing" width={15} height={15}/>
-      </Marker>
-    )), []
-  );
+  const [viewState, setViewState] = React.useState({
+    longitude: -103.29696486553104,
+    latitude: 20.682718735053065,
+    zoom: 14,
+  });
+
+  const mapRefCallback = useCallback((ref: MapRef | null) => {
+    if (ref !== null) {
+          //Set the actual ref we use elsewhere
+          mapRef.current = ref;
+          const map = ref;
+   
+          const loadImage = () => {
+            if (!map.hasImage("bus-stop")) {
+              map.loadImage("/icons/bus-stop.png", (error, image) => {
+                if (error || !image) throw error;
+                 map.addImage("bus-stop", image);
+               });
+            }
+          };
+    
+          loadImage();
+    
+          //TODO need this?
+          map.on("styleimagemissing", (e) => {
+            const id = e.id; // id of the missing image
+            console.log(id);
+            loadImage();
+          });
+        }
+    }, []);
 
   /** In charge of rendering the bus line whenever the lineSections changes  */
   useEffect(() => {
@@ -249,6 +274,37 @@ function NewLineEditMap({
     })
   };
 
+  const handleOnMapClick = (event: MapMouseEvent) => {
+    if (!event.features || event.features.length === 0) return;
+
+    const feature = event.features[0]; // Get the first feature
+    const clusterId = feature.properties.cluster_id; // If it's a cluster, this exists
+
+    if (clusterId) {
+      // Clicked a cluster → Expand it
+      const mapboxSource = mapRef.current?.getSource("stops") as GeoJSONSource;
+  
+      if (mapboxSource && "getClusterExpansionZoom" in mapboxSource) {
+        mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
+          if (err) return;
+  
+          mapRef.current?.easeTo({
+            center: feature.geometry.coordinates,
+            zoom: zoom,
+          });
+        });
+      }
+    } else {
+      // Clicked an individual point
+      handleStopSelected({
+        id: feature.properties?.id,
+        name: feature.properties?.name,
+        description: feature.properties?.description,
+        position: JSON.parse(feature.properties?.position)
+      })
+    }
+  };
+
   /** Whenever the mouse is over our bus line */
   const handleOnMouseOver = (event: MapMouseEvent) => {
     if (!mapRef.current) return;
@@ -371,21 +427,16 @@ function NewLineEditMap({
   return (
     // TODO: Create a new base map component for eventual full Mapbox integration
     <MapComponent
-      ref={mapRef}
+      {...viewState}
+      ref={mapRefCallback}
       mapboxAccessToken="pk.eyJ1IjoicmFmYWVsLXQiLCJhIjoiY203bjA4ZmQzMDR2OTJucHVyMXl3cjd1bCJ9.NYY1s32Lp4Hip91i5bJVEA"
-      initialViewState={{
-        longitude: -103.29696486553104,
-        latitude: 20.682718735053065,
-        zoom: 14,
-        bearing: 0,
-        pitch: 0
-      }}
+      onMove={ evt => setViewState(evt.viewState)}
       style={{height: "100vh", width: "100vw"}}
       mapStyle={"mapbox://styles/mapbox/streets-v12"}
+      interactiveLayerIds={["clusters", "unclustered-point"]}
       onMouseMove={handleOnMouseOver}
+      onClick={handleOnMapClick}
     >
-      {/* TODO: Investiage clusters in Mapbox */}
-      {stopMarkers}
 
       {featureCollection && 
         <Source id="route" type="geojson" data={featureCollection}>
@@ -394,6 +445,51 @@ function NewLineEditMap({
             type="line"
             layout={{ "line-join": "round", "line-cap": "round" }}
             paint={{ "line-color": "#ff0000", "line-width": 4 }}
+          />
+        </Source>
+      }
+
+      {stopCollection.features.length > 0 &&
+        <Source 
+          key={JSON.stringify(stops)}
+          id="stops" 
+          type="geojson" 
+          data={stopCollection}
+          cluster={true}
+          clusterMaxZoom={14}
+          clusterRadius={50}
+        >
+          <Layer
+            id="clusters"
+            type="circle"
+            source="stops"
+            filter={['has', 'point_count']}
+            paint={{
+              'circle-color': ['step', ['get', 'point_count'], '#51bbd6', 100, '#f1f075', 750, '#f28cb1'],
+              'circle-radius': ['step', ['get', 'point_count'], 20, 100, 30, 750, 40]
+            }}
+          />
+          <Layer
+              id='cluster-count'
+              type='symbol'
+              source='stops'
+              filter={['has', 'point_count']}
+              layout={{
+                'text-field': '{point_count_abbreviated}',
+                'text-font': ['DIN Offc Pro Medium', 'Arial Unicode MS Bold'],
+                'text-size': 12
+              }}
+          />
+          <Layer
+            id='unclustered-point'
+            type='symbol'
+            source='stops'
+            filter={['!', ['has', 'point_count']]}
+            layout={{
+              'icon-image': 'bus-stop',
+              'icon-size' : 0.6,
+              "icon-allow-overlap": true,
+            }}
           />
         </Source>
       }
