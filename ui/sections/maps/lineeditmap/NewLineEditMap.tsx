@@ -429,6 +429,30 @@ function NewLineEditMap({
     })
   };
 
+  function MapEvents({
+    onUndo,
+  }: {
+    onUndo: () => void;
+  }) {
+  
+    useEffect(() => {
+  
+      const handleKeyPress = (event: KeyboardEvent) => {
+        if (event.key === "D" && event.shiftKey) {
+          onUndo();
+        }
+      };
+  
+      document.addEventListener("keydown", handleKeyPress);
+  
+      return () => {
+        document.removeEventListener("keydown", handleKeyPress);
+      };
+    }, [mapRef, onUndo]);
+  
+    return null;
+  }
+
   return (
     // TODO: Create a new base map component for eventual full Mapbox integration
     <MapComponent
@@ -442,6 +466,11 @@ function NewLineEditMap({
       onMouseMove={handleOnMouseOver}
       onClick={handleOnMapClick}
     >
+      <MapEvents
+        onUndo={() => {
+          }
+        }
+      />
 
       {featureCollection && 
         <Source id="route" type="geojson" data={featureCollection}>
