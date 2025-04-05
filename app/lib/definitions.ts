@@ -46,7 +46,7 @@ export interface Line {
   transport_type: string;
   line_type: string;
   route_points: RoutePoint[] | [];
-  route: FeatureCollection<LineString, LineSection> | { type: "FeatureCollection", features: [] }
+  route: FeatureCollection<LineString, LineSection>
 }
 
 export interface LineHistory {

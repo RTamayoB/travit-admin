@@ -23,7 +23,8 @@ export async function getLinesByRange(
             agency_id,
             transport_type,
             line_type,
-            route_points
+            route_points,
+            route
         `)
     .range(from, to)
     .limit(ITEMS_PER_PAGE);
@@ -49,6 +50,7 @@ export async function getLinesByRange(
       transport_type: line.transport_type,
       line_type: line.line_type,
       route_points: line.route_points as RoutePoint[],
+      route: line.route
     };
   });
 
