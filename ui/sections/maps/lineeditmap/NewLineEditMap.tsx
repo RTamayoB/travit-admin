@@ -80,29 +80,29 @@ function NewLineEditMap({
 
   const mapRefCallback = useCallback((ref: MapRef | null) => {
     if (ref !== null) {
-          //Set the actual ref we use elsewhere
-          mapRef.current = ref;
-          const map = ref;
+      //Set the actual ref we use elsewhere
+      mapRef.current = ref;
+      const map = ref;
    
-          const loadImage = () => {
-            if (!map.hasImage("bus-stop")) {
-              map.loadImage("/icons/bus-stop.png", (error, image) => {
-                if (error || !image) throw error;
-                 map.addImage("bus-stop", image);
-               });
-            }
-          };
-    
-          loadImage();
-    
-          //TODO need this?
-          map.on("styleimagemissing", (e) => {
-            const id = e.id; // id of the missing image
-            console.log(id);
-            loadImage();
-          });
+      const loadImage = () => {
+        if (!map.hasImage("bus-stop")) {
+          map.loadImage("/icons/bus-stop.png", (error, image) => {
+            if (error || !image) throw error;
+              map.addImage("bus-stop", image);
+            });
         }
-    }, []);
+      };
+    
+      loadImage();
+    
+      //TODO need this?
+      map.on("styleimagemissing", (e) => {
+        const id = e.id; // id of the missing image
+        console.log(id);
+        loadImage();
+      });
+    }
+  }, []);
 
   /** In charge of rendering the bus line whenever the lineSections changes  */
   useEffect(() => {
@@ -278,7 +278,7 @@ function NewLineEditMap({
     if (!event.features || event.features.length === 0) return;
 
     const feature = event.features[0]; // Get the first feature
-    const clusterId = feature.properties.cluster_id; // If it's a cluster, this exists
+    const clusterId = feature.properties?.cluster_id; // If it's a cluster, this exists
 
     if (clusterId) {
       // Clicked a cluster → Expand it
@@ -287,11 +287,16 @@ function NewLineEditMap({
       if (mapboxSource && "getClusterExpansionZoom" in mapboxSource) {
         mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
           if (err) return;
+
+          const point = feature.geometry as Point
   
-          mapRef.current?.easeTo({
-            center: feature.geometry.coordinates,
-            zoom: zoom,
-          });
+          if (zoom != null) {
+            mapRef.current?.easeTo({
+              center: [point.coordinates[0], point.coordinates[1]],
+              zoom: zoom,
+            });
+          }
+          
         });
       }
     } else {
@@ -383,7 +388,7 @@ function NewLineEditMap({
   }
 
   /** Whenever a existing anchor changes position */
-  const handleAnchorMarkerPlaced = (featureIndex: number, anchorIndex: number, newPosition: Position) => {
+  const handleAnchorMarkerPlaced = (featureIndex: string | number | undefined, anchorIndex: number, newPosition: Position) => {
 
     setLineSections((prevSections) => {
       return prevSections.map((section, index) => {
@@ -404,7 +409,7 @@ function NewLineEditMap({
   };
 
   /** Whenever a existing anchor is deleted */
-  const handleAnchorDeleted = (featureIndex: number, anchorIndex: number) => {
+  const handleAnchorDeleted = (featureIndex: string | number | undefined, anchorIndex: number) => {
     setLineSections((prevSection) => {
       return prevSection.map((section, index) => {
         if (index !== featureIndex) return section; // Keep other features unchanged
