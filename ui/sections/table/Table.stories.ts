@@ -29,6 +29,7 @@ const lines: Line[] = [
     transport_type: "bus",
     line_type: "troncal",
     route_points: [],
+    route: { type: "FeatureCollection", features: [] }
   },
   {
     id: 2,
@@ -39,6 +40,7 @@ const lines: Line[] = [
     transport_type: "bus",
     line_type: "troncal",
     route_points: [],
+    route: { type: "FeatureCollection", features: [] }
   },
 ];
 
