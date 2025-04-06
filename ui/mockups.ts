@@ -44,6 +44,10 @@ export const mockupLines: Line[] = [
         busStop: null,
       },
     ],
+    route: {
+      type: "FeatureCollection",
+      features: []
+    }
   },
   {
     id: 2,
@@ -67,6 +71,10 @@ export const mockupLines: Line[] = [
         busStop: null,
       },
     ],
+    route: {
+      type: "FeatureCollection",
+      features: []
+    }
   },
 ];
 
