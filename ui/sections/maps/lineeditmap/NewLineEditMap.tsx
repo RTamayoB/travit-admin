@@ -9,7 +9,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import MapComponent, { Layer, MapRef, MarkerDragEvent, Source } from "react-map-gl/mapbox";
 import AnchorMarker from "../base/markers/anchormarker";
 import { geoJsonPositionToCoordinates, positionToCoordinates, positionToGeoPosition } from "@/app/lib/utils";
-import { lineString, nearestPointOnLine, point } from "@turf/turf";
+import { geometry, lineString, nearestPointOnLine, point } from "@turf/turf";
 import { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import Image from "next/image";
 
@@ -29,7 +29,7 @@ type HoverMarker = {
 interface NewLineEditMapProps {
   stops: Stop[];
   featureCollection: FeatureCollection<LineString, LineSection>;
-  onFeatureCollectionUpdate: (updateFn: (prevCollection: FeatureCollection<LineString, LineSection>) => FeatureCollection<LineString, LineSection>) => void;
+  onFeatureCollectionUpdate: (updatedFeatureCollection : FeatureCollection<LineString, LineSection>) => void;
 }
 
 function NewLineEditMap({
@@ -71,6 +71,7 @@ function NewLineEditMap({
   const mapRef = useRef<MapRef | null>(null);
   const isFirstRender = useRef(true);
   const prevLineSectionsRef = useRef<LineSection[]>([])
+  const prevFeatureCollectionRef = useRef<FeatureCollection<LineString, LineSection> | null>(featureCollection)
 
   const [viewState, setViewState] = React.useState({
     longitude: -103.29696486553104,
@@ -103,6 +104,10 @@ function NewLineEditMap({
       });
     }
   }, []);
+
+  useEffect(() => {
+    prevFeatureCollectionRef.current = featureCollection
+  }, [featureCollection])
 
   /** In charge of rendering the bus line whenever the lineSections changes  */
   useEffect(() => {
@@ -203,30 +208,9 @@ function NewLineEditMap({
     }
 
     if (lineChange?.isAddition) {
-      onFeatureCollectionUpdate((prevCollection) => ({
-        ...prevCollection,
-        features: [
-          ...prevCollection.features,
-          {
-            type: "Feature",
-            id: lineChange?.index,
-            properties: lineChange?.section!!,
-            geometry: geometry
-          }
-        ]
-      }));
+
     } else {
-      onFeatureCollectionUpdate((prevCollection) => ({
-        ...prevCollection,
-        features: prevCollection.features.map((feature) => 
-          lineChange?.index === feature.id ? 
-          {
-            ...feature, 
-            properties: lineChange?.section!!, 
-            geometry: geometry
-          } : feature
-        )
-      }));
+
     }
   }
 
@@ -246,32 +230,80 @@ function NewLineEditMap({
 
   /** Whenever a stop  is added to the line */
   const handleStopSelected = async(stop: Stop) => {
-    setLineSections((prevSections) => {
-      const lastSection = prevSections[prevSections.length - 1];
+    const lastFeature = prevFeatureCollectionRef.current?.features[prevFeatureCollectionRef.current?.features.length - 1]
 
-      if (!lastSection) {
-        return [
-          ...prevSections, { startStop: stop }
+    if (!lastFeature) {
+      console.log("No last")
+      onFeatureCollectionUpdate(
+      {
+          ...featureCollection,
+          features: [
+            ...featureCollection.features,
+            {
+              type: "Feature",
+              id: featureCollection.features.length,
+              properties: {
+                startStop: stop,
+              },
+              geometry: {
+                type: "LineString",
+                coordinates: []
+              }
+            }
+          ]
+        }
+      )
+      return
+    }
+
+    if (lastFeature?.properties.startStop && !lastFeature?.properties.endStop) {
+      if (lastFeature.properties.startStop.id === stop.id) return
+
+      const response = await getMatchingResponse([
+        { coordinates: positionToCoordinates(lastFeature.properties?.startStop.position) },
+        { coordinates: positionToCoordinates(stop.position) }
+      ])
+
+      const geometry = response?.body.matchings[0]?.geometry as unknown as LineString;
+
+      onFeatureCollectionUpdate(
+        {
+          ...featureCollection,
+          features: featureCollection.features.map((feature, index) =>
+            index === featureCollection.features.length -1 ? { ...feature, properties: { ...feature.properties, endStop: stop}, geometry: geometry } : feature
+          )
+        }
+      )
+      return
+    }
+
+    if (lastFeature?.properties?.endStop?.id === stop.id) return;
+
+    const response = await getMatchingResponse([
+      { coordinates: positionToCoordinates(lastFeature?.properties.endStop?.position) },
+      { coordinates: positionToCoordinates(stop.position) }
+    ])
+
+    const geometry = response?.body.matchings[0]?.geometry as unknown as LineString;
+
+    onFeatureCollectionUpdate(
+      {
+        ...featureCollection,
+        features: [
+          ...featureCollection.features,
+          {
+            type: "Feature",
+            id: featureCollection.features.length,
+            properties: {
+              startStop: lastFeature?.properties.endStop,
+              endStop: stop
+            },
+            geometry: geometry
+          }
         ]
       }
-
-      if (lastSection?.startStop && !lastSection?.endStop) {
-        if (lastSection.startStop.id === stop.id) return prevSections
-
-        return prevSections.map((section, index) =>
-          index === prevSections.length - 1 ? { ...section, endStop: stop} : section
-        )
-      }
-
-      if (lastSection?.endStop?.id === stop.id) return prevSections;
-
-      return [
-        ...prevSections,
-        { startStop: lastSection.endStop,
-          endStop: stop
-        }
-      ]
-    })
+    )
+    return
   };
 
   const handleOnMapClick = (event: MapMouseEvent) => {

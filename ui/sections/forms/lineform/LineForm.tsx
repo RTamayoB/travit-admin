@@ -57,13 +57,8 @@ function LineForm({
     setRoutePoints(updatedRoutePoints);
   };
 
-  const handleFeatureCollectionUpdate = (updateFn: (prevCollection: FeatureCollection<LineString, LineSection>) => FeatureCollection<LineString, LineSection>) => {
-    setRoute((prevRoute) => {
-      console.log("Previous route", prevRoute)
-      const updatedRoute = updateFn(prevRoute);
-      console.log("Updating route", updatedRoute);
-      return updatedRoute;
-    });
+  const handleFeatureCollectionUpdate = (updatedFeatureCollection: FeatureCollection<LineString, LineSection>) => {
+    setRoute(updatedFeatureCollection)
   };
 
   const lineTypeOptions: DropdownOption<string>[] = [
