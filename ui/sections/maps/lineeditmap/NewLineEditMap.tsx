@@ -1,15 +1,15 @@
 'use client';
 
-import { LineSection, Stop } from "@/app/lib/definitions";
+import { LineSection, MapAction, Stop } from "@/app/lib/definitions";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import client from '@mapbox/mapbox-sdk';
 import mapMatching, { MapMatchingPoint } from '@mapbox/mapbox-sdk/services/map-matching';
-import { FeatureCollection, LineString, Point, Position } from "geojson";
+import { Feature, FeatureCollection, LineString, Point, Position } from "geojson";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import MapComponent, { Layer, MapRef, MarkerDragEvent, Source } from "react-map-gl/mapbox";
 import AnchorMarker from "../base/markers/anchormarker";
 import { geoJsonPositionToCoordinates, positionToCoordinates, positionToGeoPosition } from "@/app/lib/utils";
-import { geometry, lineString, nearestPointOnLine, point } from "@turf/turf";
+import { lineString, nearestPointOnLine, point } from "@turf/turf";
 import { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import Image from "next/image";
 
@@ -67,6 +67,7 @@ function NewLineEditMap({
   const [hoverMarker, setHoverMarker] = useState<HoverMarker | null>(null);
   const [lastAnchorPlaced, setLastAnchorPlaced] = useState<Position | null>(null);
   const [isHoverMarkerDragged, setIsHoverMarkerDragged] = useState(false);
+  const [undoStack, setUndoStack] = useState<MapAction[]>([]);
 
   const mapRef = useRef<MapRef | null>(null);
   const isFirstRender = useRef(true);
@@ -214,8 +215,19 @@ function NewLineEditMap({
     }
   }
 
+  const handleUndo = useCallback(() => {
+    if (undoStack.length > 0) {
+      const lastAction = undoStack.pop();
+      if (lastAction) {
+        lastAction.undo();
+        setUndoStack([...undoStack])
+      }
+    }
+  }, [undoStack])
+
   // TODO: Move function upwards to corresponding folder
   const getMatchingResponse = async (points: MapMatchingPoint[]) => {
+    console.log("POINTS", points)
     try {
       const response = await mapMatchingService.getMatch({
         points: points,
@@ -233,7 +245,6 @@ function NewLineEditMap({
     const lastFeature = prevFeatureCollectionRef.current?.features[prevFeatureCollectionRef.current?.features.length - 1]
 
     if (!lastFeature) {
-      console.log("No last")
       onFeatureCollectionUpdate(
       {
           ...featureCollection,
@@ -266,14 +277,19 @@ function NewLineEditMap({
 
       const geometry = response?.body.matchings[0]?.geometry as unknown as LineString;
 
-      onFeatureCollectionUpdate(
-        {
-          ...featureCollection,
-          features: featureCollection.features.map((feature, index) =>
-            index === featureCollection.features.length -1 ? { ...feature, properties: { ...feature.properties, endStop: stop}, geometry: geometry } : feature
-          )
-        }
-      )
+      const newCollection = {
+        ...featureCollection,
+        features: featureCollection.features.map((feature, index) =>
+          index === featureCollection.features.length -1 ? { ...feature, properties: { ...feature.properties, endStop: stop}, geometry: geometry } : feature
+        )
+      }
+
+      setUndoStack((prevStack) => [
+        ...prevStack,
+        new AddStopAction(newCollection, onFeatureCollectionUpdate)
+      ]);
+      
+      onFeatureCollectionUpdate(newCollection)
       return
     }
 
@@ -286,23 +302,28 @@ function NewLineEditMap({
 
     const geometry = response?.body.matchings[0]?.geometry as unknown as LineString;
 
-    onFeatureCollectionUpdate(
-      {
-        ...featureCollection,
-        features: [
-          ...featureCollection.features,
-          {
-            type: "Feature",
-            id: featureCollection.features.length,
-            properties: {
-              startStop: lastFeature?.properties.endStop,
-              endStop: stop
-            },
-            geometry: geometry
-          }
-        ]
-      }
-    )
+    const newCollection = {
+      ...featureCollection,
+      features: [
+        ...featureCollection.features,
+        {
+          type: "Feature",
+          id: featureCollection.features.length,
+          properties: {
+            startStop: lastFeature?.properties.endStop,
+            endStop: stop
+          },
+          geometry: geometry
+        } as Feature<LineString, LineSection>
+      ]
+    }
+
+    setUndoStack((prevStack) => [
+      ...prevStack,
+      new AddStopAction(newCollection, onFeatureCollectionUpdate)
+    ]);
+
+    onFeatureCollectionUpdate(newCollection)
     return
   };
 
@@ -499,9 +520,7 @@ function NewLineEditMap({
       onClick={handleOnMapClick}
     >
       <MapEvents
-        onUndo={() => {
-          }
-        }
+        onUndo={handleUndo}
       />
 
       {featureCollection && 
@@ -597,6 +616,25 @@ function NewLineEditMap({
       )}
     </MapComponent>
   )
+}
+
+class AddStopAction implements MapAction {
+  constructor(
+    private featureCollection: FeatureCollection<LineString, LineSection>,
+    private setFeatureCollection: (collection: FeatureCollection<LineString, LineSection>) => void
+  ) {}
+
+  execute() {
+    this.setFeatureCollection(this.featureCollection);
+  }
+
+  undo() {
+    const newCollection = {
+      ...this.featureCollection,
+      features: this.featureCollection.features.filter((_, index) => index !== this.featureCollection.features.length - 1)
+    }
+    this.setFeatureCollection(newCollection);
+  }
 }
 
 export default NewLineEditMap;
