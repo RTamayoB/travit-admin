@@ -327,7 +327,11 @@ function NewLineEditMap({
 
       setHoverMarker({
         sectionId: feature.id,
-        properties: feature.properties as LineSection,
+        properties: {
+          ...feature.properties,
+          startStop: JSON.parse(feature.properties?.startStop),
+          endStop: JSON.parse(feature.properties?.endStop)
+        },
         position: [lngLat.lng, lngLat.lat],
         geometry: feature.geometry as LineString
       });
@@ -348,6 +352,9 @@ function NewLineEditMap({
   const handleHoverMarkerPlaced = (e: MarkerDragEvent, marker: HoverMarker) => {
 
     setIsHoverMarkerDragged(false)
+
+    console.log("StartStop", marker.properties.startStop)
+    console.log("StartStop position", marker.properties.startStop?.position)
 
     setLineSections((prevSection) => {
       const sectionId = marker.sectionId as number
