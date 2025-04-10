@@ -2,17 +2,16 @@
 
 import { LineSection, Stop } from "@/app/lib/definitions";
 import 'mapbox-gl/dist/mapbox-gl.css';
-import client from '@mapbox/mapbox-sdk';
-import mapMatching, { MapMatchingPoint } from '@mapbox/mapbox-sdk/services/map-matching';
 import { FeatureCollection, LineString, Point, Position as GeoPosition, Feature } from "geojson";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import MapComponent, { Layer, MapRef, MarkerDragEvent, Source } from "react-map-gl/mapbox";
 import AnchorMarker from "../base/markers/anchormarker";
-import { geoJsonPositionToCoordinates, positionToCoordinates, positionToGeoPosition } from "@/app/lib/utils";
+import { positionToGeoPosition } from "@/app/lib/utils";
 import { lineString, nearestPointOnLine, point } from "@turf/turf";
 import { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import Image from "next/image";
-import { AddAnchorAction, AddStopAction, MapAction } from "./mapEditorActions";
+import { useLineEditor } from "./useLineEditor";
+import { getGeometry } from "@/utils/mapbox/getGeometry";
 
 type HoverMarker = {
   sectionId: string | number | undefined,
@@ -33,11 +32,7 @@ function NewLineEditMap({
   onFeatureCollectionUpdate
 }: NewLineEditMapProps) {
 
-
-  const baseClient = client({accessToken: "pk.eyJ1IjoicmFmYWVsLXQiLCJhIjoiY203bjA4ZmQzMDR2OTJucHVyMXl3cjd1bCJ9.NYY1s32Lp4Hip91i5bJVEA"});
-  const mapMatchingService = mapMatching(baseClient);
-
-  const stopCollection: FeatureCollection<Point> = {
+  const stopCollection: FeatureCollection<Point> = useMemo(() => ({
     type: "FeatureCollection",
     features: stops.map((stop) => ({
       type: "Feature",
@@ -49,11 +44,18 @@ function NewLineEditMap({
           position: stop.position
         },
     })),
-  }
+  }), [stops]);
 
   const [hoverMarker, setHoverMarker] = useState<HoverMarker | null>(null);
   const [isHoverMarkerDragged, setIsHoverMarkerDragged] = useState(false);
-  const [undoStack, setUndoStack] = useState<MapAction[]>([]);
+  const {
+    featureCollection,
+    addFeature,
+    updateLastFeature,
+    updateFeatureAtIndex,
+    onUndo
+  } = useLineEditor(initialFeatureCollection, onFeatureCollectionUpdate);
+  
 
   const mapRef = useRef<MapRef | null>(null);
   const prevFeatureCollectionRef = useRef<FeatureCollection<LineString, LineSection> | null>(initialFeatureCollection)
@@ -66,7 +68,6 @@ function NewLineEditMap({
 
   const mapRefCallback = useCallback((ref: MapRef | null) => {
     if (ref !== null) {
-      //Set the actual ref we use elsewhere
       mapRef.current = ref;
       const map = ref;
    
@@ -81,9 +82,8 @@ function NewLineEditMap({
     
       loadImage();
     
-      //TODO need this?
       map.on("styleimagemissing", (e) => {
-        const id = e.id; // id of the missing image
+        const id = e.id;
         console.log(id);
         loadImage();
       });
@@ -91,155 +91,15 @@ function NewLineEditMap({
   }, []);
 
   useEffect(() => {
-    prevFeatureCollectionRef.current = initialFeatureCollection
-  }, [initialFeatureCollection])
-
-  const handleUndo = useCallback(() => {
-    if (undoStack.length > 0) {
-      const lastAction = undoStack.pop();
-      if (lastAction) {
-        lastAction.undo();
-        setUndoStack([...undoStack])
-      }
-    }
-  }, [undoStack])
-
-  const areCoordinatesClose = (coord1: GeoPosition | undefined, coord2: GeoPosition | undefined, tolerance = 0.01): boolean => {
-    if (!coord1 || !coord2) return false;
-    return Math.abs(coord1[0] - coord2[0]) <= tolerance && Math.abs(coord1[1] - coord2[1]) <= tolerance;
-  };
-
-  const getGeometry = async (
-    {
-      startStop, 
-      endStop, 
-      anchors
-    } : {
-      startStop: Stop,
-      endStop: Stop,
-      anchors?: GeoPosition[]
-    }) => {
-      const points = [
-        { coordinates: positionToCoordinates(startStop?.position) },
-        ...((anchors?.map(anchor => ({ coordinates: geoJsonPositionToCoordinates(anchor) })) ?? []) as MapMatchingPoint[]),
-        { coordinates: positionToCoordinates(endStop?.position) }
-      ];
-
-      try {
-        const response = await mapMatchingService.getMatch({
-          points: points,
-          geometries: "geojson",
-          overview: "full"
-        }).send()
-
-        // Confirm resulting line was correctly constructed
-        if (response.body.code !== "Ok") return null
-
-        const geometry = response.body.matchings[0].geometry as unknown as LineString;
-
-        const isValid = areCoordinatesClose(geometry.coordinates[0], positionToCoordinates(startStop?.position)) && 
-        areCoordinatesClose(geometry.coordinates[geometry.coordinates.length - 1], positionToCoordinates(endStop?.position));
-
-        if (!isValid) return null
-
-        return geometry
-      } catch {
-        return null
-      }
-  }
-
-  const addNewFeature = ({
-    startStop,
-    endStop,
-    geometry = { type: "LineString", coordinates: [] },
-  }: {
-    startStop: Stop;
-    endStop?: Stop;
-    geometry?: LineString;
-  }) => {
-    const newFeature: Feature<LineString, LineSection> = {
-      type: "Feature",
-      id: initialFeatureCollection.features.length,
-      properties: { startStop, ...(endStop && { endStop }) },
-      geometry
-    };
-
-    const newCollection = {
-      ...initialFeatureCollection,
-      features: [...initialFeatureCollection.features, newFeature]
-    };
-
-    setUndoStack((prev) => [
-      ...prev,
-      new AddStopAction(newCollection, onFeatureCollectionUpdate)
-    ]);
-    onFeatureCollectionUpdate(newCollection)
-  }
-
-  const updateLastFeature = ({
-    endStop,
-    geometry
-  }: {
-    endStop: Stop,
-    geometry: LineString
-  }) => {
-    const updatedFeatures = initialFeatureCollection.features.map((feature, index) =>
-      index === initialFeatureCollection.features.length - 1
-        ? {
-          ...feature,
-          properties: { ...feature.properties, endStop },
-          geometry
-        }
-        : feature
-    )
-
-    const newCollection = { ...initialFeatureCollection, features: updatedFeatures }
-
-    setUndoStack((prev) => [
-      ...prev,
-      new AddStopAction(newCollection, onFeatureCollectionUpdate),
-    ]);
-    onFeatureCollectionUpdate(newCollection);
-  };
-
-  const updateFeatureAtIndex = ({
-    selectedIndex,
-    anchors,
-    geometry
-  }: {
-    selectedIndex: number,
-    anchors: GeoPosition[],
-    geometry: LineString
-  }) => {
-    const previousFeature = initialFeatureCollection.features[selectedIndex]
-    const updatedFeatures = initialFeatureCollection.features.map((feature, index) =>
-      index === selectedIndex
-        ? {
-          ...feature,
-          properties: { 
-            ...feature.properties, 
-            anchors: anchors 
-          },
-          geometry
-        }
-        : feature
-    )
-
-    const newCollection = { ...initialFeatureCollection, features: updatedFeatures }
-
-    setUndoStack((prev) => [
-      ...prev,
-      new AddAnchorAction(selectedIndex, previousFeature, newCollection, onFeatureCollectionUpdate),
-    ]);
-    onFeatureCollectionUpdate(newCollection);
-  };
+    prevFeatureCollectionRef.current = featureCollection
+  }, [featureCollection])
 
   /** Whenever a stop  is added to the line */
   const handleStopSelected = async(stop: Stop) => {
     const lastFeature = prevFeatureCollectionRef.current?.features.at(-1);
   
     if (!lastFeature) {
-      addNewFeature({ startStop: stop });
+      addFeature({ startStop: stop });
       return;
     }
     
@@ -257,15 +117,15 @@ function NewLineEditMap({
   
     if(endStop) {
       const geometry = await getGeometry({startStop: endStop, endStop: stop})
-      if (geometry) addNewFeature({startStop: endStop, endStop: stop, geometry });
+      if (geometry) addFeature({startStop: endStop, endStop: stop, geometry });
     }
   };
 
   const handleOnMapClick = (event: MapMouseEvent) => {
     if (!event.features || event.features.length === 0) return;
 
-    const feature = event.features[0]; // Get the first feature
-    const clusterId = feature.properties?.cluster_id; // If it's a cluster, this exists
+    const feature = event.features[0];
+    const clusterId = feature.properties?.cluster_id;
 
     if (clusterId) {
       // Clicked a cluster → Expand it
@@ -301,7 +161,7 @@ function NewLineEditMap({
   const handleOnMouseOver = (event: MapMouseEvent) => {
     if (!mapRef.current) return;
 
-    if (initialFeatureCollection.features.length <= 0) return;
+    if (featureCollection.features.length <= 0) return;
 
     const { lngLat, point } = event;
 
@@ -315,9 +175,9 @@ function NewLineEditMap({
       setHoverMarker({
         sectionId: feature.id,
         properties: {
-          ...feature.properties as LineSection,
           startStop: JSON.parse(feature.properties?.startStop),
           endStop: JSON.parse(feature.properties?.endStop),
+          anchors: feature.properties?.anchors ? JSON.parse(feature.properties?.anchors) : []
         },
         position: [lngLat.lng, lngLat.lat],
         geometry: feature.geometry as LineString
@@ -340,21 +200,22 @@ function NewLineEditMap({
 
     setIsHoverMarkerDragged(false)
 
+    console.log("Coordinates before marker", marker.geometry.coordinates)
     const featureId = marker.sectionId as number
     const line = lineString(marker.geometry.coordinates)
     const newPoint = point(marker.position)
     const nearestPoint = nearestPointOnLine(line, newPoint);
     const nearestIndex = nearestPoint.properties.index;
 
-    const newAnchor: GeoPosition = [
-      parseFloat(newPoint.geometry.coordinates[0].toFixed(6)), 
-      parseFloat(newPoint.geometry.coordinates[1].toFixed(6))
-    ]
+    console.log("Nearest index obtained", nearestIndex)
+    
+    console.log("New anchor", newPoint)
+    console.log("Previous anchors", marker.properties.anchors)
 
-    const updatedAnchors = [
-      ...(marker.properties.anchors ? marker.properties.anchors?.slice(0, nearestIndex): [] as GeoPosition[]),
-      newAnchor,
-      ...(marker.properties.anchors? marker.properties.anchors?.slice(nearestIndex) : [] as GeoPosition[] )
+    const updatedAnchors: GeoPosition[] = [
+      ...(marker.properties.anchors ? marker.properties.anchors.slice(0, nearestIndex) : []),
+      newPoint.geometry.coordinates,
+      ...(marker.properties.anchors ? marker.properties.anchors.slice(nearestIndex) : [])
     ];
 
     const geometry = await getGeometry({ 
@@ -369,7 +230,7 @@ function NewLineEditMap({
   /** Whenever a existing anchor changes position */
   const handleAnchorMarkerPlaced = async(featureIndex: number, anchorIndex: number, newPosition: GeoPosition) => {
 
-    const feature = initialFeatureCollection.features[featureIndex]
+    const feature = featureCollection.features[featureIndex]
    
     const updatedAnchors = feature.properties.anchors?.map((anchor, index) =>
       index == anchorIndex ? newPosition : anchor
@@ -382,7 +243,7 @@ function NewLineEditMap({
   /** Whenever a existing anchor is deleted */
   const handleAnchorDeleted = async(featureIndex: number, anchorIndex: number) => {
 
-    const feature = initialFeatureCollection.features[featureIndex]
+    const feature = featureCollection.features[featureIndex]
    
     const updatedAnchors = feature.properties.anchors?.filter((_, index) =>
       index !== anchorIndex
@@ -430,11 +291,11 @@ function NewLineEditMap({
       onClick={handleOnMapClick}
     >
       <MapEvents
-        onUndo={handleUndo}
+        onUndo={onUndo}
       />
 
-      {initialFeatureCollection && 
-        <Source id="route" type="geojson" data={initialFeatureCollection}>
+      {featureCollection && 
+        <Source id="route" type="geojson" data={featureCollection}>
           <Layer
             id="route"
             type="line"
@@ -489,7 +350,7 @@ function NewLineEditMap({
         </Source>
       }
 
-      {initialFeatureCollection.features.map((feature) => 
+      {featureCollection.features.map((feature) => 
         feature.properties?.anchors?.map((anchor, anchorIndex) => (
           <AnchorMarker
             key={`${feature.id}-${anchorIndex}`}

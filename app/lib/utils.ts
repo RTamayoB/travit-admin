@@ -51,21 +51,8 @@ export const formatDateToLocal = (
   return formatter.format(date);
 };
 
-export const geoJsonPositionToCoordinates = (pos?: GeoJsonPosition): Coordinates => {
-  if (!pos || pos.length !== 2) return [0, 0];
-  return [pos[0], pos[1]];
-};
-
-const normalizeLongitude = (lng: number): number => {
+export const normalizeLongitude = (lng: number): number => {
   return ((lng + 180) % 360 + 360) % 360 - 180;
-};
-
-export const positionToCoordinates = (pos?: Position): Coordinates => {
-  if (!pos) return [0, 0];
-
-  const lng = parseFloat(normalizeLongitude(pos.lng).toFixed(6));
-  const lat = parseFloat(pos.lat.toFixed(6));
-  return [lng, lat];
 };
 
 export const positionToGeoPosition = (pos?: Position): GeoJsonPosition => {

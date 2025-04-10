@@ -1,7 +1,6 @@
 import { LineSection, Stop } from "@/app/lib/definitions";
 import { Feature, FeatureCollection, LineString, Position } from "geojson";
-import { useCallback, useState } from "react";
-import { AddAnchorAction, AddStopAction, MapAction } from "./mapEditorActions";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type AddFeatureParams = {
   startStop: Stop;
@@ -20,29 +19,35 @@ type UpdateFeatureAtIndexParams = {
   geometry: LineString;
 };
 
+type UndoAction = {
+  undo: () => void;
+}
+
 export function useLineEditor(
   initial: FeatureCollection<LineString, LineSection>,
   onUpdate: (fc: FeatureCollection<LineString, LineSection>) => void
 ) {
-  const [undoStack, setUndoStack] = useState<MapAction[]>([])
+  const [undoStack, setUndoStack] = useState<UndoAction[]>([])
   const [featureCollection, setFeatureCollection] = useState(initial)
 
   const onUndo = useCallback(() => {
-    if (undoStack.length > 0) {
-      const lastAction = undoStack.pop();
-      if (lastAction) {
-        lastAction.undo();
-        setUndoStack([...undoStack])
-      }
-    }
+    setUndoStack((prev) => {
+      const copy = [...prev];
+      const last = copy.pop();
+      if (last) last.undo();
+      return copy;
+    });
   }, [undoStack])
 
   const applyUpdate = useCallback((
     newCollection: FeatureCollection<LineString, LineSection>, 
-    action: MapAction
+    previousCollection: FeatureCollection<LineString, LineSection>
   ) => {
     setFeatureCollection(newCollection)
-    setUndoStack((prev) => [...prev, action])
+    setUndoStack((prev) => [
+      ...prev,
+      { undo: () => setFeatureCollection(previousCollection) }
+    ]);
     onUpdate(newCollection)
   }, [onUpdate])
 
@@ -59,7 +64,7 @@ export function useLineEditor(
       features: [...featureCollection.features, newFeature]
     };
 
-    applyUpdate(newCollection, new AddStopAction(newCollection, onUpdate));
+    applyUpdate(newCollection, featureCollection);
   }, [featureCollection, applyUpdate, onUpdate]);
 
   const updateLastFeature = useCallback(({
@@ -72,20 +77,18 @@ export function useLineEditor(
     const updatedFeatures = featureCollection.features.map((feature, index) => 
       index === lastIndex
         ? {
-          ...feature,
-          properties: { ...feature.properties, endStop },
-          geometry
+            ...feature,
+            properties: { ...feature.properties, endStop },
+            geometry
           }
         : feature
       );
 
     const newCollection = { ...featureCollection, features: updatedFeatures };
-    applyUpdate(newCollection, new AddStopAction(newCollection, onUpdate));
+    applyUpdate(newCollection, featureCollection);
   }, [featureCollection, applyUpdate, onUpdate]);
 
   const updateFeatureAtIndex = useCallback(({ selectedIndex, anchors, geometry }: UpdateFeatureAtIndexParams) => {
-    const previousFeature = featureCollection.features[selectedIndex];
-
     const updatedFeatures = featureCollection.features.map((feature, index) =>
       index === selectedIndex
         ? {
@@ -97,7 +100,7 @@ export function useLineEditor(
     );
 
     const newCollection = { ...featureCollection, features: updatedFeatures };
-    applyUpdate(newCollection, new AddAnchorAction(selectedIndex, previousFeature, newCollection, onUpdate));
+    applyUpdate(newCollection, featureCollection);
   }, [featureCollection, applyUpdate, onUpdate]);
 
   return {
