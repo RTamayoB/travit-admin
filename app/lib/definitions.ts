@@ -107,8 +107,3 @@ export type StopState = {
   };
   message?: string | null;
 };
-
-export interface MapAction {
-  undo: () => void;
-  execute: () => void;
-}

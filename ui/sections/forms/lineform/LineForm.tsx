@@ -178,7 +178,7 @@ function LineForm({
           (
             <NewLineEditMap
               stops={stops}
-              featureCollection={route}
+              initialFeatureCollection={route}
               onFeatureCollectionUpdate={handleFeatureCollectionUpdate}
             />
           )
