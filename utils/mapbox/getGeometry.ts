@@ -17,7 +17,8 @@ export const getGeometry = async (
   }
 ) => {
 
-  const baseClient = client({accessToken: "pk.eyJ1IjoicmFmYWVsLXQiLCJhIjoiY203bjA4ZmQzMDR2OTJucHVyMXl3cjd1bCJ9.NYY1s32Lp4Hip91i5bJVEA"});
+  const accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!
+  const baseClient = client({accessToken: accessToken});
   const mapMatchingService = mapMatching(baseClient);
 
   const geoJsonPositionToCoordinates = (pos?: GeoJsonPosition): Coordinates => {
