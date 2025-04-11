@@ -1,8 +1,8 @@
 import { Line } from "@/app/lib/definitions";
 import { Icon } from "leaflet";
 import React from "react";
-import { Polyline } from "react-leaflet";
-import Map from "../base/map";
+import MapComponent, { Layer, Source } from "react-map-gl/mapbox";
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 interface LinesMapProps {
   lines: Line[];
@@ -24,17 +24,30 @@ function LinesMap({
   });
 
   return (
-    <Map>
+    <MapComponent
+      initialViewState={{
+        longitude: -103.29696486553104,
+        latitude: 20.682718735053065,
+        zoom: 14,
+      }}
+      mapboxAccessToken="pk.eyJ1IjoicmFmYWVsLXQiLCJhIjoiY203bjA4ZmQzMDR2OTJucHVyMXl3cjd1bCJ9.NYY1s32Lp4Hip91i5bJVEA"
+      style={{height: "60vh", width: "100%"}}
+      mapStyle={"mapbox://styles/mapbox/streets-v12"}
+    >
       <>
         {lines.map((line) => (
-          <Polyline
-            key={line.id}
-            positions={line.route_points.map((point) => point.position)}
-            color="#d04116"
-          />
+          <Source id={line.id.toString()} type="geojson" data={line.route} key={line.id.toString()}>
+            {console.log("Route for " + line.id, line.route)}
+            <Layer
+              id={line.id.toString()}
+              type="line"
+              layout={{ "line-join": "round", "line-cap": "round" }}
+              paint={{ "line-color": "#d04116", "line-width": 4 }}
+            />
+          </Source>
         ))}
       </>
-    </Map>
+    </MapComponent>
   );
 }
 

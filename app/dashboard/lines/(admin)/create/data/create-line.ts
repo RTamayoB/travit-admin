@@ -3,8 +3,9 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { LineState, RoutePoint } from "@/app/lib/definitions";
+import { LineSection, LineState, RoutePoint } from "@/app/lib/definitions";
 import { LineSchema } from "@/app/lib/schemas";
+import { FeatureCollection, LineString } from "geojson";
 
 const CreateLine = LineSchema.omit({
   id: true,
@@ -13,6 +14,9 @@ const CreateLine = LineSchema.omit({
 });
 
 export async function createLine(prevState: LineState, formData: FormData) {
+
+  console.log("Line to create", formData.get("route"))
+
   const supabase = await createClient();
 
   // Parse and validate form data
@@ -38,6 +42,12 @@ export async function createLine(prevState: LineState, formData: FormData) {
     routePoints = JSON.parse(routePointsString);
   }
 
+  const routeString = formData.get("route")?.toString();
+  let route: FeatureCollection<LineString, LineSection> = { type: "FeatureCollection", features: [] };
+  if (routeString != null) {
+    route = JSON.parse(routeString);
+  }
+
   try {
     // Create line
     await supabase
@@ -50,6 +60,7 @@ export async function createLine(prevState: LineState, formData: FormData) {
         transport_type: parsedData.data.transport_type,
         line_type: parsedData.data.line_type,
         route_points: routePoints,
+        route: route
       }])
       .select()
       .single();

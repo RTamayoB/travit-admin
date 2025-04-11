@@ -41,6 +41,8 @@ function LinesLayout({
     }
   };
 
+  console.log("LINES", lines)
+
   const handleDeleteClick = (line: Line) => {
     setLineToDelete(line);
     setDialogOpen(true);
@@ -107,7 +109,7 @@ function LinesLayout({
       <div className={styles.content}>
         <Table
           data={lines}
-          keysToIgnore={["agency_id", "route_points"]}
+          keysToIgnore={["agency_id", "route_points", "route"]}
           actions={(line) => (
             <div className={styles.actions}>
               <Button

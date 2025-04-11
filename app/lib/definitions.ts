@@ -1,3 +1,5 @@
+import { FeatureCollection, Position  as GeoJsonPosition, LineString} from 'geojson';
+
 export type Agency = {
   id: number;
   name: string;
@@ -22,6 +24,12 @@ export interface Position {
   lng: number;
 }
 
+export type LineSection = {
+  startStop?: Stop,
+  endStop?: Stop,
+  anchors?: GeoJsonPosition[]
+}
+
 export interface RoutePoint {
   order: number;
   position: Position;
@@ -38,6 +46,7 @@ export interface Line {
   transport_type: string;
   line_type: string;
   route_points: RoutePoint[] | [];
+  route: FeatureCollection<LineString, LineSection>
 }
 
 export interface LineHistory {

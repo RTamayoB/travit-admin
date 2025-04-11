@@ -3,8 +3,9 @@
 import { createClient } from "../../../../../../../utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { Line, LineState, RoutePoint } from "@/app/lib/definitions";
+import { Line, LineSection, LineState, RoutePoint } from "@/app/lib/definitions";
 import { LineSchema } from "@/app/lib/schemas";
+import { FeatureCollection, LineString } from "geojson";
 
 const EditLine = LineSchema.omit({
   id: true,
@@ -60,6 +61,12 @@ export async function createEditLineRequest(
     routePoints = JSON.parse(routePointsString);
   }
 
+  const routeString = formData.get("route")?.toString();
+  let route: FeatureCollection<LineString, LineSection> = { type: "FeatureCollection", features: [] };
+  if (routeString != null) {
+    route = JSON.parse(routeString);
+  }
+
   // Create line object to parsed as data
   var line: Line = {
     id: parseInt(id),
@@ -70,6 +77,7 @@ export async function createEditLineRequest(
     transport_type: parsedData.data.transport_type,
     line_type: parsedData.data.line_type,
     route_points: routePoints,
+    route: route
   };
 
   const lineData = JSON.stringify(line);

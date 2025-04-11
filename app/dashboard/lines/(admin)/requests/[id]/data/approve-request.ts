@@ -34,6 +34,7 @@ export async function approveRequest(
           transport_type: lineData.transport_type,
           line_type: lineData.line_type,
           route_points: lineData.route_points,
+          route: lineData.route
         }])
     } else if (request.action == "U") {
       await supabase

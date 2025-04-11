@@ -3,6 +3,7 @@
 import {
   Agency,
   Line,
+  LineSection,
   LineState,
   RoutePoint,
   Stop,
@@ -12,6 +13,8 @@ import { useState } from "react";
 import styles from "../form.module.scss";
 import Dropdown, { DropdownOption } from "@/ui/components/dropdown";
 import dynamic from "next/dynamic";
+import { NewLineEditMap } from "../../maps/lineeditmap";
+import { FeatureCollection, LineString } from "geojson";
 
 const LineEditMap = dynamic(
   () => import("@/ui/sections/maps/lineeditmap/LineEditMap"),
@@ -39,17 +42,23 @@ function LineForm({
     transport_type: "",
     line_type: "",
     route_points: [],
+    route: { type: "FeatureCollection", features: [] }
   },
   onSubmit,
   state,
   submitButtonText,
 }: LineFormProps) {
   const [routePoints, setRoutePoints] = useState(line.route_points);
+  const [route, setRoute] = useState(line.route);
   const [lineType, setLineType] = useState(line.line_type);
   const [agencyId, setAgencyId] = useState(line.agency_id);
 
   const handleRoutePointsUpdate = (updatedRoutePoints: RoutePoint[]) => {
     setRoutePoints(updatedRoutePoints);
+  };
+
+  const handleFeatureCollectionUpdate = (updatedFeatureCollection: FeatureCollection<LineString, LineSection>) => {
+    setRoute(updatedFeatureCollection)
   };
 
   const lineTypeOptions: DropdownOption<string>[] = [
@@ -153,11 +162,27 @@ function LineForm({
           name="route_points"
           value={JSON.stringify(routePoints)}
         />
-        <LineEditMap
-          stops={stops}
-          routePoints={routePoints}
-          onRoutePointsUpdate={handleRoutePointsUpdate}
+        <input
+          type="hidden"
+          name="route"
+          value={JSON.stringify(route)}
         />
+        {routePoints.length > 0 ?
+          (
+            <LineEditMap
+              stops={stops}
+              routePoints={routePoints}
+              onRoutePointsUpdate={handleRoutePointsUpdate}
+            />
+          ) :
+          (
+            <NewLineEditMap
+              stops={stops}
+              initialFeatureCollection={route}
+              onFeatureCollectionUpdate={handleFeatureCollectionUpdate}
+            />
+          )
+        }
         <Typography variant={"note"}>
           Haz click derecho en cualquier lugar del mapa para colocar un punto de
           la ruta.

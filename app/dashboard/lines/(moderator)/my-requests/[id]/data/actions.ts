@@ -4,12 +4,14 @@ import { createClient } from "@/utils/supabase/server";
 import {
   Line,
   LineChangeRequest,
+  LineSection,
   LineState,
   RoutePoint,
 } from "@/app/lib/definitions";
 import { LineSchema } from "@/app/lib/schemas";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { FeatureCollection, LineString } from "geojson";
 
 export async function getLineRequestById(
   routeId: string,
@@ -91,6 +93,12 @@ export async function editLineRequest(
     routePoints = JSON.parse(routePointsString);
   }
 
+  const routeString = formData.get("route")?.toString();
+  let route: FeatureCollection<LineString, LineSection> = { type: "FeatureCollection", features: [] };
+  if (routeString != null) {
+    route = JSON.parse(routeString);
+  }
+
   // Create line object to parsed as data
   const line: Line = {
     id: parseInt(id),
@@ -101,6 +109,7 @@ export async function editLineRequest(
     transport_type: parsedData.data.transport_type,
     line_type: parsedData.data.line_type,
     route_points: routePoints,
+    route: route
   };
 
   const lineData = JSON.stringify(line);

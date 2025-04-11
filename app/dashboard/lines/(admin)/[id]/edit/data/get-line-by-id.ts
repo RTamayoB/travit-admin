@@ -14,7 +14,8 @@ export async function getLineById(routeId: string): Promise<Line | null> {
             agency_id,
             transport_type,
             line_type,
-            route_points
+            route_points,
+            route
         `)
     .eq("id", routeId)
     .single();
@@ -36,5 +37,6 @@ export async function getLineById(routeId: string): Promise<Line | null> {
     transport_type: data.transport_type,
     line_type: data.line_type,
     route_points: data.route_points,
+    route: data.route
   };
 }
