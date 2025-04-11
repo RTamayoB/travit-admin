@@ -12,6 +12,7 @@ import { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import Image from "next/image";
 import { useLineEditor } from "./useLineEditor";
 import { getGeometry } from "@/utils/mapbox/getGeometry";
+import { number } from "zod";
 
 type HoverMarker = {
   sectionId: string | number | undefined,
@@ -228,7 +229,7 @@ function NewLineEditMap({
   }
 
   /** Whenever a existing anchor changes position */
-  const handleAnchorMarkerPlaced = async(featureIndex: number, anchorIndex: number, newPosition: GeoPosition) => {
+  const handleAnchorMarkerPlaced = async(featureIndex:  number, anchorIndex: number, newPosition: GeoPosition) => {
 
     const feature = featureCollection.features[featureIndex]
    
@@ -350,7 +351,7 @@ function NewLineEditMap({
         </Source>
       }
 
-      {featureCollection.features.map((feature) => 
+      {featureCollection.features.map((feature, index) => 
         feature.properties?.anchors?.map((anchor, anchorIndex) => (
           <AnchorMarker
             key={`${feature.id}-${anchorIndex}`}
@@ -363,8 +364,8 @@ function NewLineEditMap({
                 height={18}
               />
             }
-            onDragEnd={e => handleAnchorMarkerPlaced(feature.id, anchorIndex, [e.lngLat.lng, e.lngLat.lat])}
-            onDbClick={e => handleAnchorDeleted(feature.id, anchorIndex)}
+            onDragEnd={e => handleAnchorMarkerPlaced(index, anchorIndex, [e.lngLat.lng, e.lngLat.lat])}
+            onDbClick={e => handleAnchorDeleted(index, anchorIndex)}
           />
         ))
       )}
