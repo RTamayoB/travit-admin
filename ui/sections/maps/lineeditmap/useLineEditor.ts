@@ -1,6 +1,6 @@
 import { LineSection, Stop } from "@/app/lib/definitions";
 import { Feature, FeatureCollection, LineString, Position } from "geojson";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 
 type AddFeatureParams = {
   startStop: Stop;

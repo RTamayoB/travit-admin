@@ -1,5 +1,4 @@
 import client from '@mapbox/mapbox-sdk';
-import { Position, Stop } from "@/app/lib/definitions";
 import { Coordinates } from "@mapbox/mapbox-sdk/lib/classes/mapi-request";
 import mapMatching, { MapMatchingPoint } from "@mapbox/mapbox-sdk/services/map-matching";
 import { LineString, Position as GeoJsonPosition } from "geojson";
@@ -7,12 +6,12 @@ import { normalizeLongitude } from '@/app/lib/utils';
 
 export const getGeometry = async (
   {
-    startStop, 
-    endStop, 
+    startPoint, 
+    endPoint, 
     anchors
   } : {
-    startStop: Stop,
-    endStop: Stop,
+    startPoint: GeoJsonPosition,
+    endPoint: GeoJsonPosition,
     anchors?: GeoJsonPosition[]
   }
 ) => {
@@ -23,14 +22,10 @@ export const getGeometry = async (
 
   const geoJsonPositionToCoordinates = (pos?: GeoJsonPosition): Coordinates => {
     if (!pos || pos.length !== 2) return [0, 0];
-    return [pos[0], pos[1]];
-  };
 
-  const positionToCoordinates = (pos?: Position): Coordinates => {
-    if (!pos) return [0, 0];
-      
-    const lng = parseFloat(normalizeLongitude(pos.lng).toFixed(6));
-    const lat = parseFloat(pos.lat.toFixed(6));
+    const lng = parseFloat(normalizeLongitude(pos[0]).toFixed(6));
+    const lat = parseFloat(pos[1].toFixed(6));
+
     return [lng, lat];
   };
 
@@ -40,9 +35,9 @@ export const getGeometry = async (
   };
 
   const points = [
-    { coordinates: positionToCoordinates(startStop?.position) },
+    { coordinates: geoJsonPositionToCoordinates(startPoint) },
     ...((anchors?.map(anchor => ({ coordinates: geoJsonPositionToCoordinates(anchor) })) ?? []) as MapMatchingPoint[]),
-    { coordinates: positionToCoordinates(endStop?.position) }
+    { coordinates: geoJsonPositionToCoordinates(endPoint) }
   ];
 
   console.log("Points to send to mapbox", points)
@@ -51,7 +46,9 @@ export const getGeometry = async (
     const response = await mapMatchingService.getMatch({
       points: points,
       geometries: "geojson",
-      overview: "full"
+      overview: "full",
+      steps: true,
+      language: "es-MX"
     }).send()
 
     // Confirm resulting line was correctly constructed
@@ -59,8 +56,8 @@ export const getGeometry = async (
 
     const geometry = response.body.matchings[0].geometry as unknown as LineString;
 
-    const isValid = areCoordinatesClose(geometry.coordinates[0], positionToCoordinates(startStop?.position)) && 
-    areCoordinatesClose(geometry.coordinates[geometry.coordinates.length - 1], positionToCoordinates(endStop?.position));
+    const isValid = areCoordinatesClose(geometry.coordinates[0], geoJsonPositionToCoordinates(startPoint)) && 
+    areCoordinatesClose(geometry.coordinates[geometry.coordinates.length - 1], geoJsonPositionToCoordinates(endPoint));
 
     if (!isValid) return null
 

@@ -169,38 +169,54 @@ function LineForm({
         />
         {routePoints.length > 0 ?
           (
-            <LineEditMap
-              stops={stops}
-              routePoints={routePoints}
-              onRoutePointsUpdate={handleRoutePointsUpdate}
-            />
+            <div>
+              <LineEditMap
+                stops={stops}
+                routePoints={routePoints}
+                onRoutePointsUpdate={handleRoutePointsUpdate}
+              />
+              <Typography variant={"note"}>
+                Haz click derecho en cualquier lugar del mapa para colocar un punto de
+                la ruta.
+              </Typography>
+              <Typography variant={"note"}>
+                Para mover cualquier punto, arrastralo hacia una nueva posicion.
+              </Typography>
+              <Typography variant={"note"}>
+                Si arrastras un punto encima de una parada, este cambiara de color,
+                indicando que esta es una parada del recorrido.
+              </Typography>
+              <Typography variant={"note"}>
+                Si arrastras los puntos grises entre dos puntos ya creados, podras
+                añadir bifurcaciones a tu ruta
+              </Typography>
+              <Typography variant={"note"}>
+                Para eliminar el ultimo punto de la ruta, has Shift+D
+              </Typography>
+            </div>
           ) :
           (
-            <NewLineEditMap
-              stops={stops}
-              initialFeatureCollection={route}
-              onFeatureCollectionUpdate={handleFeatureCollectionUpdate}
-            />
+            <div>
+              <NewLineEditMap
+                stops={stops}
+                initialFeatureCollection={route}
+                onFeatureCollectionUpdate={handleFeatureCollectionUpdate}
+              />
+              <Typography variant={"note"}>
+                Da click en una parada para comenzar el recorrido. Si se tiene mas de una parada señalada, dar click añade una nueva seccion a la linea.
+              </Typography>
+              <Typography variant={"note"}>
+                Puedes seleccionar cualquier seccion entre 2 paradas para jalar y agregar un anclaje a la linea.
+              </Typography>
+              <Typography variant={"note"}>
+                Para mover un anclaje, solo arrastralo a una nueva posicion. Has doble click en un anclaje para eliminarlo de la ruta.
+              </Typography>
+              <Typography variant={"note"}>
+                Presiona Shift+D para deshacer la ultima accion realizada.
+              </Typography>
+            </div>
           )
         }
-        <Typography variant={"note"}>
-          Haz click derecho en cualquier lugar del mapa para colocar un punto de
-          la ruta.
-        </Typography>
-        <Typography variant={"note"}>
-          Para mover cualquier punto, arrastralo hacia una nueva posicion.
-        </Typography>
-        <Typography variant={"note"}>
-          Si arrastras un punto encima de una parada, este cambiara de color,
-          indicando que esta es una parada del recorrido.
-        </Typography>
-        <Typography variant={"note"}>
-          Si arrastras los puntos grises entre dos puntos ya creados, podras
-          añadir bifurcaciones a tu ruta
-        </Typography>
-        <Typography variant={"note"}>
-          Para eliminar el ultimo punto de la ruta, has Shift+D
-        </Typography>
       </div>
       <div aria-live="polite" aria-atomic="true">
         {state.message
