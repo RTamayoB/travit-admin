@@ -30,7 +30,7 @@ function LinesMap({
         latitude: 20.682718735053065,
         zoom: 14,
       }}
-      mapboxAccessToken="pk.eyJ1IjoicmFmYWVsLXQiLCJhIjoiY203bjA4ZmQzMDR2OTJucHVyMXl3cjd1bCJ9.NYY1s32Lp4Hip91i5bJVEA"
+      mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}
       style={{height: "60vh", width: "100%"}}
       mapStyle={"mapbox://styles/mapbox/streets-v12"}
     >
