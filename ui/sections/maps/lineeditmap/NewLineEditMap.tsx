@@ -12,7 +12,6 @@ import { GeoJSONSource, MapMouseEvent } from "mapbox-gl";
 import Image from "next/image";
 import { useLineEditor } from "./useLineEditor";
 import { getGeometry } from "@/utils/mapbox/getGeometry";
-import { number } from "zod";
 
 type HoverMarker = {
   sectionId: string | number | undefined,
@@ -108,8 +107,10 @@ function NewLineEditMap({
   
     if (startStop && !endStop) {
       if (startStop.id === stop.id) return;
-  
-      const geometry = await getGeometry({ startStop, endStop: stop});
+
+      const firstPoint = positionToGeoPosition(startStop.position)
+      const secondPoint = positionToGeoPosition(stop.position)
+      const geometry = await getGeometry({ startPoint: firstPoint, endPoint: secondPoint});
       if (geometry) updateLastFeature({ endStop: stop, geometry});
       return;
     }
@@ -117,7 +118,9 @@ function NewLineEditMap({
     if (endStop?.id === stop.id) return;
   
     if(endStop) {
-      const geometry = await getGeometry({startStop: endStop, endStop: stop})
+      const firstPoint = lastFeature.geometry.coordinates.at(-1)!!
+      const secondPoint = positionToGeoPosition(stop.position)
+      const geometry = await getGeometry({startPoint: firstPoint, endPoint: secondPoint})
       if (geometry) addFeature({startStop: endStop, endStop: stop, geometry });
     }
   };
@@ -220,8 +223,8 @@ function NewLineEditMap({
     ];
 
     const geometry = await getGeometry({ 
-      startStop: marker.properties.startStop!, 
-      endStop: marker.properties.endStop!, 
+      startPoint: positionToGeoPosition(marker.properties.startStop!.position),
+      endPoint: positionToGeoPosition(marker.properties.endStop!.position),
       anchors: updatedAnchors
     })
 
@@ -237,7 +240,11 @@ function NewLineEditMap({
       index == anchorIndex ? newPosition : anchor
     )
 
-    const geometry = await getGeometry({ startStop: feature.properties.startStop!, endStop: feature.properties.endStop!, anchors: updatedAnchors })
+    const geometry = await getGeometry({ 
+      startPoint: positionToGeoPosition(feature.properties.startStop!.position),
+      endPoint: positionToGeoPosition(feature.properties.endStop!.position),
+      anchors: updatedAnchors 
+    })
     if (geometry) updateFeatureAtIndex({selectedIndex: featureIndex, anchors: updatedAnchors!, geometry: geometry})
   };
 
@@ -250,7 +257,11 @@ function NewLineEditMap({
       index !== anchorIndex
     )
 
-    const geometry = await getGeometry({ startStop: feature.properties.startStop!, endStop: feature.properties.endStop!, anchors: updatedAnchors })
+    const geometry = await getGeometry({
+      startPoint: positionToGeoPosition(feature.properties.startStop!.position),
+      endPoint: positionToGeoPosition(feature.properties.endStop!.position),
+      anchors: updatedAnchors
+    })
     if (geometry) updateFeatureAtIndex({selectedIndex: featureIndex, anchors: updatedAnchors!, geometry: geometry})
   };
 
