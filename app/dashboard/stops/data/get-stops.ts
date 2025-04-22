@@ -7,29 +7,36 @@ import { ITEMS_PER_PAGE } from "@/app/lib/utils";
 export async function getAllStops() {
   const supabase = await createClient();
   try {
-    const queryBuilder = supabase
+    const { count } = await supabase
       .from("stops")
-      .select("id, name, description, position")
-      .order("id", { ascending: true });
+      .select("*", { count: "exact", head: true });
 
-    const { data } = await queryBuilder;
+    if (count) {
+      const queryBuilder = supabase
+        .from("stops")
+        .select("id, name, description, position")
+        .order("id", { ascending: true })
+        .range(0, count - 1);
 
-    if (!data) {
-      return [];
+      const { data } = await queryBuilder;
+
+      if (!data) {
+        return [];
+      }
+
+      const stops: Stop[] = data.map((stop: any) => {
+        const position: Position = {
+          lat: stop.position.coordinates[0],
+          lng: stop.position.coordinates[1],
+        };
+
+        return {
+          ...stop,
+          position,
+        };
+      });
+      return stops;
     }
-
-    const stops: Stop[] = data.map((stop: any) => {
-      const position: Position = {
-        lat: stop.position.coordinates[0],
-        lng: stop.position.coordinates[1],
-      };
-
-      return {
-        ...stop,
-        position,
-      };
-    });
-    return stops;
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch agencies");
