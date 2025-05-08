@@ -2,7 +2,6 @@ import client from '@mapbox/mapbox-sdk';
 import { Coordinates } from "@mapbox/mapbox-sdk/lib/classes/mapi-request";
 import mapMatching, { MapMatchingPoint } from "@mapbox/mapbox-sdk/services/map-matching";
 import { LineString, Position as GeoJsonPosition } from "geojson";
-import { normalizeLongitude } from '@/app/lib/utils';
 
 export const getGeometry = async (
   {
@@ -23,7 +22,7 @@ export const getGeometry = async (
   const geoJsonPositionToCoordinates = (pos?: GeoJsonPosition): Coordinates => {
     if (!pos || pos.length !== 2) return [0, 0];
 
-    const lng = parseFloat(normalizeLongitude(pos[0]).toFixed(6));
+    const lng = parseFloat(pos[0].toFixed(6));
     const lat = parseFloat(pos[1].toFixed(6));
 
     return [lng, lat];

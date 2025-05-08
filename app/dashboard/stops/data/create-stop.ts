@@ -33,7 +33,7 @@ export async function createStop(prevState: StopState, formData: FormData) {
           {
             name: parsedData.data.name,
             description: parsedData.data.description,
-            position: `POINT(${parsedData.data.lat} ${parsedData.data.lng})`,
+            position: `SRID=4326;POINT(${parsedData.data.lng} ${parsedData.data.lat})`,
           },
         ]);
     } catch (error) {

@@ -20,8 +20,8 @@ export async function getAllStops() {
 
     const stops: Stop[] = data.map((stop: any) => {
       const position: Position = {
-        lat: stop.position.coordinates[0],
-        lng: stop.position.coordinates[1],
+        lng: stop.position.coordinates[0],
+        lat: stop.position.coordinates[1]
       };
 
       return {
@@ -32,6 +32,6 @@ export async function getAllStops() {
     return stops;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch agencies");
+    throw new Error("Failed to fetch stops");
   }
 }

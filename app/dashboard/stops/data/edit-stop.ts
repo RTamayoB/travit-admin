@@ -36,7 +36,7 @@ export async function editStopById(
           {
             name: parsedData.data.name,
             description: parsedData.data.description,
-            position: `POINT(${parsedData.data.lat} ${parsedData.data.lng})`,
+            position: `SRID=4326;POINT(${parsedData.data.lng} ${parsedData.data.lat})`,
           },
         ])
         .eq("id", id);
