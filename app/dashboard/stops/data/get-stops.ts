@@ -36,6 +36,8 @@ export async function getAllStops() {
         };
       });
       return stops;
+    } else {
+      return []
     }
   } catch (error) {
     console.error("Database Error:", error);
@@ -74,7 +76,6 @@ export async function getStopsByQuery(
           position,
         };
       });
-      console.log("Stop Example:" + stops[0].position.lat + " , " + stops[0].position.lng)
       return stops;
     } else {
       return [];
