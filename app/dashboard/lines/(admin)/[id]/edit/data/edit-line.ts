@@ -63,6 +63,45 @@ export async function editLine(
         route: route
       }])
       .eq("id", id);
+
+    const { error: deleteError } = await supabase
+      .from("line_stops")
+      .delete()
+      .eq("line_id", id);
+    
+    if (deleteError) throw deleteError;
+
+    const lineStops: {
+      stop_id: number;
+      line_id: string;
+      stop_order: number;
+    }[] = [];
+
+    route.features.forEach((feature, index) => {
+      if (index === 0 && feature.properties.startStop) {
+        lineStops.push({
+          stop_id: feature.properties.startStop.id,
+          line_id: id,
+          stop_order: 0,
+        });
+      }
+
+      if (feature.properties.endStop) {
+        lineStops.push({
+          stop_id: feature.properties.endStop.id,
+          line_id: id,
+          stop_order: index + 1,
+        });
+      }
+    });
+
+    if (lineStops.length > 0) {
+      const { error: insertError } = await supabase
+        .from("line_stops")
+        .insert(lineStops);
+
+      if (insertError) throw insertError;
+    }
   } catch (error) {
     return { message: "Database Error: Failed to update Line." };
   }

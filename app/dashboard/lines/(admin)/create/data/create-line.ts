@@ -50,7 +50,7 @@ export async function createLine(prevState: LineState, formData: FormData) {
 
   try {
     // Create line
-    await supabase
+    const {data: line, error: lineError } = await supabase
       .from("lines")
       .insert([{
         line_number: parsedData.data.line_number,
@@ -64,6 +64,44 @@ export async function createLine(prevState: LineState, formData: FormData) {
       }])
       .select()
       .single();
+
+    if (lineError) {
+      throw lineError
+    }
+
+    const lineStops: {
+      stop_id: number;
+      line_id: number;
+      stop_order: number;
+    }[] = [];
+
+    route.features.forEach((feature, index) => {
+      if (index === 0 && feature.properties.startStop) {
+        lineStops.push({
+          stop_id: feature.properties.startStop.id,
+          line_id: line.id,
+          stop_order: 0
+        });
+      }
+
+      if (feature.properties.endStop) {
+        lineStops.push({
+          stop_id: feature.properties.endStop.id,
+          line_id: line.id,
+          stop_order: index + 1
+        });
+      }
+    });
+
+    if (lineStops.length > 0) {
+      const { error: stopError } = await supabase
+        .from("line_stops")
+        .insert(lineStops)
+
+      if (stopError) {
+        throw stopError
+      }
+    }
   } catch (error) {
     return {
       message: "Database Error: Failed to create Line.",
