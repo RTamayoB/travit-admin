@@ -8,6 +8,20 @@
   &--field {
     width: 80vw;
   }
+
+  &--horizontalField {
+    flex: 1;
+    padding: 8px;
+  }
+}
+
+.horizontalFieldsContainer {
+  display: flex;
+  gap: 12px;
+
+  &--field {
+    flex: 1;
+  }
 }
 
 .actions {
