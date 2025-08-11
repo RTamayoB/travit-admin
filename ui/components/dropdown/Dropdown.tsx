@@ -54,6 +54,8 @@ function Dropdown<T>({
   useEffect(() => {
     if (defaultOption) {
       setInputValue(defaultOption.value);
+    } else {
+      setInputValue("")
     }
   }, [defaultOption]);
 

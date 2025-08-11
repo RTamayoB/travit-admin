@@ -34,3 +34,47 @@ export const StopSchema = z.object({
   lat: z.string(),
   lng: z.string(),
 });
+
+// New version schemas
+
+const PositionArray2 = z.array(z.number()).length(2);
+const PositionObjectSchema = z.object({ lat: z.number(), lng: z.number() });
+
+// Stop
+const NewStopSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  description: z.string(),
+  position: PositionObjectSchema,
+});
+
+// Segment
+export const SegmentSchema = z.object({
+  id: z.number(),
+  startStop: NewStopSchema.optional(),
+  endStop: NewStopSchema.optional(),
+  anchors: z.array(PositionArray2).optional(),
+  geometry: z.object({
+    type: z.literal("LineString"),
+    coordinates: z.array(PositionArray2),
+  }).optional(),
+});
+
+export const TripSchema = z.object({
+  formId: z.number(),
+  id: z.number().optional(),
+  headsign: z.string().optional(),
+  short_name: z.string().optional(),
+  direction: z.enum(['inbound', 'outbound']),
+  trip_builder: z.array(SegmentSchema)
+})
+
+export const RouteSchema = z.object({
+  short_name: z.string().nonempty(),
+  long_name: z.string().optional(),
+  agency_id: z.coerce.number().min(1),
+  description: z.string().optional(),
+  transport_type: z.enum(['tram', 'streetcar', 'light_rail','subway','metro','rail','bus','ferry','cable_tram','aerial_lift','funicular','trolleybus','monorail']),
+  route_type: z.enum(['trunk', 'complementary', "feeder_line"]),
+  trips: z.array(TripSchema)
+})

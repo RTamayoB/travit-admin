@@ -1,3 +1,5 @@
+'use client';
+
 import { LinkButton } from "@/ui/components";
 import styles from "./pagination.module.scss";
 import { usePathname, useSearchParams } from "next/navigation";

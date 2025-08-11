@@ -107,3 +107,13 @@ export type StopState = {
   };
   message?: string | null;
 };
+
+export type TripBuilder = Segment[]
+
+export type Segment = {
+  id: number;
+  startStop?: Stop; 
+  endStop?: Stop;
+  anchors?: GeoJsonPosition[];
+  geometry?: LineString;
+}

@@ -1,3 +1,5 @@
+'use client';
+
 import { TextField } from "@/ui/components";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
