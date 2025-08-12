@@ -20,40 +20,21 @@ type HoverMarker = {
   geometry: LineString
 }
 
-interface NewRouteEditMapProps {
+interface RouteEditMapProps {
   stops: Stop[];
   tripBuilders: Record<number, TripBuilder>;
   focusedTripId: number | null;
   onBuilderUpdate: (updatedSegment: Segment[], focusedIndex: number) => void;
+  onUndo: () => void;
 }
 
-/**
- * TC: Now, we need to do various things:
- * [x] Use the tripBuilder to create the featureCollections
- * [x] Use the focusIndex to only allow edits to a specific tripBuilder
- * [x] Send the information back to the form to update said tripBuilder from the list
- * [] Make all actions work (add and remove stops, create and delete anchors, move anchors, undo, etc.)
- */
-function NewRouteEditMap({
+function RouteEditMap({
   stops,
   tripBuilders,
   focusedTripId,
   onBuilderUpdate,
-}: NewRouteEditMapProps) {
-
-  const stopCollection: FeatureCollection<Point> = useMemo(() => ({
-    type: "FeatureCollection",
-    features: stops.map((stop) => ({
-      type: "Feature",
-        geometry: { type: "Point", coordinates: positionToGeoPosition(stop.position) },
-        properties: {
-          id: stop.id,
-          name: stop.name,
-          description: stop.description,
-          position: stop.position
-        },
-    })),
-  }), [stops]);
+  onUndo,
+}: RouteEditMapProps) {
 
   const [hoverMarker, setHoverMarker] = useState<HoverMarker | null>(null);
   const [isHoverMarkerDragged, setIsHoverMarkerDragged] = useState(false);
@@ -104,9 +85,6 @@ function NewRouteEditMap({
   };
 
   /** ---------------------------------------------------------------------- */
-
-  const onSegmentUpdateNew = (newBuilder: Segment[], prevBuilder: Segment[]) => {
-  }
 
   const addFirstSegmentNew = ({ startStop } : AddFirstSegmentParams) => {
     if (selectedBuilder == null || focusedTripId == null) return;
@@ -160,11 +138,7 @@ function NewRouteEditMap({
   const updateSegmentAtNew = ({ selectedIndex, anchors, geometry } : UpdateSegmentAtIndexParams) => {
     if (selectedBuilder == null || focusedTripId == null) return;
 
-    console.log("Updating:...")
-    console.log("Index", selectedIndex)
-    console.log(anchors);
-
-    const updatedBuilder = selectedBuilder.map((segment, index) => 
+    const updatedBuilder = selectedBuilder.map((segment, index) =>
       index == selectedIndex
       ? {
         ...segment,
@@ -193,40 +167,6 @@ function NewRouteEditMap({
     });
     return byId;
   }, [tripBuilders]);
-
-  const derivedFeatureCollections: { tripId: number, collection: FeatureCollection<LineString, LineSection> }[] = useMemo(() =>
-    Object.entries(tripBuilders).map(([tripIdStr, tripBuilder]) => ({
-      tripId: parseInt(tripIdStr, 10),
-      collection: {
-        type: "FeatureCollection",
-        features: tripBuilder.map((segment) => ({
-          id: segment.id,
-          type: "Feature",
-          geometry: segment.geometry!,
-          properties: {
-            startStop: segment.startStop,
-            endStop: segment.endStop,
-            anchors: segment.anchors,
-          },
-        })),
-      },
-    })),
-  [tripBuilders]);
-
-  //GPT, this doesnt work
-  /*const derivedFeatureCollectionsOld: FeatureCollection<LineString, LineSection>[] = useMemo(() => tripBuilders.map((tripBuilder) => ({
-    type: "FeatureCollection",
-    features: tripBuilder.map((segment) => ({
-      id: segment.id,
-      type: "Feature",
-      geometry: segment.geometry!,
-      properties: {
-        startStop: segment.startStop,
-        endStop: segment.endStop,
-        anchors: segment.anchors
-      }
-    }))
-  })), [tripBuilders]);*/
 
   const mapRef = useRef<MapRef | null>(null);
 
@@ -451,8 +391,8 @@ function NewRouteEditMap({
     useEffect(() => {
   
       const handleKeyPress = (event: KeyboardEvent) => {
-        if (event.key === "D" && event.shiftKey) {
-          //onUndoSegment();
+        if (event.key.toLowerCase() === "d" && event.shiftKey) {
+          onUndo();
         }
       };
   
@@ -461,8 +401,8 @@ function NewRouteEditMap({
       return () => {
         document.removeEventListener("keydown", handleKeyPress);
       };
-    }, [mapRef, onUndo, /*(onUndoSegment)*/]);
-  
+    }, [mapRef, onUndo]);
+
     return null;
   }
 
@@ -480,7 +420,7 @@ function NewRouteEditMap({
       onClick={handleOnMapClick}
     >
       <MapEvents
-        onUndo={() => {}/*onUndoSegment*/}
+        onUndo={onUndo}
       />
 
       {Object.entries(derivedFCByTripId).map(([idStr, collection]) => {
@@ -598,4 +538,4 @@ function NewRouteEditMap({
   )
 }
 
-export default NewRouteEditMap;
+export default RouteEditMap;

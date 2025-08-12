@@ -8,13 +8,14 @@ import {
 import { Button, LinkButton, Typography } from "@/ui/components";
 import styles from "../../../../ui/sections/forms/form.module.scss";
 import { DropdownOption } from "@/ui/components/dropdown";
+import FilterSelect from "@/ui/components/filter-select/FilterSelect";
 import { createRoute } from "./create-route";
 import { useForm, SubmitHandler, useFieldArray, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { RouteSchema } from "@/app/lib/schemas";
-import { useEffect, useRef, useState } from "react";
-import NewRouteEditMap from "@/ui/sections/maps/routeeditmap/RouteEditMap";
+import { useRef, useState } from "react";
+import RouteEditMap from "@/ui/sections/maps/routeeditmap/RouteEditMap";
 
 interface RouteFormProps {
   stops: Stop[];
@@ -36,19 +37,16 @@ function RouteForm({
     formState: { errors },
     control,
     setValue,
-    watch
   } = useForm<RouteFormData>({
     resolver: zodResolver(RouteSchema)
   });
 
   const tripsWatch = useWatch({ control, name: "trips" })
 
-  const { fields, update, append, remove } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "trips"
   })
-
-  console.log("Trips changed", watch("trips"))
 
   const tripBuildersFromForm = (tripsWatch ?? []).reduce((acc, t) => {
     acc[t.formId] = t.trip_builder ?? [];
@@ -63,13 +61,6 @@ function RouteForm({
   const [focusedTripId, setFocusedTripId] = useState<number | null>(null);
   const [tripBuilders, setTripBuilders] = useState<Record<number, TripBuilder>>({});
   const [undoHistory, setUndoHistory] = useState<Record<number, TripBuilder[]>>({});
-
-  // TC: We will use the useEffect to kbnow when the state changes, 
-  // mostly for testing, won't affect things as long as we send the prop to the map.
-  useEffect(() => {
-  console.log("TripBuilders:", tripBuilders);
-  console.log("UndoHistory:", undoHistory);
-  }, [tripBuilders, undoHistory]);
 
   const onEditTrip = (id: number) => {
     setFocusedTripId(id)
@@ -151,9 +142,11 @@ function RouteForm({
           </Typography>
         )}
 
-        <select {...register("agency_id")}>
-          <option value={10}>Uno</option>
-        </select>
+        <FilterSelect 
+          inputPlaceholder="Concesionaria"
+          {...register("agency_id")} 
+          options={agencyOptions} 
+        />
         {errors.agency_id?.message && (
           <Typography variant="bodySmall" color="red">
             {errors.agency_id.message}
@@ -211,11 +204,19 @@ function RouteForm({
         ))}
         <button type="button" onClick={onAddTrip}>Add Trip</button>
         <div>
-          <NewRouteEditMap
+          <RouteEditMap
             stops={stops}
             focusedTripId={focusedTripId}
             tripBuilders={tripBuildersFromForm}
             onBuilderUpdate={handleBuilderChange}
+            onUndo={() => {
+              if (focusedTripId == null) return;
+              const history = [...(undoHistory[focusedTripId] ?? [])];
+              const prev = history.pop();
+              if (!prev) return;
+              handleBuilderChange(prev, focusedTripId);
+              setUndoHistory(h => ({ ...h, [focusedTripId]: history }));
+            }}
           />
           <Typography variant={"note"}>
             Da click en una parada para comenzar el recorrido. Si se tiene mas de una parada señalada, dar click añade una nueva seccion a la linea.

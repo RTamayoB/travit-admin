@@ -27,7 +27,7 @@ function LoginForm({
         type="email"
         label="Correo electronico"
         leadIconUrl="/icons/mail.svg"
-        size="large"
+        textSize="large"
         required
         className={styles.field}
       />
@@ -37,7 +37,7 @@ function LoginForm({
         type="password"
         label="Contraseña"
         leadIconUrl="/icons/lock.svg"
-        size="large"
+        textSize="large"
         required
         className={styles.field}
       />
