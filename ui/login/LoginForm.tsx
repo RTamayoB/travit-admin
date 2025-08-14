@@ -27,7 +27,7 @@ function LoginForm({
         type="email"
         label="Correo electronico"
         leadIconUrl="/icons/mail.svg"
-        textSize="large"
+        size="large"
         required
         className={styles.field}
       />
