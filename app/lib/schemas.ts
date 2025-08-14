@@ -70,6 +70,7 @@ export const TripSchema = z.object({
 })
 
 export const RouteSchema = z.object({
+  id: z.number().optional(),
   short_name: z.string().nonempty(),
   long_name: z.string().optional(),
   agency_id: z.coerce.number().min(1),

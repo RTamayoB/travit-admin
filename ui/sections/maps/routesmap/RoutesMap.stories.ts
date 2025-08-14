@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import LinesMap from "./LinesMap";
-import { mockupLines } from "@/ui/mockups";
+import Routes from "./RoutesMap";
+import { mockupRoutes } from "@/ui/mockups";
+import RoutesMap from "./RoutesMap";
 
-const meta: Meta<typeof LinesMap> = {
-  title: "Design System/Sections/Maps/LinesMap",
-  component: LinesMap,
+const meta: Meta<typeof Routes> = {
+  title: "Design System/Sections/Maps/RoutesMap",
+  component: Routes,
   tags: ["autodocs"],
   parameters: {
     design: {
@@ -17,10 +18,10 @@ const meta: Meta<typeof LinesMap> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof LinesMap>;
+type Story = StoryObj<typeof RoutesMap>;
 
 export const Default: Story = {
   args: {
-    lines: mockupLines,
+    routes: mockupRoutes,
   },
 };

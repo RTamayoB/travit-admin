@@ -8,9 +8,7 @@ import { createClient } from "@/utils/supabase/server";
 import { FeatureCollection, LineString } from "geojson";
 
 const EditLine = LineSchema.omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
+  id: true
 });
 
 export async function editLine(

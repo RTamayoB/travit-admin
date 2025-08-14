@@ -1,4 +1,4 @@
-import { Agency, Line, Stop } from "@/app/lib/definitions";
+import { Agency, Line, Route, Stop } from "@/app/lib/definitions";
 
 export const mockupStops: Stop[] = [
   {
@@ -18,6 +18,81 @@ export const mockupStops: Stop[] = [
     name: "Stop 3",
     description: "Mockup Stop #3",
     position: { lat: 20.6397, lng: 256.6700 },
+  },
+];
+
+export const mockupRoutes: Route[] = [
+  {
+    id: 1,
+    short_name: "Route 1",
+    long_name: "Route 1",
+    agency_id: 1,
+    description: "Mockup Route #1",
+    type: "bus",
+    trips: [
+      {
+        id: 1,
+        headsign: "Head 1",
+        short_name: "Short 1",
+        direction: "inbound",
+        polyline: {
+          type: "LineString",
+          coordinates: [
+            [20.6797, 256.6700],
+            [20.6397, 256.6300],
+          ],
+        },
+        trip_builder: [],
+      },
+    ],
+  },
+  {
+    id: 2,
+    short_name: "Route 2",
+    long_name: "Route 2",
+    agency_id: 1,
+    description: "Mockup Route #2",
+    type: "bus",
+    trips: [
+      {
+        id: 2,
+        headsign: "Head 2",
+        short_name: "Short 2",
+        direction: "outbound",
+        polyline: {
+          type: "LineString",
+          coordinates: [
+            [20.6397, 256.6300],
+            [20.6797, 256.6700],
+          ],
+        },
+        trip_builder: [],
+      },
+    ],
+  },
+  {
+    id: 3,
+    short_name: "Route 3",
+    long_name: "Route 3",
+    agency_id: 1,
+    description: "Mockup Route #3",
+    type: "bus",
+    trips: [
+      {
+        id: 3,
+        headsign: "Head 3",
+        short_name: "Short 3",
+        direction: "inbound",
+        polyline: {
+          type: "LineString",
+          coordinates: [
+            [20.6397, 256.6300],
+            [20.6797, 256.6700],
+          ],
+        },
+        trip_builder: [],
+      },
+    ],
   },
 ];
 

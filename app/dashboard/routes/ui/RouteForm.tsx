@@ -2,6 +2,7 @@
 
 import {
   Agency,
+  Route,
   Stop,
   TripBuilder,
 } from "@/app/lib/definitions";
@@ -9,15 +10,17 @@ import { Button, LinkButton, Typography } from "@/ui/components";
 import styles from "../../../../ui/sections/forms/form.module.scss";
 import { DropdownOption } from "@/ui/components/dropdown";
 import FilterSelect from "@/ui/components/filter-select/FilterSelect";
-import { createRoute } from "./create-route";
+import { createRoute } from "../data/create-route";
 import { useForm, SubmitHandler, useFieldArray, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { RouteSchema } from "@/app/lib/schemas";
+import { RouteSchema, TripSchema } from "@/app/lib/schemas";
 import { useRef, useState } from "react";
 import RouteEditMap from "@/ui/sections/maps/routeeditmap/RouteEditMap";
+import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog/ConfirmationDialog";
 
 interface RouteFormProps {
+  route?: Route;
   stops: Stop[];
   agencies: Agency[];
   submitButtonText: string;
@@ -26,10 +29,26 @@ interface RouteFormProps {
 type RouteFormData = z.infer<typeof RouteSchema>
 
 function RouteForm({
+  route,
   stops,
   agencies,
   submitButtonText,
 }: RouteFormProps) {
+
+  const formIdCounter = useRef(0)
+
+  type TripForm = z.infer<typeof TripSchema>;
+  const normalizeDirection = (d: unknown): TripForm["direction"] =>
+    d === "outbound" ? "outbound" : "inbound";
+
+  const tripsDefault: TripForm[] = (route?.trips ?? []).map((t) => ({
+    formId: formIdCounter.current++,
+    id: t.id,
+    headsign: t.headsign ?? "",
+    short_name: t.short_name ?? "",
+    direction: normalizeDirection(t.direction),
+    trip_builder: t.trip_builder ?? [],
+  }));
 
   const {
     register,
@@ -38,6 +57,16 @@ function RouteForm({
     control,
     setValue,
   } = useForm<RouteFormData>({
+    defaultValues: {
+      id: route?.id,
+      short_name: route?.short_name ?? "",
+      long_name: route?.long_name ?? "",
+      agency_id: route?.agency_id ?? 0,
+      description: route?.description ?? "",
+      transport_type: (route?.type as RouteFormData["transport_type"]) ?? "bus",
+      route_type: "trunk",
+      trips: tripsDefault,
+    },
     resolver: zodResolver(RouteSchema)
   });
 
@@ -56,31 +85,50 @@ function RouteForm({
   const onSubmit: SubmitHandler<RouteFormData> = async data => {
     await createRoute(data);
   }
-
-  const formIdCounter = useRef(0)
+  
   const [focusedTripId, setFocusedTripId] = useState<number | null>(null);
   const [tripBuilders, setTripBuilders] = useState<Record<number, TripBuilder>>({});
   const [undoHistory, setUndoHistory] = useState<Record<number, TripBuilder[]>>({});
+  const [tripToDelete, setTripToDelete] = useState<{ formId: number; name: string } | null>(null);
 
   const onEditTrip = (id: number) => {
     setFocusedTripId(id)
   }
 
   const onDeleteTrip = (formId: number) => {
+    const field = fields.find(f => f.formId === formId);
+    if (!field) return;
+
+    // Get trip name for confirmation dialog
+    const tripName = field.headsign || field.short_name || `Viaje ${formId}`;
+    setTripToDelete({ formId, name: tripName });
+  }
+
+  const handleConfirmDeleteTrip = () => {
+    if (!tripToDelete) return;
+
+    const { formId } = tripToDelete;
     const index = fields.findIndex(f => f.formId === formId);
-    if (index === -1) return
-    remove(index)
-    setFocusedTripId(null)
+    if (index === -1) return;
+
+    remove(index);
+    setFocusedTripId(null);
 
     setTripBuilders(prev => {
       const { [formId]: _, ...rest } = prev;
       return rest;
-    })
+    });
 
     setUndoHistory(prev => {
       const { [formId]: _, ...rest } = prev;
       return rest;
-    })
+    });
+
+    setTripToDelete(null);
+  }
+
+  const handleCancelDeleteTrip = () => {
+    setTripToDelete(null);
   }
 
   const onAddTrip = () => {
@@ -142,10 +190,10 @@ function RouteForm({
           </Typography>
         )}
 
-        <FilterSelect 
+        <FilterSelect
           inputPlaceholder="Concesionaria"
-          {...register("agency_id")} 
-          options={agencyOptions} 
+          {...register("agency_id")}
+          options={agencyOptions}
         />
         {errors.agency_id?.message && (
           <Typography variant="bodySmall" color="red">
@@ -250,6 +298,17 @@ function RouteForm({
           type="submit"
         />
       </div>
+      {tripToDelete && (
+        <ConfirmationDialog
+          isOpen={tripToDelete != null}
+          onClose={handleCancelDeleteTrip}
+          onConfirm={handleConfirmDeleteTrip}
+          onCloseText="Cancelar"
+          onConfirmText="Eliminar"
+          title="¿Eliminar Viaje?"
+          message={`¿Desea eliminar el viaje "${tripToDelete.name}"? Esta acción no se podrá deshacer y su información se perderá.`}
+        />
+      )}
     </form>
   );
 }

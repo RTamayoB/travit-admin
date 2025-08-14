@@ -1,62 +1,60 @@
 "use client";
 
-import { Line } from "@/app/lib/definitions";
 import { Button, LinkButton } from "@/ui/components";
-import styles from "./lineslayout.module.scss";
+import styles from "./routeslayout.module.scss";
 import { useEffect, useState } from "react";
 import { Header, Pagination, SearchBar, Table } from "@/ui/sections";
 import ConfirmationDialog from "@/ui/sections/dialogs/confirmationdialog";
 import { useUserContext } from "@/app/lib/UserContextProvider";
 import dynamic from "next/dynamic";
-
 const RoutesMap = dynamic(() => import('@/ui/sections/maps/routesmap'), { ssr: false });
+import { Route } from "@/app/lib/definitions";
 
-
-interface LinesLayoutProps {
-  lines: Line[];
+interface RoutesLayoutProps {
+  routes: Route[];
   totalPages: number;
-  onDeleteLine: (lineId: string) => Promise<{ message: string }>;
+  onDeleteRoute: (lineId: string) => Promise<{ message: string }>;
 }
 
-function LinesLayout({
-  lines,
+function RoutesLayout({
+  routes,
   totalPages,
-  onDeleteLine,
-}: LinesLayoutProps) {
+  onDeleteRoute,
+}: RoutesLayoutProps) {
   const userContext = useUserContext();
   const [role, setRole] = useState<string | null>(null);
-  const [focusedLine, setFocusedLine] = useState<Line | null>(null);
+  const [focusedRoute, setFocusedRoute] = useState<Route | null>(null);
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [lineToDelete, setLineToDelete] = useState<Line | null>(null);
+  const [routeToDelete, setRouteToDelete] = useState<Route | null>(null);
 
   useEffect(() => {
     setRole(userContext.role);
   }, [userContext]);
 
-  const handleFocusToggle = (line: Line) => {
-    if (focusedLine && focusedLine.id === line.id) {
-      setFocusedLine(null); // Unfocus
+  const handleFocusToggle = (line: Route) => {
+    if (focusedRoute && focusedRoute.id === line.id) {
+      setFocusedRoute(null); // Unfocus
     } else {
-      setFocusedLine(line); // Focus
+      setFocusedRoute(line); // Focus
     }
   };
 
-  const handleDeleteClick = (line: Line) => {
-    setLineToDelete(line);
+  const handleDeleteClick = (line: Route) => {
+    setRouteToDelete(line);
     setDialogOpen(true);
   };
 
   const handleConfirmDelete = async () => {
-    if (lineToDelete) {
-      await onDeleteLine(lineToDelete.id.toString());
+    if (routeToDelete && routeToDelete.id) {
+      await onDeleteRoute(routeToDelete.id.toString());
       setDialogOpen(false);
-      setLineToDelete(null);
+      setRouteToDelete(null);
     }
   };
 
   const handleCancelDelete = () => {
-    setDialogOpen(false); // Just close the dialog
-    setLineToDelete(null); // Reset the lineToDelete
+    setDialogOpen(false);
+    setRouteToDelete(null);
   };
 
   return (
@@ -64,8 +62,8 @@ function LinesLayout({
       <Header
         breadcrumbList={[{
           id: 1,
-          label: "Lineas",
-          href: "/dashboard/lines",
+          label: "Rutas",
+          href: "/dashboard/routes",
           active: true,
         }]}
         actions={
@@ -74,26 +72,26 @@ function LinesLayout({
               ? (
                 <>
                   <LinkButton
-                    href={"/dashboard/lines/requests"}
+                    href={"/dashboard/routes/requests"}
                     label="Ver solicitudes"
                     primary={false}
                   />
                   <LinkButton
-                    href={"/dashboard/lines/create"}
-                    label="Crear Linea +"
+                    href={"/dashboard/routes/create"}
+                    label="Crear Ruta +"
                   />
                 </>
               )
               : (
                 <>
                   <LinkButton
-                    href={"/dashboard/lines/my-requests"}
+                    href={"/dashboard/routes/my-requests"}
                     label="Mis solicitudes"
                     primary={false}
                   />
                   <LinkButton
-                    href={"/dashboard/lines/create-request"}
-                    label="Solicitar Linea +"
+                    href={"/dashboard/routes/create-request"}
+                    label="Solicitar Ruta +"
                   />
                 </>
               )}
@@ -101,53 +99,54 @@ function LinesLayout({
         }
       />
       <SearchBar
-        searchPlaceholder="Buscar Lineas..."
+        searchPlaceholder="Buscar Rutas..."
         className={styles.searchbar}
       />
       <div className={styles.content}>
         <Table
-          data={lines}
-          keysToIgnore={["agency_id", "route_points", "route"]}
-          actions={(line) => (
+          data={routes}
+          keysToIgnore={["agency_id", "trips"]}
+          actions={(route) => (
             <div className={styles.actions}>
               <Button
                 primary={false}
-                onClick={() => handleFocusToggle(line)}
-                leadIconUrl={focusedLine && focusedLine.id === line.id
+                onClick={() => handleFocusToggle(route)}
+                leadIconUrl={focusedRoute && focusedRoute.id === route.id
                   ? "/icons/eye.svg"
                   : "/icons/eye-closed.svg"}
               />
               <LinkButton
                 href={role == "admin"
-                  ? `/dashboard/lines/${line.id}/edit`
-                  : `/dashboard/lines/${line.id}/edit-request`}
+                  ? `/dashboard/routes/${route.id}/edit`
+                  : `/dashboard/routes/${route.id}/edit-request`}
                 primary={false}
                 leadIconUrl="/icons/edit.svg"
               />
               {role == "admin" && (
                 <Button
                   primary={false}
-                  onClick={() => handleDeleteClick(line)}
+                  onClick={() => handleDeleteClick(route)}
                   leadIconUrl="/icons/delete.svg"
                 />
               )}
             </div>
           )}
         />
+        <RoutesMap routes={focusedRoute ? [focusedRoute] : routes} />
         <Pagination totalPages={totalPages} />
       </div>
 
-      {lineToDelete && (
+      {routeToDelete && (
         <ConfirmationDialog
           isOpen={isDialogOpen}
           onClose={handleCancelDelete}
           onConfirm={handleConfirmDelete}
-          title="¿Eliminar Linea?"
-          message={`¿Desea eliminar la ruta ${lineToDelete.line_number}? Esta acción no se podrá deshacer y su información se perderá.`}
+          title="¿Eliminar Ruta?"
+          message={`¿Desea eliminar la ruta ${routeToDelete.short_name}? Esta acción no se podrá deshacer y su información se perderá.`}
         />
       )}
     </div>
   );
 }
 
-export default LinesLayout;
+export default RoutesLayout;

@@ -22,7 +22,7 @@ function CreateLineLayout({
   if (role != "admin") {
     redirect("/dashboard/lines");
   }
-  const initialState: LineState = { message: null, errors: {} };
+  const initialState: LineState = { message: "", errors: {} };
   const [state, formAction] = useActionState(createLine, initialState);
 
   return (
