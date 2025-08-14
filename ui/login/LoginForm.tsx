@@ -37,7 +37,7 @@ function LoginForm({
         type="password"
         label="Contraseña"
         leadIconUrl="/icons/lock.svg"
-        textSize="large"
+        size="large"
         required
         className={styles.field}
       />
