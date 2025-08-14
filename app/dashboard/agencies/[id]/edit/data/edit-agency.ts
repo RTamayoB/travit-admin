@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { AgencySchema } from "@/app/lib/schemas";
 import { AgencyState } from "@/app/lib/definitions";
 
-const EditAgency = AgencySchema.omit({ id: true, created_at: true });
+const EditAgency = AgencySchema.omit({ id: true });
 
 export async function editAgencyById(
   id: string,

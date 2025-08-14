@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { StopSchema } from "@/app/lib/schemas";
 import { StopState } from "@/app/lib/definitions";
 
-const CreateLine = StopSchema.omit({ id: true, created_at: true });
+const CreateLine = StopSchema.omit({ id: true });
 
 export async function createStop(prevState: StopState, formData: FormData) {
   return (async () => {

@@ -55,9 +55,7 @@ export async function getLineRequestById(
 }
 
 const EditLine = LineSchema.omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
+  id: true
 });
 
 export async function editLineRequest(

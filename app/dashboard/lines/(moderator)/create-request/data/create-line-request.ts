@@ -8,9 +8,7 @@ import { LineSchema } from "@/app/lib/schemas";
 import { FeatureCollection, LineString } from "geojson";
 
 const CreateLine = LineSchema.omit({
-  id: true,
-  created_at: true,
-  updated_at: true,
+  id: true
 });
 
 export async function createLineRequest(
