@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { AgencyState } from "@/app/lib/definitions";
 import { AgencySchema } from "@/app/lib/schemas";
 
-const CreateAgency = AgencySchema.omit({ id: true, created_at: true });
+const CreateAgency = AgencySchema.omit({ id: true });
 
 export async function createAgency(prevState: AgencyState, formData: FormData) {
   const supabase = await createClient();

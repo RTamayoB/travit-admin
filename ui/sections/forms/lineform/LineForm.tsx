@@ -52,6 +52,7 @@ function LineForm({
   const [route, setRoute] = useState(line.route);
   const [lineType, setLineType] = useState(line.line_type);
   const [agencyId, setAgencyId] = useState(line.agency_id);
+  const [direction, setDirection] = useState("inbound")
 
   const handleRoutePointsUpdate = (updatedRoutePoints: RoutePoint[]) => {
     setRoutePoints(updatedRoutePoints);
@@ -72,6 +73,11 @@ function LineForm({
     value: agency.name,
     key: agency.id,
   }));
+
+  const directionOptions: DropdownOption<string>[] = [
+    { value: "Ida", key: "inbound" },
+    { value: "Vuelta", key: "outbound" },
+  ];
 
   return (
     <form action={onSubmit}>
@@ -167,6 +173,49 @@ function LineForm({
           name="route"
           value={JSON.stringify(route)}
         />
+        <div className={styles.horizontalFieldsContainer}>
+          <TextField
+            id="trip_headsign"
+            name="trip_headsign"
+            label="Letrero"
+            value={"Letrero aqui"}
+            className={styles["horizontalFieldsContainer--field"]}
+          />
+          <TextField
+            id="trip_shortname"
+            name="trip_shortname"
+            label="Nombre (Opcional)"
+            value={"C-130 Via Insurgentes"}
+            className={styles["horizontalFieldsContainer--field"]}
+          />
+          <Dropdown
+          options={directionOptions}
+            defaultOption={directionOptions.find((option) => option.key == direction)}
+            onOptionSelected={(value) => setDirection(value)}
+            label="Direccion"
+            className={styles["horizontalFieldsContainer--field"]}
+            aria-describedby="direction_error"
+          />
+          <div className={styles.actions}>
+              <Button
+                primary={false}
+                onClick={() => {}}
+                leadIconUrl={true
+                  ? "/icons/eye.svg"
+                  : "/icons/eye-closed.svg"}
+              />
+              <Button
+                onClick={() => {}}
+                primary={false}
+                leadIconUrl="/icons/edit.svg"
+              />
+              <Button
+                  primary={false}
+                  onClick={() => {}}
+                  leadIconUrl="/icons/delete.svg"
+                />
+            </div>
+        </div>
         {routePoints.length > 0 ?
           (
             <div>

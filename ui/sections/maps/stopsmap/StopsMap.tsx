@@ -1,6 +1,6 @@
 import MarkerClusterGroup from "react-leaflet-cluster";
 import Map from "../base/map";
-import { Position, Stop, StopState } from "@/app/lib/definitions";
+import { Position, Stop } from "@/app/lib/definitions";
 import { useMapEvents } from "react-leaflet";
 import { useActionState, useEffect, useState } from "react";
 import { Icon, LatLng } from "leaflet";
@@ -39,7 +39,7 @@ function StopsMap({
   const [stopToEdit, setStopToEdit] = useState<Stop | null>(null);
   const [stopToDelete, setStopToDelete] = useState<Stop | null>(null);
 
-  const initialState: StopState = { message: null, errors: {} };
+  const initialState = { message: "", errors: {} };
   const [createState, createFormAction] = useActionState(
     createStop,
     initialState,
@@ -135,14 +135,13 @@ function StopsMap({
   useEffect(() => {
     if (
       !createState.errors ||
-      (!createState.errors.name?.length &&
-        !createState.errors.description?.length)
+      (Object.keys(createState.errors).length === 0)
     ) {
       setNewStopPosition(null);
     }
     if (
       !editState.errors ||
-      (!editState.errors.name?.length && !editState.errors.description?.length)
+      (Object.keys(editState.errors).length === 0)
     ) {
       setStopToEdit(null);
     }

@@ -49,6 +49,25 @@ export interface Line {
   route: FeatureCollection<LineString, LineSection>
 }
 
+export type Route = {
+  id: number;
+  short_name: string;
+  long_name: string;
+  agency_id: number;
+  description: string;
+  type: string;
+  trips: Trip[];
+}
+
+export type Trip = {
+  id: number;
+  headsign: string;
+  short_name: string;
+  direction: string;
+  polyline: LineString;
+  trip_builder: Segment[];
+}
+
 export interface LineHistory {
   id: number;
   created_at: string;
@@ -107,3 +126,13 @@ export type StopState = {
   };
   message?: string | null;
 };
+
+export type TripBuilder = Segment[]
+
+export type Segment = {
+  id: number;
+  startStop?: Stop; 
+  endStop?: Stop;
+  anchors?: GeoJsonPosition[];
+  geometry?: LineString;
+}

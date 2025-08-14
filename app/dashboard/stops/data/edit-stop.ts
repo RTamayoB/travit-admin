@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import { StopSchema } from "@/app/lib/schemas";
 import { StopState } from "@/app/lib/definitions";
 
-const CreateStop = StopSchema.omit({ id: true, created_at: true });
+const CreateStop = StopSchema.omit({ id: true });
 
 export async function editStopById(
   id: string,

@@ -39,8 +39,6 @@ export const getGeometry = async (
     { coordinates: geoJsonPositionToCoordinates(endPoint) }
   ];
 
-  console.log("Points to send to mapbox", points)
-
   try {
     const response = await mapMatchingService.getMatch({
       points: points,

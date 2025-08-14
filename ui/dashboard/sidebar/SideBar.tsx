@@ -37,6 +37,16 @@ function SideBar() {
       "route": "/dashboard/lines",
     },
     {
+      "label": "Rutas (Nuevo!)",
+      "icon": "/images/lines.svg",
+      "route": "/dashboard/routes",
+    },
+    {
+      "label": "Convertidor",
+      "icon": "/images/lines.svg",
+      "route": "/dashboard/converter",
+    },
+    {
       "label": "Paradas",
       "icon": "/images/stops.svg",
       "route": "/dashboard/stops",
