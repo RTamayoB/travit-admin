@@ -11,6 +11,7 @@ import styles from "../../../../ui/sections/forms/form.module.scss";
 import { DropdownOption } from "@/ui/components/dropdown";
 import FilterSelect from "@/ui/components/filter-select/FilterSelect";
 import { createRoute } from "../data/create-route";
+import { editRoute } from "../data/edit-route";
 import { useForm, SubmitHandler, useFieldArray, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -82,10 +83,14 @@ function RouteForm({
     return acc;
   }, {} as Record<number, TripBuilder>);
 
-  const onSubmit: SubmitHandler<RouteFormData> = async data => {
-    await createRoute(data);
-  }
-  
+  const onSubmit: SubmitHandler<RouteFormData> = async (data) => {
+    if (route?.id) {
+      await editRoute(data, route.id);
+    } else {
+      await createRoute(data);
+    }
+  };
+
   const [focusedTripId, setFocusedTripId] = useState<number | null>(null);
   const [tripBuilders, setTripBuilders] = useState<Record<number, TripBuilder>>({});
   const [undoHistory, setUndoHistory] = useState<Record<number, TripBuilder[]>>({});
